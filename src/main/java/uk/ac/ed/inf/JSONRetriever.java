@@ -4,81 +4,77 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 
 public class JSONRetriever {
-    public void getJSON(String url) {
-
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            List<Order> response = Arrays.asList(mapper.readValue(new URL(url),
-                    Order[].class));
-            for (Order i: response) {
-                System.out.println(i.orderNo + " " + i.customer);
-            }
-        }
-        catch (MalformedURLException e){
-            System.err.println("The URL was malformed");
-            System.exit(1);
-        } catch (IOException e){
-            System.err.println("There was an error reading the response");
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void getNoFlyZones(String url) {
-
+    public List<Order> getOrders(URL url) {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            List<NoFlyZone> response = Arrays.asList(mapper.readValue(new URL(url),
-                    NoFlyZone[].class));
-            for (NoFlyZone i: response) {
-                System.out.println(i.name);
-                for (double[] j: i.coordinates) {
-                    System.out.println(j[0] + " " + j[1]);
-                }
-            }
+            List<Order> response = Arrays.asList(mapper.readValue(url, Order[].class));
+            return response;
         }
         catch (MalformedURLException e){
-            System.err.println("The URL was malformed");
+            System.err.println(e.getMessage());
             System.exit(1);
         } catch (IOException e){
-            System.err.println("There was an error reading the response");
             System.err.println(e.getMessage());
             System.exit(1);
         }
+        return null;
     }
 
-    public void getRestaurants(String url) {
+    public List<NoFlyZone> getNoFlyZones(URL url) {
 
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            List<NoFlyZone> response = Arrays.asList(mapper.readValue(url, NoFlyZone[].class));
+            return response;
+        }
+        catch (MalformedURLException e){
+            System.err.println(e.getMessage());
+            System.exit(1);
+        } catch (IOException e){
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+        return null;
+    }
+
+    public CentralAreaPoint[] getCentralArea(URL url) {
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            List<CentralAreaPoint> response = Arrays.asList(mapper.readValue(url, CentralAreaPoint[].class));
+            return response.toArray(new CentralAreaPoint[response.size()]);
+        }
+        catch (MalformedURLException e){
+            System.err.println(e.getMessage());
+            System.exit(1);
+        } catch (IOException e){
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+        return null;
+    }
+
+    public Restaurant[] getRestaurants(URL url) {
 
         try {
             System.out.println(url);
             ObjectMapper mapper = new ObjectMapper();
-            List<Restaurant> response = Arrays.asList(mapper.readValue(new URL(url),
-                    Restaurant[].class));
+            List<Restaurant> response = Arrays.asList(mapper.readValue(url, Restaurant[].class));
 
-            for (Restaurant i: response) {
-                System.out.println(i.name);
-                System.out.println(i.longitude + " " + i.latitude);
-                System.out.println(i.menu);
-            }
+            return response.toArray(new Restaurant[response.size()]);
         }
         catch (MalformedURLException e){
-            System.err.println("The URL was malformed");
+            System.err.println(e.getMessage());
             System.exit(1);
         } catch (IOException e){
-            System.err.println("There was an error reading the response");
             System.err.println(e.getMessage());
             System.exit(1);
         }
+        return null;
     }
-
-
-
 }
