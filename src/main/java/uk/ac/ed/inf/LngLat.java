@@ -4,43 +4,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LngLat {
-    private double longitude;
-    private double latitude;
-    private CentralAreaPoint[] centralBorder;
+    public double longitude;
+    public double latitude;
+    private double[][] centralAreaBorder;
     public LngLat(double longitude, double latitude){
         this.longitude = longitude;
         this.latitude = latitude;
-        JSONRetriever retriever = new JSONRetriever();
-        URL url = null;
         try {
-            url = new URL("https://ilp-rest.azurewebsites.net/centralArea");
-            this.centralBorder = retriever.getCentralArea(url);
+            URL url = new URL("https://ilp-rest.azurewebsites.net/centralArea");
+            JSONRetriever retriever = new JSONRetriever();
+            CentralAreaPoint[] centralBorder = retriever.getCentralArea(url);
+            centralAreaBorder = new double[centralBorder.length][2];
+            for (int i = 0; i < centralBorder.length; i++){
+                centralAreaBorder[i][0] = centralBorder[i].longitude;
+                centralAreaBorder[i][1] = centralBorder[i].latitude;
+            }
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
 
-    }
-
-    // Getter for longitude
-    public double getLongitude() {
-        return longitude;
-    }
-    // Getter for latitude
-    public double getLatitude() {
-        return latitude;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public double[][] getCoordinatesFromCentralBorder(){
-        double[][] coordinates = new double[centralBorder.length][2];
-        for (int i = 0; i < centralBorder.length; i++){
-            coordinates[i][0] = centralBorder[i].longitude;
-            coordinates[i][1] = centralBorder[i].latitude;
-        }
-        return coordinates;
     }
 
     /**
@@ -52,11 +34,10 @@ public class LngLat {
      * @return true if the point is inside the central area, false otherwise.
      */
     public boolean inCentralArea(){
-        double[][] coordinates = getCoordinatesFromCentralBorder();
         int intersections = 0;
-        for (int i = 0; i < coordinates.length; i++){
-            double[] p1 = coordinates[i];
-            double[] p2 = coordinates[(i+1) % coordinates.length];
+        for (int i = 0; i < this.centralAreaBorder.length; i++){
+            double[] p1 = this.centralAreaBorder[i];
+            double[] p2 = this.centralAreaBorder[(i+1) % this.centralAreaBorder.length];
             if (p1[1] == p2[1] && p1[1] == this.latitude && this.longitude > Math.min(p1[0], p2[0]) && this.longitude < Math.max(p1[0], p2[0])){
                 return true;
             }
@@ -93,11 +74,18 @@ public class LngLat {
         return distanceTo(source) < 0.00015;
     }
 
-    public LngLat nextPosition(int direction){
-        // TODO - implement checks to ensure that it is only one of the 16 directions given. And check if direction
-        //  is null.
+    /**
+     * Given a compass direction, calculates the drones next position using trigonometry.
+     * @param direction the direction the drone is moving in.
+     * @return the new position of the drone.
+     */
+    public LngLat nextPosition(CompassDirection direction){
+        if (direction == null || direction == CompassDirection.HOVER){
+            // If the drone is hovering, it does not move, so we return the same position.
+            return this;
+        }
         // Calculates the next position based on the direction.
-        double radian = Math.toRadians(direction);
+        double radian = Math.toRadians(direction.getAngle());
         double newLng = this.longitude + 0.00015 * Math.cos(radian);
         double newLat = this.latitude + 0.00015 * Math.sin(radian);
         return new LngLat(newLng, newLat);
