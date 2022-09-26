@@ -1,5 +1,7 @@
 package uk.ac.ed.inf;
 
+import java.util.Arrays;
+
 public class Order {
     public String orderNo;
     public String orderDate;
@@ -10,20 +12,29 @@ public class Order {
     public int priceTotalInPence;
     public String[] orderItems;
 
-    public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) {
+    public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
         // For every pizza ordered, find the restaurant that sells it and add the price to the total
         int totalCost = 0;
-        for (String pizza : pizzasOrdered) {
-            pizzaLoop:
-            for (Restaurant restaurant : participatingRestaurants) {
-                for (Menu menu : restaurant.getMenu()) {
-                    if (menu.name.equals(pizza)) {
-                        totalCost += menu.priceInPence;
-                        break pizzaLoop;
-                    }
+        int count = 0;
+        int lengthOfPizzasOrdered = pizzasOrdered.length;
+        for (Restaurant restaurant : participatingRestaurants) {
+            for (Menu menu : restaurant.getMenu()) {
+                if (Arrays.asList(pizzasOrdered).contains(menu.name)) {
+                    totalCost += menu.priceInPence;
+                    count += 1;
                 }
             }
+            if (count != 0 && count != lengthOfPizzasOrdered) {
+                System.out.println(count);
+                throw new InvalidPizzaCombinationException();
+            }
+        }
+        if (count == 0) {
+            throw new InvalidPizzaCombinationException();
         }
         return totalCost + 100;
+    }
+
+    class InvalidPizzaCombinationException extends Throwable {
     }
 }

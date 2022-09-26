@@ -1,5 +1,7 @@
 package uk.ac.ed.inf;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertTrue;
 
 public class CentralAreaTest {
@@ -7,9 +9,9 @@ public class CentralAreaTest {
     public static void testPointInCentralArea(LngLat point, boolean expected) {
         boolean actual = point.inCentralArea();
         System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        assertTrue("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.longitude +
-                "\nLatitude: " + point.latitude + "\n\n", actual == expected);
+                "\"coordinates\": [" + point.lng + ", " + point.lat + "] }},");
+        assertTrue("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng +
+                "\nLatitude: " + point.lat + "\n\n", actual == expected);
     }
 
     public static LngLat generateValidPoint(){
@@ -31,105 +33,45 @@ public class CentralAreaTest {
         return new LngLat(point[0], point[1]);
     }
 
-    public static void testNextPosition(LngLat point){
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.N);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.SSE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.SE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.ESE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.E);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.ENE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.NE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.NNE);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.N);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.NNW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.NW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.WNW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.W);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.WSW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.SW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.SSW);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
-        for (int i = 0; i < 100; i++){
-            point = point.nextPosition(CompassDirection.S);
-            System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                    "\"coordinates\": [" + point.longitude + ", " + point.latitude + "] }},");
-        }
+    public static void testEdgesAndCorners(){
+        // Test top left corner
+        LngLat point2 = new LngLat(-3.192473, 55.946233);
+        testPointInCentralArea(point2, true);
+
+        // Test bottom left corner
+        LngLat point3 = new LngLat(-3.192473, 55.942617);
+        testPointInCentralArea(point3, true);
+
+        // Test bottom right corner
+        LngLat point4 = new LngLat(-3.184319, 55.942617);
+        testPointInCentralArea(point4, true);
+
+        // Test top right corner
+        LngLat point5 = new LngLat(-3.184319, 55.946233);
+        testPointInCentralArea(point5, true);
+
+        // Top edge
+        LngLat point6 = new LngLat(-3.188386951227769, 55.946233);
+        testPointInCentralArea(point6, true);
+
+        // Bottom edge
+        LngLat point7 = new LngLat(-3.188386951227769, 55.942617);
+        testPointInCentralArea(point7, true);
+
+        // Left edge
+        LngLat point8 = new LngLat(-3.192473, 55.944425);
+        testPointInCentralArea(point8, true);
+
+        // Right edge
+        LngLat point9 = new LngLat(-3.184319, 55.944425);
+        testPointInCentralArea(point9, true);
     }
 
-    public static void main(String[] args) {
-//        LngLat point1 = new LngLat(-3.192473, 55.942637);
-//        LngLat point2 = new LngLat(-3.188386951227769, 55.94610360803086);
-//
-//        testPointInCentralArea(point1, false);
-//        testPointInCentralArea(point2, false);
+    @Test
+    public void main() {
 
-        LngLat point1 = new LngLat(0, 0);
-        testNextPosition(point1);
+        testEdgesAndCorners();
 
-        /*
         for (int i = 0; i < 1000; i++){
             LngLat point = generateValidPoint();
             testPointInCentralArea(point, true);
@@ -138,7 +80,5 @@ public class CentralAreaTest {
             LngLat point = generateInvalidPoint();
             testPointInCentralArea(point, false);
         }
-
-         */
     }
 }
