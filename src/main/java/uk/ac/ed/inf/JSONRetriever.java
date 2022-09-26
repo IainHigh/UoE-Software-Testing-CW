@@ -4,6 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 
+class CentralAreaPoint {
+    public String name;
+    public double longitude;
+    public double latitude;
+}
+
 public class JSONRetriever {
     /**
      * Retrieves the orders from the JSON file.
