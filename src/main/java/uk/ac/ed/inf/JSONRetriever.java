@@ -2,7 +2,6 @@ package uk.ac.ed.inf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class JSONRetriever {

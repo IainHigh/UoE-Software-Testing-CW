@@ -1,8 +1,4 @@
 package uk.ac.ed.inf;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class LngLat {
     public double lng;
     public double lat;

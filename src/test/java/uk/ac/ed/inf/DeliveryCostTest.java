@@ -5,8 +5,7 @@ import org.junit.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DeliveryCostTest {
 
@@ -15,7 +14,7 @@ public class DeliveryCostTest {
         try {
             Order o = new Order();
             int actualPrice = o.getDeliveryCost(participants, order);
-            assertTrue("Actual price different from expected price", actualPrice == expectedPrice);
+            assertEquals("Actual price different from expected price", actualPrice, expectedPrice);
         } catch (Order.InvalidPizzaCombinationException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +28,7 @@ public class DeliveryCostTest {
     }
 
     @Test
-    public void main() throws Order.InvalidPizzaCombinationException {
+    public void main() {
         try {
             Restaurant[] participants = Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites" +
                     ".net/restaurants"));

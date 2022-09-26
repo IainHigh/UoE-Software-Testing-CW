@@ -2,7 +2,7 @@ package uk.ac.ed.inf;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class CentralAreaTest {
 
@@ -10,8 +10,8 @@ public class CentralAreaTest {
         boolean actual = point.inCentralArea();
         System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
                 "\"coordinates\": [" + point.lng + ", " + point.lat + "] }},");
-        assertTrue("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng +
-                "\nLatitude: " + point.lat + "\n\n", actual == expected);
+        assertEquals("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng +
+                "\nLatitude: " + point.lat + "\n\n", actual, expected);
     }
 
     public static LngLat generateValidPoint(){
