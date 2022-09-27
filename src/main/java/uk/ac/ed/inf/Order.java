@@ -35,6 +35,5 @@ public class Order {
         return totalCost + 100;
     }
 
-    class InvalidPizzaCombinationException extends Throwable {
-    }
+    static class InvalidPizzaCombinationException extends Throwable {}
 }

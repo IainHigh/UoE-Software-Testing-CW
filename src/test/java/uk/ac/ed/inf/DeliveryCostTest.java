@@ -9,6 +9,15 @@ import static org.junit.Assert.*;
 
 public class DeliveryCostTest {
 
+    public static Order[] getOrdersFromRestServer() {
+        try {
+            JSONRetriever retriever = new JSONRetriever();
+            return retriever.getOrders(new URL("https://ilp-rest.azurewebsites.net/orders"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void testValidDeliveryCost(Restaurant[] participants, String[] order, int expectedPrice){
 
         try {
@@ -29,6 +38,19 @@ public class DeliveryCostTest {
 
     @Test
     public void main() {
+//        try {
+//            Order[] orders = getOrdersFromRestServer();
+//            Restaurant[] participants = Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites.net/restaurants"));
+//            for (Order order : orders) {
+//                System.out.println("Order: " + order.orderItems.toString());
+//                System.out.println("Expected price: " + order.priceTotalInPence);
+//                testValidDeliveryCost(participants, order.orderItems, order.priceTotalInPence);
+//            }
+//        } catch (MalformedURLException e) {
+//            throw new RuntimeException(e);
+//        }
+
+
         try {
             Restaurant[] participants = Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites" +
                     ".net/restaurants"));

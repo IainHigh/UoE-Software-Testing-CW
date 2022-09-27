@@ -19,12 +19,12 @@ public class LngLat {
         CentralAreaSingleton centralArea = CentralAreaSingleton.getInstance();
         int intersections = 0;
 
-        // Loop through the border points.
-        for (int i = 0; i < centralArea.centralAreaBorder.length; i++){
-            double[] p1 = centralArea.centralAreaBorder[i];
-            double[] p2 = centralArea.centralAreaBorder[(i+1) % centralArea.centralAreaBorder.length];
+        // Loop through the border points (in anti-clockwise pairs)
+        for (int i = 0; i < centralArea.getCentralAreaBorder().length; i++){
+            double[] p1 = centralArea.getCentralAreaBorder()[i];
+            double[] p2 = centralArea.getCentralAreaBorder()[(i+1) % centralArea.getCentralAreaBorder().length];
 
-            // If the point is on a corner, it is inside the central area.
+            // If the point is on a corner or border, it is inside the central area.
             if (p1[1] == this.lat && p2[1] == this.lat
                     || p1[0] == this.lng && p2[0] == this.lng){
                 return true;

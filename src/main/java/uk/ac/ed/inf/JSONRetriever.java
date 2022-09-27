@@ -4,12 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 
-class CentralAreaPoint {
-    public String name;
-    public double longitude;
-    public double latitude;
-}
-
 public class JSONRetriever {
     /**
      * Retrieves the orders from the JSON file.
@@ -20,11 +14,18 @@ public class JSONRetriever {
 
         try {
             return new ObjectMapper().readValue(url, Order[].class);
-        } catch (IOException e){
-            System.err.println(e.getMessage());
-            System.exit(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+    }
+
+    /**
+     * Internal class used to deserialize the CentralArea JSON file.
+     */
+    private static class CentralAreaPoint {
+        public String name;
+        public double longitude;
+        public double latitude;
     }
 
     /**
@@ -32,15 +33,18 @@ public class JSONRetriever {
      * @param url The URL of the JSON file.
      * @return An array of points that make up the border of the central area.
      */
-    public CentralAreaPoint[] getCentralArea(URL url) {
-
+    public double[][] getCentralArea(URL url) {
         try {
-            return new ObjectMapper().readValue(url, CentralAreaPoint[].class);
+            CentralAreaPoint[] temp = new ObjectMapper().readValue(url, CentralAreaPoint[].class);
+            double[][] centralAreaBorder = new double[temp.length][2];
+            for (int i = 0; i < temp.length; i++){
+                centralAreaBorder[i][0] = temp[i].longitude;
+                centralAreaBorder[i][1] = temp[i].latitude;
+            }
+            return centralAreaBorder;
         } catch (IOException e){
-            System.err.println(e.getMessage());
-            System.exit(1);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     /**
@@ -53,9 +57,7 @@ public class JSONRetriever {
         try {
             return new ObjectMapper().readValue(url, Restaurant[].class);
         } catch (IOException e){
-            System.err.println(e.getMessage());
-            System.exit(1);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }
