@@ -12,6 +12,14 @@ public class Order {
     public int priceTotalInPence;
     public String[] orderItems;
 
+    /**
+     * @param participatingRestaurants - Array of participating restaurants (including their menus)
+     * @param pizzasOrdered - Variable number of strings for the individual pizzas ordered.
+     * @return - The cost in pence of having all these items delivered by drone including the standard delivery
+     * charge of £1.
+     * @throws InvalidPizzaCombinationException - If a combination where the ordered pizza cannot be delivered by the
+     * same restaurant this is an invalid combination.
+     */
     public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
         // For every pizza ordered, find the restaurant that sells it and add the price to the total
         int totalCost = 0;
@@ -25,7 +33,6 @@ public class Order {
                 }
             }
             if (count != 0 && count != lengthOfPizzasOrdered) {
-                System.out.println(count);
                 throw new InvalidPizzaCombinationException();
             }
         }

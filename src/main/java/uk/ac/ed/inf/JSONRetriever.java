@@ -53,7 +53,6 @@ public class JSONRetriever {
      * @return An array of restaurants.
      */
     public Restaurant[] getRestaurants(URL url) {
-
         try {
             return new ObjectMapper().readValue(url, Restaurant[].class);
         } catch (IOException e){

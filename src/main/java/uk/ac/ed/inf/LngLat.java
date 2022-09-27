@@ -10,7 +10,7 @@ public class LngLat {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
      * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
-     * Gets the coordinates of the end-points of the central area border from the JSON reader.
+     * Gets the coordinates of the end-points of the central area border from the singleton class.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
      * @return true if the point is inside the central area, false otherwise.
