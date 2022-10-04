@@ -9,9 +9,9 @@ public class CentralAreaTest {
     public static void testPointInCentralArea(LngLat point, boolean expected) {
         boolean actual = point.inCentralArea();
         System.out.println("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"Point\", " +
-                "\"coordinates\": [" + point.lng + ", " + point.lat + "] }},");
-        assertEquals("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng +
-                "\nLatitude: " + point.lat + "\n\n", actual, expected);
+                "\"coordinates\": [" + point.lng() + ", " + point.lat() + "] }},");
+        assertEquals("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng() +
+                "\nLatitude: " + point.lat() + "\n\n", actual, expected);
     }
 
     public static LngLat generateValidPoint(){

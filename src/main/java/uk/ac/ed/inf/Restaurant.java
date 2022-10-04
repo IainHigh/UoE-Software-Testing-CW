@@ -13,7 +13,7 @@ public class Restaurant {
     }
 
     public static Restaurant[] getRestaurantsFromRestServer(URL serverBaseAddress) {
-        JSONRetriever retriever = new JSONRetriever();
+        var retriever = new JSONRetriever();
         return retriever.getRestaurants(serverBaseAddress);
     }
 }

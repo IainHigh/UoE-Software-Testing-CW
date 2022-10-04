@@ -1,12 +1,5 @@
 package uk.ac.ed.inf;
-public class LngLat {
-    public double lng;
-    public double lat;
-    public LngLat(double longitude, double latitude){
-        this.lng = longitude;
-        this.lat = latitude;
-    }
-
+public record LngLat(double lng, double lat) {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
      * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
@@ -69,7 +62,7 @@ public class LngLat {
      * @return the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction){
-        if (direction == CompassDirection.HOVER){
+        if (direction == CompassDirection.HOVER || direction == null){
             // If the drone is hovering, it does not move, so we return the same position.
             return this;
         }

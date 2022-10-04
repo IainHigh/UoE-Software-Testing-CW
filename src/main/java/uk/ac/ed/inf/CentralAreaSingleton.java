@@ -9,38 +9,24 @@ public final class CentralAreaSingleton {
 
     /**
      * Private constructor to prevent instantiation.
-     * @param url The URL of the JSON file.
      */
-    private CentralAreaSingleton(URL url) {
-        JSONRetriever retriever = new JSONRetriever();
-        centralAreaBorder = retriever.getCentralArea(url);
+    private CentralAreaSingleton() {
+        var retriever = new JSONRetriever();
+        try {
+            URL url = new URL("https://ilp-rest.azurewebsites.net/centralArea");
+            centralAreaBorder = retriever.getCentralArea(url);
+        }
+        catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
-     * Returns the instance of the singleton.
-     * Overloaded method to allow for the use of a default URL.
      * @return The instance of the singleton.
      */
     public static CentralAreaSingleton getInstance() {
         if (instance == null) {
-            try {
-                instance = new CentralAreaSingleton(new URL("https://ilp-rest.azurewebsites.net/centralArea"));
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return instance;
-    }
-
-    /**
-     * Returns the instance of the singleton.
-     * Overloaded method to allow for the use of a custom URL.
-     * @param url The URL of the JSON file.
-     * @return The instance of the singleton.
-     */
-    public static CentralAreaSingleton getInstance(URL url) {
-        if (instance == null) {
-            instance = new CentralAreaSingleton(url);
+            instance = new CentralAreaSingleton();
         }
         return instance;
     }

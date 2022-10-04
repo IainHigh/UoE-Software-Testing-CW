@@ -1,8 +1,10 @@
 package uk.ac.ed.inf;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 public class JSONRetriever {
     /**
@@ -11,7 +13,6 @@ public class JSONRetriever {
      * @return An array of orders.
      */
     public Order[] getOrders(URL url) {
-
         try {
             return new ObjectMapper().readValue(url, Order[].class);
         } catch (IOException e) {
@@ -23,7 +24,6 @@ public class JSONRetriever {
      * Internal class used to deserialize the CentralArea JSON file.
      */
     private static class CentralAreaPoint {
-        public String name;
         public double longitude;
         public double latitude;
     }
@@ -31,18 +31,19 @@ public class JSONRetriever {
     /**
      * Retrieves the central area border from the JSON file.
      * @param url The URL of the JSON file.
-     * @return An array of points that make up the border of the central area.
+     * @return An array of coordinates that make up the border of the central area.
      */
     public double[][] getCentralArea(URL url) {
         try {
-            CentralAreaPoint[] temp = new ObjectMapper().readValue(url, CentralAreaPoint[].class);
-            double[][] centralAreaBorder = new double[temp.length][2];
-            for (int i = 0; i < temp.length; i++){
-                centralAreaBorder[i][0] = temp[i].longitude;
-                centralAreaBorder[i][1] = temp[i].latitude;
-            }
-            return centralAreaBorder;
-        } catch (IOException e){
+            var objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            // Fail on unknown properties is set to false because we don't need to store the name of the point, only
+            // the coordinates.
+            CentralAreaPoint[] centralAreaObjectArray = objectMapper.readValue(url, CentralAreaPoint[].class);
+            return Arrays.stream(centralAreaObjectArray)
+                     .map(x -> new double[]{x.longitude, x.latitude})
+                     .toArray(double[][]::new);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
