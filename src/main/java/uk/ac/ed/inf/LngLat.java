@@ -9,13 +9,13 @@ public record LngLat(double lng, double lat) {
      * @return true if the point is inside the central area, false otherwise.
      */
     public boolean inCentralArea(){
-        CentralAreaSingleton centralArea = CentralAreaSingleton.getInstance();
+        double[][] centralAreaBorder = CentralAreaSingleton.getInstance().getCentralAreaBorder();
         int intersections = 0;
 
         // Loop through the border points (in anti-clockwise pairs)
-        for (int i = 0; i < centralArea.getCentralAreaBorder().length; i++){
-            double[] p1 = centralArea.getCentralAreaBorder()[i];
-            double[] p2 = centralArea.getCentralAreaBorder()[(i+1) % centralArea.getCentralAreaBorder().length];
+        for (int i = 0; i < centralAreaBorder.length; i++){
+            double[] p1 = centralAreaBorder[i];
+            double[] p2 = centralAreaBorder[(i+1) % centralAreaBorder.length];
 
             // If the point is on a corner or border, it is inside the central area.
             if (p1[1] == this.lat && p2[1] == this.lat

@@ -21,13 +21,13 @@ public class Order {
      * same restaurant this is an invalid combination.
      */
     public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
-        // For every pizza ordered, find the restaurant that sells it and add the price to the total
         int totalCost = 0;
         int count = 0;
-        int lengthOfPizzasOrdered = pizzasOrdered.length;
-        if (lengthOfPizzasOrdered > 4){
+        int numberOfPizzasOrdered = pizzasOrdered.length;
+        if (numberOfPizzasOrdered > 4){
             throw new InvalidPizzaCombinationException("Too many pizzas ordered");
         }
+        // For every restaurant, check if it can complete the order.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
                 if (Arrays.asList(pizzasOrdered).contains(menu.name)) {
@@ -35,7 +35,7 @@ public class Order {
                     count += 1;
                 }
             }
-            if (count != 0 && count != lengthOfPizzasOrdered) {
+            if (count != 0 && count != numberOfPizzasOrdered) {
                 throw new InvalidPizzaCombinationException("All pizzas in an order must be from the same restaurant");
             }
         }

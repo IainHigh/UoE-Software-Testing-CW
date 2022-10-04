@@ -8,7 +8,7 @@ public final class CentralAreaSingleton {
     private final double[][] centralAreaBorder;
 
     /**
-     * Private constructor to prevent instantiation.
+     * Private constructor to prevent multiple instantiation.
      */
     private CentralAreaSingleton() {
         var retriever = new JSONRetriever();
