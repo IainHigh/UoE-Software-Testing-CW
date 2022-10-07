@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Added a test for CloseTo to increase code coverage.">
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Removed 4 pizza check from getDeliveryCost">
+      <change afterPath="$PROJECT_DIR$/route.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/OrderOutcome.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/OrderValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PizzaDrone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
     </list>
@@ -29,6 +34,11 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="cw1Only" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -45,44 +55,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/home/iain/Desktop",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/iain/Desktop&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="uk.ac.ed.inf" />
       <recent name="REST.Server.Accesser" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="uk.ac.ed.inf" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.uk.ac.ed.inf in ilpCoursework">
-    <configuration name="CentralAreaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.CentralAreaTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.testRouteTo.main">
     <configuration name="CloseToTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
@@ -128,6 +124,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="testRouteTo.main" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilpCoursework" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="uk.ac.ed.inf.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.testRouteTo" />
+      <option name="METHOD_NAME" value="main" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="uk.ac.ed.inf in ilpCoursework" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
@@ -144,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.testRouteTo.main" />
         <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
         <item itemvalue="JUnit.NextPositionTest" />
         <item itemvalue="JUnit.DeliveryCostTest" />
         <item itemvalue="JUnit.CloseToTest" />
-        <item itemvalue="JUnit.CentralAreaTest" />
       </list>
     </recent_temporary>
   </component>
@@ -245,7 +257,21 @@
       <option name="project" value="LOCAL" />
       <updated>1664875105311</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Finished CW1 and refactoring">
+      <created>1664879455681</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1664879455681</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Removed 4 pizza check from getDeliveryCost">
+      <created>1665164370850</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1665164370850</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -253,7 +279,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -272,7 +310,9 @@
     <MESSAGE value="Close to complete" />
     <MESSAGE value="Added some javadoc" />
     <MESSAGE value="Added a test for CloseTo to increase code coverage." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a test for CloseTo to increase code coverage." />
+    <MESSAGE value="Finished CW1 and refactoring" />
+    <MESSAGE value="Removed 4 pizza check from getDeliveryCost" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed 4 pizza check from getDeliveryCost" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

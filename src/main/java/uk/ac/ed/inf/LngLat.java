@@ -73,4 +73,10 @@ public record LngLat(double lng, double lat) {
         return new LngLat(newLng, newLat);
     }
 
+
+    public CompassDirection[] routeTo(LngLat destination){
+        // Calculate the route to the destination.
+        return RouteCalculator.calculateRoute(this, destination);
+    }
+
 }
