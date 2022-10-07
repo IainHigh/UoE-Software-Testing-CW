@@ -24,9 +24,6 @@ public class Order {
         int totalCost = 0;
         int count = 0;
         int numberOfPizzasOrdered = pizzasOrdered.length;
-        if (numberOfPizzasOrdered > 4){
-            throw new InvalidPizzaCombinationException("Too many pizzas ordered");
-        }
         // For every restaurant, check if it can complete the order.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
