@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Removed 4 pizza check from getDeliveryCost">
-      <change afterPath="$PROJECT_DIR$/route.geojson" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/OrderOutcome.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/OrderValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PizzaDrone.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" afterDir="false" />
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Started on coursework 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665164370850</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Started on coursework 2">
+      <created>1665172298170</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1665172298170</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -285,7 +285,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="cw1Only" />
                       </list>
                     </value>
                   </entry>
@@ -312,7 +312,8 @@
     <MESSAGE value="Added a test for CloseTo to increase code coverage." />
     <MESSAGE value="Finished CW1 and refactoring" />
     <MESSAGE value="Removed 4 pizza check from getDeliveryCost" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed 4 pizza check from getDeliveryCost" />
+    <MESSAGE value="Started on coursework 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started on coursework 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

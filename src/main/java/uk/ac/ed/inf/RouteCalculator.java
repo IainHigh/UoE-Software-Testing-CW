@@ -34,6 +34,10 @@ public class RouteCalculator {
     private static class NodeComparator implements java.util.Comparator<Node> {
         @Override
         public int compare(Node o1, Node o2) {
+            // Changing the ratio of g to h will change the "weight" of the heuristic. If the heuristic is less than
+            // or of equal importace to the cost of the path, then we will have the A* algorithm and so the route is
+            // guarenteed to be optimal. If we just use h then we have a greedy approach. In general increasing g
+            // gives a more optimal path and increasing h makes the algorithm work faster.
             return Double.compare(o1.g + 2*o1.h, o2.g + 2*o2.h);
         }
     }
