@@ -99,7 +99,7 @@ public class NextPositionTest {
             double lat = rand.nextDouble() * 180 - 90;
             double lng = rand.nextDouble() * 360 - 180;
             LngLat point = new LngLat(lng, lat);
-            LngLat hoverPoint = point.nextPosition(CompassDirection.HOVER);
+            LngLat hoverPoint = point.nextPosition(null);
             assert(hoverPoint.lat() == point.lat());
         }
     }

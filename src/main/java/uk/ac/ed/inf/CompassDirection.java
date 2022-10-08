@@ -1,7 +1,6 @@
 package uk.ac.ed.inf;
 
 public enum CompassDirection {
-    HOVER (null),
     E (0.0),
     ENE (22.5),
     NE (45.0),

@@ -62,7 +62,7 @@ public record LngLat(double lng, double lat) {
      * @return the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction){
-        if (direction == CompassDirection.HOVER || direction == null){
+        if (direction == null){
             // If the drone is hovering, it does not move, so we return the same position.
             return this;
         }
