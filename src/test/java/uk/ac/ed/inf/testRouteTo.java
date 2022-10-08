@@ -22,15 +22,19 @@ public class testRouteTo {
     @Test
     public void main() {
 
-        File myObj = new File("route.geojson");
+        File myObj = new File("outputFiles/route.geojson");
         myObj.delete();
 
-        LngLat start = new LngLat(-3.1883, 55.9442);
-        LngLat end = generateSecondPoint(start);
+        LngLat start = Constants.APPLETON_TOWER;
+        // LngLat end = generateSecondPoint(start);
+        LngLat end = new LngLat(-3.192473, 55.942617);
+        //LngLat end = new LngLat(-3.192473, 55.946233);
+
         CompassDirection[] route = start.routeTo(end);
+        //Reverse the route so that it starts at the start point
         LngLat next = start;
         try {
-            File file = new File("route.geojson");
+            File file = new File("outputFiles/route.geojson");
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
             writer.write("{\"type\": \"Feature\",\"properties\": {\"marker-color\": \"#00ff00\"}, \"geometry\": { " +

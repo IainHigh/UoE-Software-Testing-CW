@@ -1,9 +1,12 @@
+package uk.ac.ed.inf;
+
 import uk.ac.ed.inf.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class OrderValidator {
+    //TODO: Add Javadoc to these methods. TODO: Add tests for these methods.
     private boolean validCardNumber(String cardNumber) {
         if (cardNumber.length() != 16) {
             // Card number must be 16 digits long
@@ -22,7 +25,7 @@ public class OrderValidator {
 
         // Check that the card expiry is after the order date
         String[] cardExpirySplit = cardExpiry.split("/");
-        String[] orderDateSplit = orderDate.split("/");
+        String[] orderDateSplit = orderDate.split("-");
         int cardExpiryMonth = Integer.parseInt(cardExpirySplit[0]);
         int cardExpiryYear = Integer.parseInt(cardExpirySplit[1]);
         int orderDateMonth = Integer.parseInt(orderDateSplit[0]);

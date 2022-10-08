@@ -11,6 +11,7 @@ public class Order {
     public String cvv;
     public int priceTotalInPence;
     public String[] orderItems;
+    public Restaurant restaurantOrderedFrom;
 
     /**
      * @param participatingRestaurants - Array of participating restaurants (including their menus)
@@ -28,6 +29,7 @@ public class Order {
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
                 if (Arrays.asList(pizzasOrdered).contains(menu.name)) {
+                    restaurantOrderedFrom = restaurant;
                     totalCost += menu.priceInPence;
                     count += 1;
                 }

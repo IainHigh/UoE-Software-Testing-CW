@@ -1,3 +1,5 @@
+package uk.ac.ed.inf;
+
 public enum OrderOutcome {
     DELIVERED,
     VALID_BUT_NOT_DELIVERED,
