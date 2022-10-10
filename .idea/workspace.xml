@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Added a test for CloseTo to increase code coverage.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +142,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.CentralAreaTest" />
+      <item itemvalue="JUnit.CloseToTest" />
+      <item itemvalue="JUnit.DeliveryCostTest" />
+      <item itemvalue="JUnit.NextPositionTest" />
+      <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />

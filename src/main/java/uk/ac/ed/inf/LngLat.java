@@ -1,4 +1,7 @@
 package uk.ac.ed.inf;
+
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public record LngLat(double lng, double lat) {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
@@ -53,7 +56,7 @@ public record LngLat(double lng, double lat) {
      */
     public boolean closeTo(LngLat source){
         // Finds the distance to the other source and checks if it is less than 0.00015.
-        return distanceTo(source) < 0.00015;
+        return distanceTo(source) < Constants.DISTANCE_TOLERANCE;
     }
 
     /**
@@ -68,8 +71,8 @@ public record LngLat(double lng, double lat) {
         }
         // Calculates the next position based on the direction.
         double radian = Math.toRadians(direction.getAngle());
-        double newLng = this.lng + 0.00015 * Math.cos(radian);
-        double newLat = this.lat + 0.00015 * Math.sin(radian);
+        double newLng = this.lng + Constants.LENGTH_OF_MOVE * Math.cos(radian);
+        double newLat = this.lat + Constants.LENGTH_OF_MOVE * Math.sin(radian);
         return new LngLat(newLng, newLat);
     }
 
