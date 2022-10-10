@@ -1,11 +1,8 @@
 package uk.ac.ed.inf;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 public record LngLat(double lng, double lat) {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
-     * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
      * Gets the coordinates of the end-points of the central area border from the singleton class.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
@@ -30,7 +27,6 @@ public record LngLat(double lng, double lat) {
             if (p1[1] != p2[1]
                 && this.lat > Math.min(p1[1], p2[1])
                 && this.lat < Math.max(p1[1], p2[1])
-                && this.lng < Math.max(p1[0], p2[0])
                 && (p1[0] == p2[0] || this.lng < ((this.lat - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0]))
             ){
                 intersections++;
