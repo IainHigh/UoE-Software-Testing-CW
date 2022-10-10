@@ -24,8 +24,7 @@ public record LngLat(double lng, double lat) {
             }
 
             // Determine if the line intersects with the border.
-            if (p1[1] != p2[1]
-                && this.lat > Math.min(p1[1], p2[1])
+            if (this.lat > Math.min(p1[1], p2[1])
                 && this.lat < Math.max(p1[1], p2[1])
                 && (p1[0] == p2[0] || this.lng < ((this.lat - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0]))
             ){
