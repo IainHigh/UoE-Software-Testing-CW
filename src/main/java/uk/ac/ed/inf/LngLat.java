@@ -9,7 +9,7 @@ public record LngLat(double lng, double lat) {
      * @return True if the LngLat is in the central area, false otherwise.
      */
     public boolean inCentralArea(){
-        double[][] centralAreaBorder = CentralAreaSingleton.getInstance().getCentralAreaBorder();
+        double[][] centralAreaBorder = FlyZoneSingleton.getInstance().getCentralAreaBorder();
         return inZone(centralAreaBorder);
     }
 
@@ -18,18 +18,12 @@ public record LngLat(double lng, double lat) {
      * @return True if the LngLat is in a no-fly zone, false otherwise.
      */
     public boolean inNoFlyZone() {
-        double[][][] noFlyZones = CentralAreaSingleton.getInstance().getNoFlyZones();
-        for (double[][] noFlyZone : noFlyZones) {
-            if (inZone(noFlyZone)) {
-                return true;
-            }
-        }
-        return false;
+        double[][][] noFlyZones = FlyZoneSingleton.getInstance().getNoFlyZones();
+        return Arrays.stream(noFlyZones).anyMatch(this::inZone);
     }
 
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the polygon.
-     * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
      * @param zoneCoordinates The array of coordinates that make up the border of the zone.
@@ -77,7 +71,7 @@ public record LngLat(double lng, double lat) {
      */
     public boolean closeTo(LngLat source){
         // Finds the distance to the other source and checks if it is less than 0.00015.
-        return distanceTo(source) < 0.00015;
+        return distanceTo(source) < Constants.DISTANCE_TOLERANCE;
     }
 
     /**
@@ -92,8 +86,8 @@ public record LngLat(double lng, double lat) {
         }
         // Calculates the next position based on the direction.
         double radian = Math.toRadians(direction.getAngle());
-        double newLng = this.lng + 0.00015 * Math.cos(radian);
-        double newLat = this.lat + 0.00015 * Math.sin(radian);
+        double newLng = this.lng + Constants.LENGTH_OF_MOVE * Math.cos(radian);
+        double newLat = this.lat + Constants.LENGTH_OF_MOVE * Math.sin(radian);
         return new LngLat(newLng, newLat);
     }
 
@@ -102,7 +96,6 @@ public record LngLat(double lng, double lat) {
      * Uses the RouteCalculator to calculate the shortest route from this point to the destination.
      * @param destination the point we are trying to reach.
      * @return the shortest route from this point to the destination.
-     * TODO: RouteCalculator should probably be moved to inside LngLat
      */
     public CompassDirection[] routeTo(LngLat destination){
         // Calculate the route to the destination.

@@ -6,12 +6,13 @@ public class Order {
     public String orderNo;
     public String orderDate;
     public String customer;
-    public String creditCardNumber; // Credit card number being stored as a string as it can start with 0.
+    public String creditCardNumber;
     public String creditCardExpiry;
     public String cvv;
     public int priceTotalInPence;
     public String[] orderItems;
     public Restaurant restaurantOrderedFrom;
+    public OrderOutcome outcome;
 
     /**
      * @param participatingRestaurants - Array of participating restaurants (including their menus)
@@ -42,6 +43,10 @@ public class Order {
             throw new InvalidPizzaCombinationException("No pizzas in the order are available from any of the participating restaurants");
         }
         return totalCost + 100;
+    }
+
+    public String toJSON() {
+        return "{\"orderNo\": \"" + orderNo + "\", \"outcome\": \"" + outcome + "\", \"costInPence\": " + priceTotalInPence + "}";
     }
 
     public static class InvalidPizzaCombinationException extends Throwable {
