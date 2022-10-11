@@ -4,24 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Good progress made on coursework 2.">
-      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-01.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-01.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/FileWriterSingleton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/FlightPathPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testFindClosestPointInCentral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Finished Coursework 2">
+      <change afterPath="$PROJECT_DIR$/outputFiles/route.geojson" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/route.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/route2.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-01.geojson" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/FlyZoneSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/OrderValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/OrderValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/PizzaDrone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/PizzaDrone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-01.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/drone-2023-01-01.geojson" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-01.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,9 +150,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.PizzaDrone" />
+        <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
         <item itemvalue="JUnit.testFindClosestPointInCentral" />
         <item itemvalue="JUnit.All in ilpCoursework" />
-        <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
         <item itemvalue="JUnit.testRouteTo" />
       </list>
     </recent_temporary>
@@ -288,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665253195803</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Finished Coursework 2">
+      <created>1665446974440</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1665446974440</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -331,14 +328,15 @@
     <MESSAGE value="Removed 4 pizza check from getDeliveryCost" />
     <MESSAGE value="Started on coursework 2" />
     <MESSAGE value="Good progress made on coursework 2." />
-    <option name="LAST_COMMIT_MESSAGE" value="Good progress made on coursework 2." />
+    <MESSAGE value="Finished Coursework 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Coursework 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java</url>
-          <line>66</line>
+          <line>69</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

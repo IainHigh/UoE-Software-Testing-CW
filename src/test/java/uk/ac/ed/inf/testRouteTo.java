@@ -22,7 +22,7 @@ public class testRouteTo {
     @Test
     public void main() {
 
-        File myObj = new File("outputFiles/route.geojson");
+        File myObj = new File("testOutputFiles/route.geojson");
         myObj.delete();
 
         LngLat start = Constants.APPLETON_TOWER;
@@ -34,7 +34,7 @@ public class testRouteTo {
         //Reverse the route so that it starts at the start point
         LngLat next = start;
         try {
-            File file = new File("outputFiles/route.geojson");
+            File file = new File("testOutputFiles/route.geojson");
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
             writer.write("{\"type\": \"Feature\",\"properties\": {\"marker-color\": \"#00ff00\"}, \"geometry\": { " +

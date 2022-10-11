@@ -2,6 +2,9 @@ package uk.ac.ed.inf;
 
 import org.junit.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static org.junit.Assert.assertEquals;
 
 public class CentralAreaTest {
@@ -69,6 +72,12 @@ public class CentralAreaTest {
 
     @Test
     public void main() {
+        String restAPIUrl = "https://ilp-rest.azurewebsites.net/";
+        try {
+            FlyZoneSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
 
         testEdgesAndCorners();
 
