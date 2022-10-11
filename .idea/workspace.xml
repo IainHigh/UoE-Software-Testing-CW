@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Finished Coursework 2">
-      <change afterPath="$PROJECT_DIR$/outputFiles/route.geojson" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-01.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/drone-2023-01-01.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-01.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/testRouteTo.java" afterDir="false" />
-    </list>
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Finished Coursework 2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -285,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665446974440</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Finished Coursework 2">
+      <created>1665447391543</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1665447391543</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
