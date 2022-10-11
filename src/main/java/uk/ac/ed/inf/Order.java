@@ -6,7 +6,7 @@ public class Order {
     public String orderNo;
     public String orderDate;
     public String customer;
-    public String creditCardNumber; // Credit card number being stored as a string as it can start with 0.
+    public String creditCardNumber;
     public String creditCardExpiry;
     public String cvv;
     public int priceTotalInPence;
@@ -21,6 +21,9 @@ public class Order {
      * same restaurant this is an invalid combination.
      */
     public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
+        if (participatingRestaurants == null || pizzasOrdered == null) {
+            throw new InvalidPizzaCombinationException("Invalid input");
+        }
         int totalCost = 0;
         int count = 0;
         int numberOfPizzasOrdered = pizzasOrdered.length;

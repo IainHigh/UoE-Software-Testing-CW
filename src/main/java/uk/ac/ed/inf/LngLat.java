@@ -1,6 +1,8 @@
 package uk.ac.ed.inf;
 
-public record LngLat(double lng, double lat) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
      * Gets the coordinates of the end-points of the central area border from the singleton class.
@@ -9,24 +11,24 @@ public record LngLat(double lng, double lat) {
      * @return true if the point is inside the central area, false otherwise.
      */
     public boolean inCentralArea(){
-        double[][] centralAreaBorder = CentralAreaSingleton.getInstance().getCentralAreaBorder();
+        LngLat[] centralAreaBorder = CentralAreaSingleton.getInstance().getCentralAreaBorder();
         int intersections = 0;
 
         // Loop through the border points (in anti-clockwise pairs)
         for (int i = 0; i < centralAreaBorder.length; i++){
-            double[] p1 = centralAreaBorder[i];
-            double[] p2 = centralAreaBorder[(i+1) % centralAreaBorder.length];
+            LngLat p1 = centralAreaBorder[i];
+            LngLat p2 = centralAreaBorder[(i+1) % centralAreaBorder.length];
 
             // If the point is on a corner or border, it is inside the central area.
-            if (p1[1] == this.lat && p2[1] == this.lat
-                    || p1[0] == this.lng && p2[0] == this.lng){
+            if ( (p1.lat() == this.lat && p2.lat() == this.lat)
+                    || (p1.lng() == this.lng && p2.lng() == this.lng) ){
                 return true;
             }
 
             // Determine if the line intersects with the border.
-            if (this.lat > Math.min(p1[1], p2[1])
-                && this.lat < Math.max(p1[1], p2[1])
-                && (p1[0] == p2[0] || this.lng < ((this.lat - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0]))
+            if (this.lat > Math.min(p1.lat(), p2.lat())
+                && this.lat < Math.max(p1.lat(), p2.lat())
+                && this.lng < ((this.lat - p1.lat()) * (p2.lng() - p1.lng()) / (p2.lat() - p1.lat()) + p1.lng())
             ){
                 intersections++;
             }
@@ -37,9 +39,13 @@ public record LngLat(double lng, double lat) {
     /**
      * Calculates the pythagorean distance between two points.
      * @param source the point we are measuring to.
-     * @return the distance between the two points.
+     * @return the pythagorean distance between the two points.
      */
     public double distanceTo(LngLat source){
+        if (source == null){
+            // If the source is null, it is infinitely far away from the current point.
+            return Double.POSITIVE_INFINITY;
+        }
         // Calculates the pythagorean distance between two points.
         return Math.sqrt(Math.pow(source.lat - this.lat, 2) + Math.pow(source.lng - this.lng, 2));
     }
@@ -50,6 +56,10 @@ public record LngLat(double lng, double lat) {
      * @return true if the distance is less than 0.00015, false otherwise.
      */
     public boolean closeTo(LngLat source){
+        if (source == null){
+            // If the source is null, the point is not close to it.
+            return false;
+        }
         // Finds the distance to the other source and checks if it is less than 0.00015.
         return distanceTo(source) < Constants.DISTANCE_TOLERANCE;
     }
@@ -57,7 +67,7 @@ public record LngLat(double lng, double lat) {
     /**
      * Given a compass direction, calculates the drones next position using trigonometry.
      * @param direction the direction the drone is moving in.
-     * @return the new position of the drone.
+     * @return a LngLat record which represents the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction){
         if (direction == null){

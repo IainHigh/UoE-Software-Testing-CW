@@ -5,7 +5,7 @@ import java.net.URL;
 
 public final class CentralAreaSingleton {
     private static CentralAreaSingleton instance;
-    private final double[][] centralAreaBorder;
+    private final LngLat[] centralAreaBorder;
 
     /**
      * Private constructor to prevent multiple instantiation.
@@ -13,6 +13,7 @@ public final class CentralAreaSingleton {
     private CentralAreaSingleton() {
         var retriever = new JSONRetriever();
         try {
+            // Right now the url is just hardcoded in the singleton, for coursework 2 this will be passed in.
             URL url = new URL("https://ilp-rest.azurewebsites.net/centralArea");
             centralAreaBorder = retriever.getCentralArea(url);
         }
@@ -35,7 +36,7 @@ public final class CentralAreaSingleton {
      * Accessor method for the central area border.
      * @return The central area border.
      */
-    public double[][] getCentralAreaBorder() {
+    public LngLat[] getCentralAreaBorder() {
         return centralAreaBorder;
     }
 }

@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Added class for constants to improve readability">
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Slight Refactoring">
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DistanceToUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/InCentralAreaUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionUnitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/JSONRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/JSONRetriever.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +78,7 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.uk.ac.ed.inf in ilpCoursework">
-    <configuration name="CentralAreaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CloseToUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
         <pattern>
@@ -77,13 +87,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.CentralAreaTest" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.CloseToUnitTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CloseToTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DistanceToUnitTest.testDistanceTo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
         <pattern>
@@ -92,13 +102,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.CloseToTest" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DistanceToUnitTest" />
+      <option name="METHOD_NAME" value="testDistanceTo" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InCentralAreaUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilpCoursework" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="uk.ac.ed.inf.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.InCentralAreaUnitTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeliveryCostTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="NextPositionUnitTest.testMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
         <pattern>
@@ -107,23 +133,9 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DeliveryCostTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="NextPositionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.NextPositionTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.NextPositionUnitTest" />
+      <option name="METHOD_NAME" value="testMove" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -143,19 +155,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CentralAreaTest" />
-      <item itemvalue="JUnit.CloseToTest" />
-      <item itemvalue="JUnit.DeliveryCostTest" />
-      <item itemvalue="JUnit.NextPositionTest" />
+      <item itemvalue="JUnit.CloseToUnitTest" />
+      <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
+      <item itemvalue="JUnit.InCentralAreaUnitTest" />
+      <item itemvalue="JUnit.NextPositionUnitTest.testMove" />
       <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
-        <item itemvalue="JUnit.NextPositionTest" />
-        <item itemvalue="JUnit.DeliveryCostTest" />
-        <item itemvalue="JUnit.CloseToTest" />
-        <item itemvalue="JUnit.CentralAreaTest" />
+        <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
+        <item itemvalue="JUnit.NextPositionUnitTest.testMove" />
+        <item itemvalue="JUnit.InCentralAreaUnitTest" />
+        <item itemvalue="JUnit.CloseToUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -259,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665424859912</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Slight Refactoring">
+      <created>1665482052438</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1665482052438</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -287,24 +306,14 @@
     <MESSAGE value="Added some javadoc" />
     <MESSAGE value="Added a test for CloseTo to increase code coverage." />
     <MESSAGE value="Added class for constants to improve readability" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added class for constants to improve readability" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Slight Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slight Refactoring" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>REST.Server.Accesser.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="uk.ac.ed.inf in ilpCoursework Coverage Results" MODIFIED="1664877239873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="uk.ac.ed.inf in ilpCoursework Coverage Results" MODIFIED="1665499611686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>uk.ac.ed.inf.*</FILTER>
     </SUITE>
   </component>
