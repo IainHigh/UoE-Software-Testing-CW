@@ -43,7 +43,9 @@ public class Order {
     }
 
     static class InvalidPizzaCombinationException extends Throwable {
+        private String message;
         public InvalidPizzaCombinationException(String message) {
+            this.message = message;
         }
         public InvalidPizzaCombinationException() {
         }

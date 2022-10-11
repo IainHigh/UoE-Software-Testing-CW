@@ -1,10 +1,12 @@
 package uk.ac.ed.inf;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public class JSONRetriever {
     /**
@@ -21,14 +23,6 @@ public class JSONRetriever {
     }
 
     /**
-     * Internal class used to deserialize the CentralArea JSON file.
-     */
-    private static class CentralAreaPoint {
-        public double longitude;
-        public double latitude;
-    }
-
-    /**
      * Retrieves the central area border from the JSON file.
      * @param url The URL of the JSON file.
      * @return An array of coordinates that make up the border of the central area.
@@ -36,12 +30,9 @@ public class JSONRetriever {
     public double[][] getCentralArea(URL url) {
         try {
             var objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            // Fail on unknown properties is set to false because we don't need to store the name of the point, only
-            // the coordinates.
-            CentralAreaPoint[] centralAreaObjectArray = objectMapper.readValue(url, CentralAreaPoint[].class);
+            LngLat[] centralAreaObjectArray = objectMapper.readValue(url, LngLat[].class);
             return Arrays.stream(centralAreaObjectArray)
-                     .map(x -> new double[]{x.longitude, x.latitude})
+                     .map(x -> new double[]{x.lng(), x.lat()})
                      .toArray(double[][]::new);
         } catch (IOException e) {
             throw new RuntimeException(e);
