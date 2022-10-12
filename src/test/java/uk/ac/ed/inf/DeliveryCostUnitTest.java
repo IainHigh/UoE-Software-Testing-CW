@@ -49,6 +49,9 @@ public class DeliveryCostUnitTest {
 
         String[] order4 = {"Proper Pizza", "Pineapple & Ham & Cheese"};
         testValidDeliveryCost(participants, order4, 1400 + 900 + 100);
+
+        String[] order5 = {"Margarita", "Margarita", "Margarita"};
+        testValidDeliveryCost(participants, order5, 1000 + 1000 + 1000 + 100);
     }
 
     @Test
@@ -101,7 +104,7 @@ public class DeliveryCostUnitTest {
         try{
             actualPrice = o.getDeliveryCost(participants, order);
         } catch (Order.InvalidPizzaCombinationException e) {
-            actualPrice = 0;
+            actualPrice = -1;
         }
         assertEquals("Actual price different from expected price", expectedPrice, actualPrice);
     }

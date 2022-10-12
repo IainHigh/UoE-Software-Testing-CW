@@ -1,10 +1,12 @@
 package uk.ac.ed.inf;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 
 public class Order {
     public String orderNo;
-    public String orderDate;
+    public Date orderDate;
     public String customer;
     public String creditCardNumber;
     public String creditCardExpiry;
@@ -20,20 +22,19 @@ public class Order {
      * @throws InvalidPizzaCombinationException - If a combination where the ordered pizza cannot be delivered by the
      * same restaurant this is an invalid combination.
      */
-    public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
-        if (participatingRestaurants == null || pizzasOrdered == null) {
+    public int getDeliveryCost(Restaurant[] participatingRestaurants, String... pizzasOrdered) throws InvalidPizzaCombinationException {
+        if (participatingRestaurants == null || pizzasOrdered == null || pizzasOrdered.length == 0) {
             throw new InvalidPizzaCombinationException("Invalid input");
         }
         int totalCost = 0;
         int count = 0;
         int numberOfPizzasOrdered = pizzasOrdered.length;
-        // For every restaurant, check if it can complete the order.
+        // For every restaurant menu restaurant and evey menu item, check if the menu item is in the pizzas ordered.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
-                if (Arrays.asList(pizzasOrdered).contains(menu.name)) {
-                    totalCost += menu.priceInPence;
-                    count += 1;
-                }
+                int numberOfMenuOrder = Collections.frequency(Arrays.asList(pizzasOrdered), menu.name);
+                totalCost += numberOfMenuOrder * menu.priceInPence;
+                count += numberOfMenuOrder;
             }
             if (count != 0 && count != numberOfPizzasOrdered) {
                 throw new InvalidPizzaCombinationException("All pizzas in an order must be from the same restaurant");

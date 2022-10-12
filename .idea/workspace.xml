@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Slight Refactoring">
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DistanceToUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/InCentralAreaUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionUnitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CentralAreaSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/JSONRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/JSONRetriever.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/LngLat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CloseToUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/NextPositionTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +67,15 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.uk.ac.ed.inf in ilpCoursework">
-    <configuration name="CloseToUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in ilpCoursework" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilpCoursework" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeliveryCostUnitTest.testValidOrders" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilpCoursework" />
       <extension name="coverage">
         <pattern>
@@ -87,8 +84,9 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.CloseToUnitTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DeliveryCostUnitTest" />
+      <option name="METHOD_NAME" value="testValidOrders" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -105,21 +103,6 @@
       <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DistanceToUnitTest" />
       <option name="METHOD_NAME" value="testDistanceTo" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InCentralAreaUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.InCentralAreaUnitTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -155,19 +138,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CloseToUnitTest" />
+      <item itemvalue="JUnit.DeliveryCostUnitTest.testValidOrders" />
+      <item itemvalue="JUnit.All in ilpCoursework" />
       <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
-      <item itemvalue="JUnit.InCentralAreaUnitTest" />
       <item itemvalue="JUnit.NextPositionUnitTest.testMove" />
       <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
+        <item itemvalue="JUnit.DeliveryCostUnitTest.testValidOrders" />
+        <item itemvalue="JUnit.All in ilpCoursework" />
         <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
         <item itemvalue="JUnit.NextPositionUnitTest.testMove" />
-        <item itemvalue="JUnit.InCentralAreaUnitTest" />
-        <item itemvalue="JUnit.CloseToUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -278,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665482052438</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Slight Refactoring">
+      <created>1665501292211</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1665501292211</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -308,6 +298,17 @@
     <MESSAGE value="Added class for constants to improve readability" />
     <MESSAGE value="Slight Refactoring" />
     <option name="LAST_COMMIT_MESSAGE" value="Slight Refactoring" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
