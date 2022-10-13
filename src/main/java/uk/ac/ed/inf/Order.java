@@ -23,12 +23,19 @@ public class Order {
      * same restaurant this is an invalid combination.
      */
     public int getDeliveryCost(Restaurant[] participatingRestaurants, String... pizzasOrdered) throws InvalidPizzaCombinationException {
+
+        // Check if the input is valid
         if (participatingRestaurants == null || pizzasOrdered == null || pizzasOrdered.length == 0) {
             throw new InvalidPizzaCombinationException("Invalid input");
         }
+
+        // Check if the order contains any pizzas which aren't sold by any restaurant.
+        if (containsInvalidPizza(participatingRestaurants, pizzasOrdered)) {
+            throw new InvalidPizzaCombinationException("Invalid pizza ordered");
+        }
+
         int totalCost = 0;
         int count = 0;
-        int numberOfPizzasOrdered = pizzasOrdered.length;
         // For every restaurant menu, check if the menu item is in the pizzas ordered.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
@@ -36,22 +43,34 @@ public class Order {
                 totalCost += numberOfMenuOrder * menu.priceInPence;
                 count += numberOfMenuOrder;
             }
-            if (count != 0 && count != numberOfPizzasOrdered) {
-                throw new InvalidPizzaCombinationException("All pizzas in an order must be from the same restaurant");
+            if (count != 0)  {
+                if (count != pizzasOrdered.length){
+                    throw new InvalidPizzaCombinationException("Pizzas cannot be ordered from different restaurants");
+                }
+                break;
             }
-        }
-        if (count == 0) {
-            throw new InvalidPizzaCombinationException("No pizzas in the order are available from any of the participating restaurants");
         }
         return totalCost + 100;
     }
 
+    private boolean containsInvalidPizza(Restaurant[] participatingRestaurants, String... pizzasOrdered) {
+        // Generate a list of all valid pizzas from all restaurants
+        String[] validPizzas = Arrays.stream(participatingRestaurants)
+                .flatMap(restaurant -> Arrays.stream(restaurant.getMenu()))
+                .map(menu -> menu.name)
+                .toArray(String[]::new);
+
+        // Check if any of the pizzas ordered are not in the list of valid pizzas
+        return Arrays.stream(pizzasOrdered)
+                .anyMatch(pizza -> !Arrays.asList(validPizzas).contains(pizza));
+    }
+
     static class InvalidPizzaCombinationException extends Throwable {
-        private String message;
         public InvalidPizzaCombinationException(String message) {
-            this.message = message;
+            super(message);
         }
         public InvalidPizzaCombinationException() {
+            super();
         }
     }
 }

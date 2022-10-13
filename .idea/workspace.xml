@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Slight Refactoring">
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Sorted merge conflicts after merging modified CW1 into CW2 code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +28,11 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -48,7 +55,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/home/iain/Desktop/ilpCoursework",
+    "last_opened_file_path": "/home/iain/Downloads/ilpCoursework",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -64,7 +71,7 @@
       <recent name="uk.ac.ed.inf" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in ilpCoursework">
+  <component name="RunManager" selected="JUnit.uk.ac.ed.inf in ilpCoursework">
     <configuration name="All in ilpCoursework" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilp" />
       <option name="PACKAGE_NAME" value="" />
@@ -143,8 +150,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in ilpCoursework" />
         <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
+        <item itemvalue="JUnit.All in ilpCoursework" />
         <item itemvalue="JUnit.InCentralAreaUnitTest" />
         <item itemvalue="JUnit.DeliveryCostUnitTest.testValidOrders" />
         <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
@@ -279,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665668968956</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Sorted merge conflicts after merging modified CW1 into CW2 code">
+      <created>1665690683871</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1665690683871</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -308,18 +322,8 @@
     <MESSAGE value="Added a test for CloseTo to increase code coverage." />
     <MESSAGE value="Added class for constants to improve readability" />
     <MESSAGE value="Slight Refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Slight Refactoring" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Sorted merge conflicts after merging modified CW1 into CW2 code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sorted merge conflicts after merging modified CW1 into CW2 code" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
