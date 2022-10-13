@@ -67,12 +67,9 @@ public class Order {
                 .anyMatch(pizza -> !Arrays.asList(validPizzas).contains(pizza));
     }
 
-    static class InvalidPizzaCombinationException extends Throwable {
     public String toJSON() {
         return "{\"orderNo\": \"" + orderNo + "\", \"outcome\": \"" + outcome + "\", \"costInPence\": " + priceTotalInPence + "}";
     }
-
-    public static class InvalidPizzaCombinationException extends Throwable {
     public class InvalidPizzaCombinationException extends Throwable {
         public InvalidPizzaCombinationException(String message) {
             super(message);
