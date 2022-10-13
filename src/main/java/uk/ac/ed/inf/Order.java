@@ -49,7 +49,6 @@ public class Order {
                 if (count != pizzasOrdered.length){
                     throw new InvalidPizzaCombinationException("Pizzas cannot be ordered from different restaurants");
                 }
-                restaurantOrderedFrom = restaurant;
                 break;
             }
         }
@@ -74,6 +73,7 @@ public class Order {
     }
 
     public static class InvalidPizzaCombinationException extends Throwable {
+    public class InvalidPizzaCombinationException extends Throwable {
         public InvalidPizzaCombinationException(String message) {
             super(message);
         }
