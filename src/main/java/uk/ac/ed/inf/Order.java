@@ -29,7 +29,7 @@ public class Order {
         int totalCost = 0;
         int count = 0;
         int numberOfPizzasOrdered = pizzasOrdered.length;
-        // For every restaurant menu restaurant and evey menu item, check if the menu item is in the pizzas ordered.
+        // For every restaurant menu, check if the menu item is in the pizzas ordered.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
                 int numberOfMenuOrder = Collections.frequency(Arrays.asList(pizzasOrdered), menu.name);

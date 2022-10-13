@@ -26,9 +26,14 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             }
 
             // Determine if the line intersects with the border.
+            // If it's above the lower point and below the upper point and lies to the left of the line between
+            // border points then it will intersect.
+            double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
+            double latDiff = this.lat - p1.lat();
+
             if (this.lat > Math.min(p1.lat(), p2.lat())
                 && this.lat < Math.max(p1.lat(), p2.lat())
-                && this.lng < ((this.lat - p1.lat()) * (p2.lng() - p1.lng()) / (p2.lat() - p1.lat()) + p1.lng())
+                && this.lng < (latDiff * gradient) + p1.lng()
             ){
                 intersections++;
             }
@@ -72,7 +77,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     public LngLat nextPosition(CompassDirection direction){
         if (direction == null){
             // If the drone is hovering, it does not move, so we return the same position.
-            return this;
+            return new LngLat(this.lng, this.lat);
         }
         // Calculates the next position based on the direction.
         double radian = Math.toRadians(direction.getAngle());
