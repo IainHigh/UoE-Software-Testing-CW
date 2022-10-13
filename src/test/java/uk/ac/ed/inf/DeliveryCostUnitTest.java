@@ -12,26 +12,30 @@ public class DeliveryCostUnitTest {
 
         // Order consists of pizzas from two separate restaurants.
         String[] invalidOrder = {"Margarita", "Calzone", "Meat Lover"};
-        testInvalidDeliveryCost(participants, invalidOrder);
+        testInvalidDeliveryCost(participants, invalidOrder, "Pizzas cannot be ordered from different restaurants");
 
         // Similar to the first test.
         String[] invalidOrder3 = {"Margarita", "Vegan Delight"};
-        testInvalidDeliveryCost(participants, invalidOrder3);
+        testInvalidDeliveryCost(participants, invalidOrder3, "Pizzas cannot be ordered from different restaurants");
 
         // The order contains a pizza that is not severed by any of the restaurants.
         String[] invalidOrder2 = {"M"};
-        testInvalidDeliveryCost(participants, invalidOrder2);
+        testInvalidDeliveryCost(participants, invalidOrder2, "Invalid pizza ordered");
+
+        // Test having valid pizzas and invalid pizzas in the same order.
+        String[] invalidOrder4 = {"Margarita", "M"};
+        testInvalidDeliveryCost(participants, invalidOrder4, "Invalid pizza ordered");
 
         // The empty order should not be valid.
-        String[] invalidOrder4 = {};
-        testInvalidDeliveryCost(participants, invalidOrder4);
+        String[] invalidOrder5 = {};
+        testInvalidDeliveryCost(participants, invalidOrder5, "Invalid input");
 
         // The null order should not be valid.
-        testInvalidDeliveryCost(participants, null);
+        testInvalidDeliveryCost(participants, null, "Invalid input");
 
         // The null order should not be valid.
         String[] validOrder = {"Margarita"};
-        testInvalidDeliveryCost(null, validOrder);
+        testInvalidDeliveryCost(null, validOrder, "Invalid input");
     }
 
     @Test
@@ -109,10 +113,13 @@ public class DeliveryCostUnitTest {
         assertEquals("Actual price different from expected price", expectedPrice, actualPrice);
     }
 
-    private void testInvalidDeliveryCost(Restaurant[] participants, String[] order){
-        assertThrows(Order.InvalidPizzaCombinationException.class, () -> {
-            Order o = new Order();
+    private void testInvalidDeliveryCost(Restaurant[] participants, String[] order, String expectedErrorMessage){
+        Order o = new Order();
+        try{
             o.getDeliveryCost(participants, order);
-        });
+            fail("Expected an InvalidPizzaCombinationException to be thrown");
+        } catch (Order.InvalidPizzaCombinationException e) {
+            assertEquals("Actual error message different from expected error message", expectedErrorMessage, e.getMessage());
+        }
     }
 }
