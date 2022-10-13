@@ -2,6 +2,7 @@ package uk.ac.ed.inf;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Objects;
 
 public class OrderValidator {
@@ -22,8 +23,10 @@ public class OrderValidator {
         }
         catch (Order.InvalidPizzaCombinationException e) {
             if (Objects.equals(e.getMessage(), "All pizzas in an order must be from the same restaurant")) {
+                System.out.println("HERE 1");
                 return OrderOutcome.INVALID_PIZZA_COMBINATION_MULTIPLE_SUPPLIERS;
             } else if (Objects.equals(e.getMessage(), "No pizzas in the order are available from any of the participating restaurants")) {
+                System.out.println("HERE 2");
                 return OrderOutcome.INVALID_PIZZA_NOT_DEFINED;
             }
         } catch (MalformedURLException e) {
@@ -53,22 +56,21 @@ public class OrderValidator {
      * @return True if the credit card expiration date is valid (format MM/YY and before the order date), false
      * otherwise.
      */
-    private boolean validCardExpiry(String cardExpiry, String orderDate) {
+    private boolean validCardExpiry(String cardExpiry, Date orderDate) {
+        // TODO: FIX THIS
         // Check that the card expiry is in the format MM/YY
         if (!cardExpiry.matches("\\d{2}/\\d{2}")) {
             return false;
         }
 
         // Check that the card expiry is after the order date
-        String[] cardExpirySplit = cardExpiry.split("/");
-        String[] orderDateSplit = orderDate.split("-");
-        int cardExpiryMonth = Integer.parseInt(cardExpirySplit[0]);
-        int cardExpiryYear = Integer.parseInt(cardExpirySplit[1]);
-        int orderDateMonth = Integer.parseInt(orderDateSplit[0]);
-        int orderDateYear = Integer.parseInt(orderDateSplit[1]);
-        if (cardExpiryYear < orderDateYear) return false; // If the card expiry year is before the order date year
-        if (cardExpiryMonth > 12 || cardExpiryMonth < 1) return false; // If the card expiry month is invalid
-        return cardExpiryYear != orderDateYear || cardExpiryMonth >= orderDateMonth;
+        int month = Integer.parseInt(cardExpiry.substring(0, 2));
+        int year = Integer.parseInt(cardExpiry.substring(3, 5));
+
+        System.out.println(year + orderDate.getYear());
+        if (year < orderDate.getYear() - 100) return false;
+        if (year == orderDate.getYear() - 100 && month < orderDate.getMonth() + 1) return false;
+        return true;
     }
 
     /**

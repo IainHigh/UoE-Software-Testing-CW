@@ -43,9 +43,13 @@ public class PizzaDrone {
         for (Order order : orders) {
             OrderOutcome outcome = validator.validateOrder(order);
             order.outcome = outcome;
-            if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED) validOrders.add(order);
+            if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED){
+                System.out.println(order.restaurantOrderedFrom.toString());
+                validOrders.add(order);
+            }
         }
 
+        System.out.println(validOrders.size() + " valid orders found.");
         // Sort the orders by the number of moves to appleton tower.
         validOrders.sort((o1, o2) -> {
             LngLat o1LngLat = new LngLat(o1.restaurantOrderedFrom.longitude, o1.restaurantOrderedFrom.latitude);

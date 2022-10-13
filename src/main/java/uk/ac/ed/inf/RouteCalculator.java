@@ -99,13 +99,13 @@ public class RouteCalculator {
      * @return The closest LngLat point which lies in the central area.
      */
     public static LngLat findClosestPointInCentralArea(LngLat point) {
-        double[][] centralAreaBorder = FlyZoneSingleton.getInstance().getCentralAreaBorder();
+        LngLat[] centralAreaBorder = FlyZoneSingleton.getInstance().getCentralAreaBorder();
         double minDistance = Double.MAX_VALUE;
         LngLat closestPoint = null;
         for (int i = 0; i < centralAreaBorder.length; i++) {
-            LngLat lineStart = new LngLat(centralAreaBorder[i][0], centralAreaBorder[i][1]);
-            LngLat lineEnd = new LngLat(centralAreaBorder[(i+1) % centralAreaBorder.length][0],
-                    centralAreaBorder[(i+1) % centralAreaBorder.length][1]);
+            LngLat lineStart = new LngLat(centralAreaBorder[i].lng(), centralAreaBorder[i].lat());
+            LngLat lineEnd = new LngLat(centralAreaBorder[(i+1) % centralAreaBorder.length].lng(),
+                    centralAreaBorder[(i+1) % centralAreaBorder.length].lat());
             LngLat closestPointOnLine = closestPointOnLine(point, lineStart, lineEnd);
             double distance = point.distanceTo(closestPointOnLine);
             if (distance < minDistance) {

@@ -46,21 +46,29 @@ public class JSONRetriever {
      * @param url The URL of the JSON file.
      * @return An array of no-fly zones, where each no-fly zone is an array of coordinates.
      */
-    public double[][][] getNoFlyZones(URL url) {
+    public LngLat[][] getNoFlyZones(URL url) {
+        var objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // Fail on unknown properties is set to false because we don't need to store the name of the point, only
+        // the coordinates.
+        NoFlyZone[] noFlyZoneObjectArray = new NoFlyZone[0];
+
         try {
-            var objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            // Fail on unknown properties is set to false because we don't need to store the name of the point, only
-            // the coordinates.
-            NoFlyZone[] noFlyZoneObjectArray = objectMapper.readValue(url, NoFlyZone[].class);
-            return Arrays.stream(noFlyZoneObjectArray)
-                    .map(x -> x.coordinates)
-                    .toArray(double[][][]::new);
+            noFlyZoneObjectArray = objectMapper.readValue(url, NoFlyZone[].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
+        // Convert the Array of NoFlyZones to a 2-d array of LngLat
+        LngLat[][] noFlyZoneArray = new LngLat[noFlyZoneObjectArray.length][];
+        for (int i = 0; i < noFlyZoneObjectArray.length; i++) {
+            noFlyZoneArray[i] = new LngLat[noFlyZoneObjectArray[i].coordinates.length];
+            for (int j = 0; j < noFlyZoneObjectArray[i].coordinates.length; j++) {
+                noFlyZoneArray[i][j] = new LngLat(noFlyZoneObjectArray[i].coordinates[j][0], noFlyZoneObjectArray[i].coordinates[j][1]);
+            }
+        }
+        return noFlyZoneArray;
+    }
     /**
      * Retrieves the restaurants from the JSON file.
      * @param url The URL of the JSON file.

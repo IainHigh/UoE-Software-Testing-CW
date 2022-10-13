@@ -39,7 +39,12 @@ public class Order {
                 count += numberOfMenuOrder;
             }
             if (count != 0 && count != numberOfPizzasOrdered) {
+                // TODO: Need to check here if remaining pizzas can be found in other restaurants.
                 throw new InvalidPizzaCombinationException("All pizzas in an order must be from the same restaurant");
+            }
+            else if (count != 0) {
+                restaurantOrderedFrom = restaurant;
+                break;
             }
         }
         if (count == 0) {
@@ -53,12 +58,11 @@ public class Order {
     }
 
     public static class InvalidPizzaCombinationException extends Throwable {
-    static class InvalidPizzaCombinationException extends Throwable {
-        private String message;
         public InvalidPizzaCombinationException(String message) {
-            this.message = message;
+            super(message);
         }
         public InvalidPizzaCombinationException() {
+            super();
         }
     }
 }

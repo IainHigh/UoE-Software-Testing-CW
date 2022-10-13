@@ -1,11 +1,16 @@
 package uk.ac.ed.inf;
 
 import org.junit.Test;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static org.junit.Assert.assertEquals;
 
 public class InCentralAreaUnitTest {
     @Test
     public void testEdgesAndCorners(){
+        initialiseSingleton();
         // Top left corner
         testPointInCentralArea(new LngLat(-3.192473, 55.946233), true);
 
@@ -33,6 +38,7 @@ public class InCentralAreaUnitTest {
 
     @Test
     public void testValidPoints(){
+        initialiseSingleton();
         for (int i = 0; i < 100; i++){
             testPointInCentralArea(generateValidPoint(), true);
         }
@@ -40,6 +46,7 @@ public class InCentralAreaUnitTest {
 
     @Test
     public void testInvalidPoints(){
+        initialiseSingleton();
         for (int i = 0; i < 100; i++){
             testPointInCentralArea(generateInvalidPoint(), false);
         }
@@ -49,6 +56,16 @@ public class InCentralAreaUnitTest {
         boolean actual = point.inCentralArea();
         assertEquals("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng() +
                 "\nLatitude: " + point.lat() + "\n\n", expected, actual);
+    }
+
+    private void initialiseSingleton(){
+        try {
+            FlyZoneSingleton.getInstance().setURLs(new URL("https://ilp-rest.azurewebsites.net/centralarea"),new URL(
+                    "https://ilp-rest.azurewebsites.net/noflyzones"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(FlyZoneSingleton.getInstance().getCentralAreaBorder().length);
     }
 
     private LngLat generateValidPoint(){

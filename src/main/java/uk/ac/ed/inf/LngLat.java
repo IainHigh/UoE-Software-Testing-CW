@@ -1,37 +1,55 @@
 package uk.ac.ed.inf;
-public record LngLat(double lng, double lat) {
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the central area.
-     * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
      * Gets the coordinates of the end-points of the central area border from the singleton class.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
      * @param zoneCoordinates The array of coordinates that make up the border of the zone.
      * @return true if the point is inside the central area, false otherwise.
      */
-    public boolean inZone(double[][] zoneCoordinates){
+    public boolean inZone(LngLat[] zoneCoordinates){
         int intersections = 0;
 
         // Loop through the border points (in anti-clockwise pairs)
         for (int i = 0; i < zoneCoordinates.length; i++){
-            double[] p1 = zoneCoordinates[i];
-            double[] p2 = zoneCoordinates[(i+1) % zoneCoordinates.length];
+            LngLat p1 = zoneCoordinates[i];
+            LngLat p2 = zoneCoordinates[(i+1) % zoneCoordinates.length];
 
             // If the point is on a corner or border, it is inside the central area.
-            if (p1[1] == this.lat && p2[1] == this.lat
-                    || p1[0] == this.lng && p2[0] == this.lng){
+            if ( (p1.lat() == this.lat && p2.lat() == this.lat)
+                    || (p1.lng() == this.lng && p2.lng() == this.lng) ){
                 return true;
             }
 
             // Determine if the line intersects with the border.
-            if (this.lat > Math.min(p1[1], p2[1])
-                    && this.lat < Math.max(p1[1], p2[1])
-                    && this.lng < ((this.lat - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0])
+            // If it's above the lower point and below the upper point and lies to the left of the line between
+            // border points then it will intersect.
+            double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
+            double latDiff = this.lat - p1.lat();
+
+            if (this.lat > Math.min(p1.lat(), p2.lat())
+                    && this.lat < Math.max(p1.lat(), p2.lat())
+                    && this.lng < ((this.lat - p1.lat()) * (p2.lng() - p1.lng()) / (p2.lat() - p1.lat()) + p1.lng())
             ){
                 intersections++;
             }
         }
         return (intersections % 2 != 0);
+    }
+
+    public boolean inCentralArea(){
+        return inZone(FlyZoneSingleton.getInstance().getCentralAreaBorder());
+    }
+
+    public boolean inNoFlyZone(){
+        for (LngLat[] noFlyZone: FlyZoneSingleton.getInstance().getNoFlyZones()){
+            if (inZone(noFlyZone)) return true;
+        }
+        return false;
     }
 
     /**

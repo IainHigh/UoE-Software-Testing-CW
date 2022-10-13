@@ -4,8 +4,8 @@ import java.net.URL;
 
 public final class FlyZoneSingleton {
     private static FlyZoneSingleton instance;
-    private double[][] centralAreaBorder;
-    private double[][][] noFlyZones;
+    private LngLat[] centralAreaBorder;
+    private LngLat[][] noFlyZones;
 
     /**
      * Pass in the URLs of the central area border and the no-fly zones.
@@ -32,7 +32,7 @@ public final class FlyZoneSingleton {
      * Accessor method for the central area border.
      * @return The central area border.
      */
-    public double[][] getCentralAreaBorder() {
+    public LngLat[] getCentralAreaBorder() {
         return centralAreaBorder;
     }
 
@@ -40,5 +40,6 @@ public final class FlyZoneSingleton {
      * Accessor method for the no-fly zones.
      * @return The no-fly zones.
      */
-    public double[][][] getNoFlyZones() { return noFlyZones; }
+    public LngLat[][] getNoFlyZones() {
+        return noFlyZones; }
 }
