@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 
 public class JSONRetriever {
     /**
@@ -21,28 +20,15 @@ public class JSONRetriever {
     }
 
     /**
-     * Internal class used to deserialize the CentralArea JSON file.
-     */
-    private static class CentralAreaPoint {
-        public double longitude;
-        public double latitude;
-    }
-
-    /**
      * Retrieves the central area border from the JSON file.
      * @param url The URL of the JSON file.
-     * @return An array of coordinates that make up the border of the central area.
+     * @return An array of LngLat points that make up the border of the central area.
      */
-    public double[][] getCentralArea(URL url) {
+    public LngLat[] getCentralArea(URL url) {
         try {
             var objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            // Fail on unknown properties is set to false because we don't need to store the name of the point, only
-            // the coordinates.
-            CentralAreaPoint[] centralAreaObjectArray = objectMapper.readValue(url, CentralAreaPoint[].class);
-            return Arrays.stream(centralAreaObjectArray)
-                     .map(x -> new double[]{x.longitude, x.latitude})
-                     .toArray(double[][]::new);
+            return objectMapper.readValue(url, LngLat[].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

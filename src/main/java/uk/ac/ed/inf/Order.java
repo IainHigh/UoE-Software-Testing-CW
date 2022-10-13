@@ -1,10 +1,12 @@
 package uk.ac.ed.inf;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 
 public class Order {
     public String orderNo;
-    public String orderDate;
+    public Date orderDate;
     public String customer;
     public String creditCardNumber;
     public String creditCardExpiry;
@@ -22,18 +24,19 @@ public class Order {
      * @throws InvalidPizzaCombinationException - If a combination where the ordered pizza cannot be delivered by the
      * same restaurant this is an invalid combination.
      */
-    public int getDeliveryCost(Restaurant[] participatingRestaurants, String[] pizzasOrdered) throws InvalidPizzaCombinationException {
+    public int getDeliveryCost(Restaurant[] participatingRestaurants, String... pizzasOrdered) throws InvalidPizzaCombinationException {
+        if (participatingRestaurants == null || pizzasOrdered == null || pizzasOrdered.length == 0) {
+            throw new InvalidPizzaCombinationException("Invalid input");
+        }
         int totalCost = 0;
         int count = 0;
         int numberOfPizzasOrdered = pizzasOrdered.length;
         // For every restaurant, check if it can complete the order.
         for (Restaurant restaurant : participatingRestaurants) {
             for (Menu menu : restaurant.getMenu()) {
-                if (Arrays.asList(pizzasOrdered).contains(menu.name)) {
-                    restaurantOrderedFrom = restaurant;
-                    totalCost += menu.priceInPence;
-                    count += 1;
-                }
+                int numberOfMenuOrder = Collections.frequency(Arrays.asList(pizzasOrdered), menu.name);
+                totalCost += numberOfMenuOrder * menu.priceInPence;
+                count += numberOfMenuOrder;
             }
             if (count != 0 && count != numberOfPizzasOrdered) {
                 throw new InvalidPizzaCombinationException("All pizzas in an order must be from the same restaurant");
@@ -50,7 +53,10 @@ public class Order {
     }
 
     public static class InvalidPizzaCombinationException extends Throwable {
+    static class InvalidPizzaCombinationException extends Throwable {
+        private String message;
         public InvalidPizzaCombinationException(String message) {
+            this.message = message;
         }
         public InvalidPizzaCombinationException() {
         }

@@ -18,11 +18,11 @@ public enum CompassDirection {
     SE (315.0),
     ESE (337.5);
 
-    private final Double angle;
-    CompassDirection(Double angle) {
+    private final double angle;
+    CompassDirection(double angle) {
         this.angle = angle;
     }
-    public Double getAngle() {
-        return angle;
+    public double getAngle() {
+        return this.angle;
     }
 }

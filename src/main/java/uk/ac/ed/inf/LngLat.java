@@ -1,29 +1,9 @@
 package uk.ac.ed.inf;
-
-import java.util.Arrays;
-
 public record LngLat(double lng, double lat) {
-
     /**
-     * Uses the inZone method to check if the LngLat is in the central area.
-     * @return True if the LngLat is in the central area, false otherwise.
-     */
-    public boolean inCentralArea(){
-        double[][] centralAreaBorder = FlyZoneSingleton.getInstance().getCentralAreaBorder();
-        return inZone(centralAreaBorder);
-    }
-
-    /**
-     * Uses the inZone method to check if the LngLat is in a no-fly zone.
-     * @return True if the LngLat is in a no-fly zone, false otherwise.
-     */
-    public boolean inNoFlyZone() {
-        double[][][] noFlyZones = FlyZoneSingleton.getInstance().getNoFlyZones();
-        return Arrays.stream(noFlyZones).anyMatch(this::inZone);
-    }
-
-    /**
-     * Uses the ray-casting algorithm to determine if a point is inside the polygon.
+     * Uses the ray-casting algorithm to determine if a point is inside the central area.
+     * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
+     * Gets the coordinates of the end-points of the central area border from the singleton class.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
      * @param zoneCoordinates The array of coordinates that make up the border of the zone.
@@ -57,9 +37,13 @@ public record LngLat(double lng, double lat) {
     /**
      * Calculates the pythagorean distance between two points.
      * @param source the point we are measuring to.
-     * @return the distance between the two points.
+     * @return the pythagorean distance between the two points.
      */
     public double distanceTo(LngLat source){
+        if (source == null){
+            // If the source is null, it is infinitely far away from the current point.
+            return Double.POSITIVE_INFINITY;
+        }
         // Calculates the pythagorean distance between two points.
         return Math.sqrt(Math.pow(source.lat - this.lat, 2) + Math.pow(source.lng - this.lng, 2));
     }
@@ -70,6 +54,10 @@ public record LngLat(double lng, double lat) {
      * @return true if the distance is less than 0.00015, false otherwise.
      */
     public boolean closeTo(LngLat source){
+        if (source == null){
+            // If the source is null, the point is not close to it.
+            return false;
+        }
         // Finds the distance to the other source and checks if it is less than 0.00015.
         return distanceTo(source) < Constants.DISTANCE_TOLERANCE;
     }
@@ -77,12 +65,12 @@ public record LngLat(double lng, double lat) {
     /**
      * Given a compass direction, calculates the drones next position using trigonometry.
      * @param direction the direction the drone is moving in.
-     * @return the new position of the drone.
+     * @return a LngLat record which represents the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction){
         if (direction == null){
             // If the drone is hovering, it does not move, so we return the same position.
-            return this;
+            return new LngLat(this.lng, this.lat);
         }
         // Calculates the next position based on the direction.
         double radian = Math.toRadians(direction.getAngle());

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Finished Coursework 2" />
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Slight Refactoring">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,11 +26,6 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="cw1Only" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -51,45 +48,33 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/home/iain/Desktop",
+    "last_opened_file_path": "/home/iain/Desktop/ilpCoursework",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="uk.ac.ed.inf" />
       <recent name="REST.Server.Accesser" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="uk.ac.ed.inf" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PizzaDrone">
-    <configuration name="PizzaDrone" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.PizzaDrone" />
-      <module name="ilpCoursework" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;2023-01-01&quot; &quot;https://ilp-rest.azurewebsites.net/&quot;" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.All in ilpCoursework">
     <configuration name="All in ilpCoursework" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
+      <module name="ilp" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testFindClosestPointInCentral" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
+    <configuration name="DeliveryCostUnitTest.testValidOrders" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uk.ac.ed.inf.*" />
@@ -97,14 +82,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.testFindClosestPointInCentral" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DeliveryCostUnitTest" />
+      <option name="METHOD_NAME" value="testValidOrders" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testRouteTo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
+    <configuration name="DistanceToUnitTest.testDistanceTo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uk.ac.ed.inf.*" />
@@ -112,14 +98,30 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.testRouteTo" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.DistanceToUnitTest" />
+      <option name="METHOD_NAME" value="testDistanceTo" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InCentralAreaUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ilp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="uk.ac.ed.inf.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.InCentralAreaUnitTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="uk.ac.ed.inf in ilpCoursework" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ilpCoursework" />
+      <module name="ilp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uk.ac.ed.inf.*" />
@@ -133,19 +135,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.PizzaDrone" />
-      <item itemvalue="JUnit.testFindClosestPointInCentral" />
       <item itemvalue="JUnit.All in ilpCoursework" />
-      <item itemvalue="JUnit.testRouteTo" />
+      <item itemvalue="JUnit.DeliveryCostUnitTest.testValidOrders" />
+      <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
+      <item itemvalue="JUnit.InCentralAreaUnitTest" />
       <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.PizzaDrone" />
-        <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
-        <item itemvalue="JUnit.testFindClosestPointInCentral" />
         <item itemvalue="JUnit.All in ilpCoursework" />
-        <item itemvalue="JUnit.testRouteTo" />
+        <item itemvalue="JUnit.uk.ac.ed.inf in ilpCoursework" />
+        <item itemvalue="JUnit.InCentralAreaUnitTest" />
+        <item itemvalue="JUnit.DeliveryCostUnitTest.testValidOrders" />
+        <item itemvalue="JUnit.DistanceToUnitTest.testDistanceTo" />
       </list>
     </recent_temporary>
   </component>
@@ -242,49 +244,42 @@
       <option name="project" value="LOCAL" />
       <updated>1664875105311</updated>
     </task>
-    <task id="LOCAL-00013" summary="Finished CW1 and refactoring">
-      <created>1664879455681</created>
+    <task id="LOCAL-00013" summary="Added class for constants to improve readability">
+      <created>1665424859912</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1664879455681</updated>
+      <updated>1665424859912</updated>
     </task>
-    <task id="LOCAL-00014" summary="Removed 4 pizza check from getDeliveryCost">
-      <created>1665164370850</created>
+    <task id="LOCAL-00014" summary="Slight Refactoring">
+      <created>1665482052438</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1665164370850</updated>
+      <updated>1665482052438</updated>
     </task>
-    <task id="LOCAL-00015" summary="Started on coursework 2">
-      <created>1665172298170</created>
+    <task id="LOCAL-00015" summary="Slight Refactoring">
+      <created>1665501292211</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1665172298170</updated>
+      <updated>1665501292211</updated>
     </task>
-    <task id="LOCAL-00016" summary="Good progress made on coursework 2.">
-      <created>1665253195803</created>
+    <task id="LOCAL-00016" summary="Slight Refactoring">
+      <created>1665590087110</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1665253195803</updated>
+      <updated>1665590087110</updated>
     </task>
-    <task id="LOCAL-00017" summary="Finished Coursework 2">
-      <created>1665446974440</created>
+    <task id="LOCAL-00017" summary="Slight Refactoring">
+      <created>1665668968956</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1665446974440</updated>
+      <updated>1665668968956</updated>
     </task>
-    <task id="LOCAL-00018" summary="Finished Coursework 2">
-      <created>1665447391543</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1665447391543</updated>
-    </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -292,19 +287,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="cw1Only" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -323,20 +306,17 @@
     <MESSAGE value="Close to complete" />
     <MESSAGE value="Added some javadoc" />
     <MESSAGE value="Added a test for CloseTo to increase code coverage." />
-    <MESSAGE value="Finished CW1 and refactoring" />
-    <MESSAGE value="Removed 4 pizza check from getDeliveryCost" />
-    <MESSAGE value="Started on coursework 2" />
-    <MESSAGE value="Good progress made on coursework 2." />
-    <MESSAGE value="Finished Coursework 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished Coursework 2" />
+    <MESSAGE value="Added class for constants to improve readability" />
+    <MESSAGE value="Slight Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slight Refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/CentralAreaTest.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/DeliveryCostUnitTest.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -345,7 +325,7 @@
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>REST.Server.Accesser.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="uk.ac.ed.inf in ilpCoursework Coverage Results" MODIFIED="1664877239873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="uk.ac.ed.inf in ilpCoursework Coverage Results" MODIFIED="1665590255093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>uk.ac.ed.inf.*</FILTER>
     </SUITE>
   </component>
