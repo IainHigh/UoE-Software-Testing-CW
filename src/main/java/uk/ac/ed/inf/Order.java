@@ -49,6 +49,7 @@ public class Order {
                 if (count != pizzasOrdered.length){
                     throw new InvalidPizzaCombinationException("Pizzas cannot be ordered from different restaurants");
                 }
+                restaurantOrderedFrom = restaurant;
                 break;
             }
         }

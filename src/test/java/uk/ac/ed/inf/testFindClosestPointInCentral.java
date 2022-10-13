@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static org.junit.Assert.assertTrue;
+
 public class testFindClosestPointInCentral {
 
     public static LngLat generatePoint(){
@@ -30,10 +32,27 @@ public class testFindClosestPointInCentral {
             LngLat point1 = generatePoint();
             LngLat point2 = RouteCalculator.findClosestPointInCentralArea(point1);
 
-            // Print a geojson line from point1 to point 2
-            System.out.println("{\"type\": \"Feature\", \"properties\": {}, \"geometry\": {\"type\": \"LineString\", " +
-                    "\"coordinates\": [["
-                    + point1.lng() + ", " + point1.lat() + "], [" + point2.lng() + ", " + point2.lat() + "]]}},");
+            assertTrue(point2.inCentralArea());
+            for (CompassDirection direction : CompassDirection.values()) {
+                LngLat point3 = point2.nextPosition(direction);
+                if (point3.inCentralArea()) {
+                    // Print point 1, 2, and 3 in geojson format
+                    System.out.println("{" +
+                            "\"type\": \"Feature\"," +
+                            "\"geometry\": {" +
+                            "\"type\": \"LineString\"," +
+                            "\"coordinates\": [" +
+                            "[" + point1.lng() + ", " + point1.lat() + "]," +
+                            "[" + point2.lng() + ", " + point2.lat() + "]," +
+                            "[" + point3.lng() + ", " + point3.lat() + "]" +
+                            "]" +
+                            "}" +
+                            "}");
+                    System.out.println(point3.distanceTo(point1));
+                    System.out.println(point2.distanceTo(point1));
+                    assertTrue(point3.distanceTo(point1) >= point2.distanceTo(point1));
+                }
+            }
         }
     }
 }

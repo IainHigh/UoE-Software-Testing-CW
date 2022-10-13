@@ -12,27 +12,25 @@ public class OrderValidator {
      * @param order The order to validate.
      * @return An OrderOutcome enum value depending on the validity of the order.
      */
-    public OrderOutcome validateOrder(Order order) {
+    public OrderOutcome validateOrder(Order order, URL restaurantURL) {
         if (!validCardNumber(order.creditCardNumber)) return OrderOutcome.INVALID_CARD_NUMBER;
         if (!validCardExpiry(order.creditCardExpiry, order.orderDate)) return OrderOutcome.INVALID_EXPIRY_DATE;
         if (!validCVV(order.cvv)) return OrderOutcome.INVALID_CVV;
         if (order.orderItems.length == 0 || order.orderItems.length > 4) return OrderOutcome.INVALID_PIZZA_COUNT;
         try {
-            int calculatedTotal = order.getDeliveryCost(Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites.net/restaurants")), order.orderItems);
+            // TODO: Should this be in a restaurant singleton?
+            int calculatedTotal = order.getDeliveryCost(Restaurant.getRestaurantsFromRestServer(restaurantURL), order.orderItems);
             if (calculatedTotal != order.priceTotalInPence) return OrderOutcome.INVALID_TOTAL;
         }
         catch (Order.InvalidPizzaCombinationException e) {
-            if (Objects.equals(e.getMessage(), "All pizzas in an order must be from the same restaurant")) {
-                System.out.println("HERE 1");
+            if (Objects.equals(e.getMessage(), "Pizzas cannot be ordered from different restaurants")) {
                 return OrderOutcome.INVALID_PIZZA_COMBINATION_MULTIPLE_SUPPLIERS;
-            } else if (Objects.equals(e.getMessage(), "No pizzas in the order are available from any of the participating restaurants")) {
-                System.out.println("HERE 2");
+            }
+            if (Objects.equals(e.getMessage(), "Invalid pizza ordered")) {
                 return OrderOutcome.INVALID_PIZZA_NOT_DEFINED;
             }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            return OrderOutcome.INVALID;
         }
-
         return OrderOutcome.VALID_BUT_NOT_DELIVERED;
     }
 

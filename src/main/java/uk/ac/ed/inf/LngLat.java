@@ -20,8 +20,8 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             LngLat p2 = zoneCoordinates[(i+1) % zoneCoordinates.length];
 
             // If the point is on a corner or border, it is inside the central area.
-            if ( (p1.lat() == this.lat && p2.lat() == this.lat)
-                    || (p1.lng() == this.lng && p2.lng() == this.lng) ){
+            if ( (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng(), p2.lng()) && this.lng() <= Math.max(p1.lng(), p2.lng()))
+                    || (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat())) ){
                 return true;
             }
 
