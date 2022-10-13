@@ -8,7 +8,6 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * Gets the coordinates of the end-points of the central area border from the singleton class.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.
      * If the number of intersections is odd, the point is inside the central area. Otherwise, it is outside.
-     * @param zoneCoordinates The array of coordinates that make up the border of the zone.
      * @return true if the point is inside the central area, false otherwise.
      */
     public boolean inZone(LngLat[] zoneCoordinates){
@@ -19,21 +18,26 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             LngLat p1 = zoneCoordinates[i];
             LngLat p2 = zoneCoordinates[(i+1) % zoneCoordinates.length];
 
-            // If the point is on a corner or border, it is inside the central area.
-            if ( (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng(), p2.lng()) && this.lng() <= Math.max(p1.lng(), p2.lng()))
-                    || (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat())) ){
+            double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
+            double latDiff = this.lat - p1.lat();
+
+            // If the point lies on the line of the border, it is inside the central area.
+            boolean onVerticalLine = (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(),
+                    p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
+            boolean onHorizontalLine = (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng()
+                    , p2.lng()) && this.lng <= Math.max(p1.lng(), p2.lng()));
+            boolean onDiagonalLine = ((this.lng == (latDiff * gradient) + p1.lng()) && this.lat >= Math.min(p1.lat(),
+                    p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
+            if(onVerticalLine || onHorizontalLine || onDiagonalLine){
                 return true;
             }
 
             // Determine if the line intersects with the border.
             // If it's above the lower point and below the upper point and lies to the left of the line between
             // border points then it will intersect.
-            double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
-            double latDiff = this.lat - p1.lat();
-
             if (this.lat > Math.min(p1.lat(), p2.lat())
-                    && this.lat < Math.max(p1.lat(), p2.lat())
-                    && this.lng < ((this.lat - p1.lat()) * (p2.lng() - p1.lng()) / (p2.lat() - p1.lat()) + p1.lng())
+                && this.lat < Math.max(p1.lat(), p2.lat())
+                && this.lng < (latDiff * gradient) + p1.lng()
             ){
                 intersections++;
             }

@@ -37,6 +37,21 @@ public class InCentralAreaUnitTest {
     }
 
     @Test
+    public void testInvalidLines(){
+        // Top edge
+        testPointInCentralArea(new LngLat(-4.188386951227769, 55.946233), false);
+
+        // Bottom edge
+        testPointInCentralArea(new LngLat(-4.188386951227769, 55.942617), false);
+
+        // Left edge
+        testPointInCentralArea(new LngLat(-3.192473, 56.944425), false);
+
+        // Right edge
+        testPointInCentralArea(new LngLat(-3.184319, 56.944425), false);
+    }
+
+    @Test
     public void testValidPoints(){
         initialiseSingleton();
         for (int i = 0; i < 100; i++){
