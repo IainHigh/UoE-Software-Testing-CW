@@ -1,8 +1,8 @@
 package uk.ac.ed.inf.UnitTests;
 
+import IO.RestAPIDataSingleton;
 import org.junit.Test;
 import uk.ac.ed.inf.CompassDirection;
-import uk.ac.ed.inf.FlyZoneSingleton;
 import uk.ac.ed.inf.LngLat;
 import uk.ac.ed.inf.RouteCalculator;
 
@@ -28,7 +28,7 @@ public class ClosestPointInCentralUnitTest {
     public void TestClosestPointInCentral(){
         String restAPIUrl = "https://ilp-rest.azurewebsites.net/";
         try {
-            FlyZoneSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
+            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

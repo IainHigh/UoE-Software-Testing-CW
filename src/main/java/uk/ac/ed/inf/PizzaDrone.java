@@ -1,5 +1,10 @@
 package uk.ac.ed.inf;
 
+import IO.FileWriterSingleton;
+import IO.FlightPathPoint;
+import IO.RestAPIDataSingleton;
+import IO.JSONRetriever;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -142,9 +147,9 @@ public class PizzaDrone {
     }
 
     private static void setUpOrdersAndFlyZones(String date, String restAPIUrl) {
-        // Set up the FlyZoneSingleton with the URLs of the central area border and the no-fly zones.
+        // Set up the RestAPIDataSingleton with the URLs of the central area border and the no-fly zones.
         try {
-            FlyZoneSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
+            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

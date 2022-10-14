@@ -1,17 +1,17 @@
-package uk.ac.ed.inf;
+package IO;
 
 public class FlightPathPoint {
     /**
      * This class is used to represent a single point on the flight path of the drone.
      */
 
-    String orderNumber;
-    double fromLongitude;
-    double fromLatitude;
-    double angle;
-    double toLongitude;
-    double toLatitude;
-    int ticksSinceStartOfCalculation;
+    public String orderNumber;
+    public double fromLongitude;
+    public double fromLatitude;
+    public double angle;
+    public double toLongitude;
+    public double toLatitude;
+    public int ticksSinceStartOfCalculation;
 
     /**
      * Converts the flight path point to a JSON object.

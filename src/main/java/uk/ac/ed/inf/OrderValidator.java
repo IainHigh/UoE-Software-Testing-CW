@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class OrderValidator {
+    // TODO: Can probably put this in Order class? :)
 
     /**
      * Validates the order and assigns the outcome.

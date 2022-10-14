@@ -1,7 +1,7 @@
 package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
-import uk.ac.ed.inf.FlyZoneSingleton;
+import IO.RestAPIDataSingleton;
 import uk.ac.ed.inf.LngLat;
 
 import java.net.MalformedURLException;
@@ -77,7 +77,7 @@ public class InCentralAreaUnitTest {
 
     private void initialiseSingleton(){
         try {
-            FlyZoneSingleton.getInstance().setURLs(new URL("https://ilp-rest.azurewebsites.net/centralarea"),new URL(
+            RestAPIDataSingleton.getInstance().setURLs(new URL("https://ilp-rest.azurewebsites.net/centralarea"),new URL(
                     "https://ilp-rest.azurewebsites.net/noflyzones"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

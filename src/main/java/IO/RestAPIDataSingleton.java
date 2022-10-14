@@ -1,9 +1,11 @@
-package uk.ac.ed.inf;
+package IO;
+
+import uk.ac.ed.inf.LngLat;
 
 import java.net.URL;
 
-public final class FlyZoneSingleton {
-    private static FlyZoneSingleton instance;
+public final class RestAPIDataSingleton {
+    private static RestAPIDataSingleton instance;
     private LngLat[] centralAreaBorder;
     private LngLat[][] noFlyZones;
 
@@ -21,9 +23,9 @@ public final class FlyZoneSingleton {
     /**
      * @return The instance of the singleton.
      */
-    public static FlyZoneSingleton getInstance() {
+    public static RestAPIDataSingleton getInstance() {
         if (instance == null) {
-            instance = new FlyZoneSingleton();
+            instance = new RestAPIDataSingleton();
         }
         return instance;
     }
@@ -41,5 +43,6 @@ public final class FlyZoneSingleton {
      * @return The no-fly zones.
      */
     public LngLat[][] getNoFlyZones() {
-        return noFlyZones; }
+        return noFlyZones;
+    }
 }

@@ -1,7 +1,7 @@
 package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
-import uk.ac.ed.inf.JSONRetriever;
+import IO.JSONRetriever;
 import uk.ac.ed.inf.Order;
 import uk.ac.ed.inf.Restaurant;
 

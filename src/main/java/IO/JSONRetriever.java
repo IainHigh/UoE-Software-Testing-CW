@@ -1,7 +1,11 @@
-package uk.ac.ed.inf;
+package IO;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import uk.ac.ed.inf.LngLat;
+import uk.ac.ed.inf.Order;
+import uk.ac.ed.inf.Restaurant;
+
 import java.io.IOException;
 import java.net.URL;
 

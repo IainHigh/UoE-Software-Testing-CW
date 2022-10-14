@@ -1,4 +1,6 @@
-package uk.ac.ed.inf;
+package IO;
+
+import uk.ac.ed.inf.Order;
 
 import java.io.File;
 import java.io.FileWriter;

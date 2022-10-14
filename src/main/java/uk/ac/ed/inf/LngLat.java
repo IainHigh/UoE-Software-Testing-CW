@@ -1,5 +1,6 @@
 package uk.ac.ed.inf;
 
+import IO.RestAPIDataSingleton;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
@@ -46,12 +47,12 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     }
 
     public boolean inCentralArea(){
-        return inZone(FlyZoneSingleton.getInstance().getCentralAreaBorder());
+        return inZone(RestAPIDataSingleton.getInstance().getCentralAreaBorder());
     }
 
     // Checks if the current LngLat point is in a no-fly zone
     public boolean inNoFlyZone(){
-        for (LngLat[] noFlyZone: FlyZoneSingleton.getInstance().getNoFlyZones()){
+        for (LngLat[] noFlyZone: RestAPIDataSingleton.getInstance().getNoFlyZones()){
             if (inZone(noFlyZone)) return true;
         }
         return false;
@@ -60,7 +61,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     // Checks if the line between the current point and the previous point is in a no-fly zone.
     public boolean inNoFlyZone(LngLat previousPoint){
         // Given a previous point, check if the line between the two points intersects with any of the no-fly zones.
-        for (LngLat[] zone : FlyZoneSingleton.getInstance().getNoFlyZones()){
+        for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()){
             for (int i = 0; i < zone.length; i++){
                 LngLat p1 = zone[i];
                 LngLat p2 = zone[(i+1) % zone.length];

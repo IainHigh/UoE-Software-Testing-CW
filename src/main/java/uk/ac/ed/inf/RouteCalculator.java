@@ -1,5 +1,7 @@
 package uk.ac.ed.inf;
 
+import IO.RestAPIDataSingleton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -98,7 +100,7 @@ public class RouteCalculator {
      * @return The closest LngLat point which lies in the central area.
      */
     public static LngLat findClosestPointInCentralArea(LngLat point) {
-        LngLat[] centralAreaBorder = FlyZoneSingleton.getInstance().getCentralAreaBorder();
+        LngLat[] centralAreaBorder = RestAPIDataSingleton.getInstance().getCentralAreaBorder();
         double minDistance = Double.MAX_VALUE;
         LngLat closestPoint = null;
         for (int i = 0; i < centralAreaBorder.length; i++) {
