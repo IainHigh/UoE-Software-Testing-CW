@@ -49,9 +49,49 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
         return inZone(FlyZoneSingleton.getInstance().getCentralAreaBorder());
     }
 
+    // Checks if the current LngLat point is in a no-fly zone
     public boolean inNoFlyZone(){
         for (LngLat[] noFlyZone: FlyZoneSingleton.getInstance().getNoFlyZones()){
             if (inZone(noFlyZone)) return true;
+        }
+        return false;
+    }
+
+    // Checks if the line between the current point and the previous point is in a no-fly zone.
+    public boolean inNoFlyZone(LngLat previousPoint){
+        // Given a previous point, check if the line between the two points intersects with any of the no-fly zones.
+        for (LngLat[] zone : FlyZoneSingleton.getInstance().getNoFlyZones()){
+            for (int i = 0; i < zone.length; i++){
+                LngLat p1 = zone[i];
+                LngLat p2 = zone[(i+1) % zone.length];
+
+                // If the line between the two points intersects with the line between the border points, then the line
+                // intersects with the no-fly zone.
+                if (lineIntersects(p1, p2, previousPoint, this)){
+                    return true;
+                }
+            }
+        }
+        return (inNoFlyZone() || previousPoint.inNoFlyZone());
+    }
+
+    private boolean lineIntersects(LngLat p1, LngLat p2, LngLat p3, LngLat p4) {
+        // Given two lines (p1-p2 and p3-p4), determine if they intersect.
+        // If the lines are parallel, they will not intersect.
+        // If the lines are not parallel, they will intersect if the intersection point is between the end-points of
+        // both lines.
+        double denominator = (p4.lat() - p3.lat()) * (p2.lng() - p1.lng()) - (p4.lng() - p3.lng()) * (p2.lat() - p1.lat());
+        if (denominator == 0){
+            return false;
+        }
+        if (denominator != 0){
+            double uA = ((p4.lng() - p3.lng()) * (p1.lat() - p3.lat()) - (p4.lat() - p3.lat()) * (p1.lng() - p3.lng()))
+                    / denominator;
+            double uB = ((p2.lng() - p1.lng()) * (p1.lat() - p3.lat()) - (p2.lat() - p1.lat()) * (p1.lng() - p3.lng()))
+                    / denominator;
+            if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1){
+                return true;
+            }
         }
         return false;
     }

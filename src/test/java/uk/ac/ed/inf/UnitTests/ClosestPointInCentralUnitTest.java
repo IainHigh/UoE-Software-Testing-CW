@@ -1,13 +1,17 @@
-package uk.ac.ed.inf;
+package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
+import uk.ac.ed.inf.CompassDirection;
+import uk.ac.ed.inf.FlyZoneSingleton;
+import uk.ac.ed.inf.LngLat;
+import uk.ac.ed.inf.RouteCalculator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.Assert.assertTrue;
 
-public class testFindClosestPointInCentral {
+public class ClosestPointInCentralUnitTest {
 
     public static LngLat generatePoint(){
         double[] point = new double[2];
@@ -21,35 +25,23 @@ public class testFindClosestPointInCentral {
     }
 
     @Test
-    public void main(){
+    public void TestClosestPointInCentral(){
         String restAPIUrl = "https://ilp-rest.azurewebsites.net/";
         try {
             FlyZoneSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
             LngLat point1 = generatePoint();
             LngLat point2 = RouteCalculator.findClosestPointInCentralArea(point1);
 
+            // The point should be in the central area
             assertTrue(point2.inCentralArea());
             for (CompassDirection direction : CompassDirection.values()) {
                 LngLat point3 = point2.nextPosition(direction);
                 if (point3.inCentralArea()) {
-                    // Print point 1, 2, and 3 in geojson format
-                    System.out.println("{" +
-                            "\"type\": \"Feature\"," +
-                            "\"geometry\": {" +
-                            "\"type\": \"LineString\"," +
-                            "\"coordinates\": [" +
-                            "[" + point1.lng() + ", " + point1.lat() + "]," +
-                            "[" + point2.lng() + ", " + point2.lat() + "]," +
-                            "[" + point3.lng() + ", " + point3.lat() + "]" +
-                            "]" +
-                            "}" +
-                            "}");
-                    System.out.println(point3.distanceTo(point1));
-                    System.out.println(point2.distanceTo(point1));
+                    // It should be closer than any other point in the central area.
                     assertTrue(point3.distanceTo(point1) >= point2.distanceTo(point1));
                 }
             }

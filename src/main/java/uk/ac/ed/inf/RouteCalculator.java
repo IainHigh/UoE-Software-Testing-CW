@@ -63,28 +63,27 @@ public class RouteCalculator {
 
             // Get the node with the lowest f value
             Node currentNode = openList.poll();
-            if (currentNode.point.inNoFlyZone()
+            if ( (currentNode.parent != null) && (currentNode.point.inNoFlyZone(currentNode.parent.point) )
+                || (currentNode.point.inNoFlyZone())
                 || (targetInCentralArea && !currentNode.point.inCentralArea() && (currentNode.parent != null) && currentNode.parent.point.inCentralArea())
             ) {
                 // If the next point is in a no-fly zone, or if the next point takes us out of the central area then
                 // ignore the point.
                 continue;
             }
-            for (CompassDirection direction : directions) {
-                // Get the next node in the direction
-                LngLat newPoint = currentNode.point.nextPosition(direction);
-                if (newPoint.closeTo(end)) {
-                    currentNode = new Node(newPoint, end, currentNode, direction);
-                    // We have found a route to the endpoint. Now we just reconstruct by going back through the parents.
-                    List<CompassDirection> route = new ArrayList<>();
-                    while (currentNode.parent != null) {
-                        route.add(currentNode.directionFromParent);
-                        currentNode = currentNode.parent;
-                    }
-                    Collections.reverse(route);
-                    return route.toArray(new CompassDirection[0]);
+            if (currentNode.point.closeTo(end)) {
+                // We have found a route to the endpoint. Now we just reconstruct by going back through the parents.
+                List<CompassDirection> route = new ArrayList<>();
+                while (currentNode.parent != null) {
+                    route.add(currentNode.directionFromParent);
+                    currentNode = currentNode.parent;
                 }
-                // Add the node to the open list.
+                Collections.reverse(route);
+                return route.toArray(new CompassDirection[0]);
+            }
+            for (CompassDirection direction : directions) {
+                // Get the next node in the direction and add to list.
+                LngLat newPoint = currentNode.point.nextPosition(direction);
                 Node newNode = new Node(newPoint, end, currentNode, direction);
                 openList.add(newNode);
             }

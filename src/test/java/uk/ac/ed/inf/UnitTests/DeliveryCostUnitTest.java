@@ -1,6 +1,10 @@
-package uk.ac.ed.inf;
+package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
+import uk.ac.ed.inf.JSONRetriever;
+import uk.ac.ed.inf.Order;
+import uk.ac.ed.inf.Restaurant;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import static org.junit.Assert.*;

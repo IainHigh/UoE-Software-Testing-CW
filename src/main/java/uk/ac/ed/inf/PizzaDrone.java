@@ -118,7 +118,7 @@ public class PizzaDrone {
         double[] coordinate = new double[2];
         coordinate[0] = currentLocation.lng();
         coordinate[1] = currentLocation.lat();
-        pathWayCoordinates.add(coordinate);
+        currentPathWayCoordinates.add(coordinate);
         for (CompassDirection direction : route) {
             FlightPathPoint flightPathPoint = new FlightPathPoint();
             flightPathPoint.orderNumber = orderNo;

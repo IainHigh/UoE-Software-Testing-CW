@@ -1,6 +1,8 @@
-package uk.ac.ed.inf;
+package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
+import uk.ac.ed.inf.Constants;
+import uk.ac.ed.inf.LngLat;
 
 import java.util.Random;
 

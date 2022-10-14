@@ -1,6 +1,7 @@
-package uk.ac.ed.inf;
+package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
+import uk.ac.ed.inf.LngLat;
 
 import static org.junit.Assert.assertTrue;
 

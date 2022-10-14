@@ -1,6 +1,8 @@
-package uk.ac.ed.inf;
+package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
+import uk.ac.ed.inf.FlyZoneSingleton;
+import uk.ac.ed.inf.LngLat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -80,7 +82,6 @@ public class InCentralAreaUnitTest {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(FlyZoneSingleton.getInstance().getCentralAreaBorder().length);
     }
 
     private LngLat generateValidPoint(){

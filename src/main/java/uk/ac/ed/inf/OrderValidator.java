@@ -65,7 +65,6 @@ public class OrderValidator {
         int month = Integer.parseInt(cardExpiry.substring(0, 2));
         int year = Integer.parseInt(cardExpiry.substring(3, 5));
 
-        System.out.println(year + orderDate.getYear());
         if (year < orderDate.getYear() - 100) return false;
         if (year == orderDate.getYear() - 100 && month < orderDate.getMonth() + 1) return false;
         return true;
