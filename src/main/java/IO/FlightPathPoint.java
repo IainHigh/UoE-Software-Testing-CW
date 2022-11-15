@@ -18,6 +18,13 @@ public class FlightPathPoint {
      * @return The JSON object.
      */
     public String toJSON() {
-        return "{\"orderNumber\": \"" + orderNumber + "\", \"fromLongitude\": " + fromLongitude + ", \"fromLatitude\": " + fromLatitude + ", \"angle\": " + angle + ", \"toLongitude\": " + toLongitude + ", \"toLatitude\": " + toLatitude + ", \"ticksSinceStartOfCalculation\": " + ticksSinceStartOfCalculation + "}";
+        return "{\"orderNumber\": \"" + orderNumber  + "\""
+                + ", \"fromLongitude\": " + fromLongitude
+                + ", \"fromLatitude\": " + fromLatitude
+                + ", \"angle\": " + angle
+                + ", \"toLongitude\": " + toLongitude
+                + ", \"toLatitude\": " + toLatitude
+                + ", \"ticksSinceStartOfCalculation\": " + ticksSinceStartOfCalculation
+                + "}";
     }
 }

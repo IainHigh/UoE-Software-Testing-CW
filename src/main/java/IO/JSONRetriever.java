@@ -9,6 +9,7 @@ import uk.ac.ed.inf.Restaurant;
 import java.io.IOException;
 import java.net.URL;
 
+
 public class JSONRetriever {
     /**
      * Retrieves the orders from the JSON file.
@@ -17,7 +18,9 @@ public class JSONRetriever {
      */
     public Order[] getOrders(URL url) {
         try {
-            return new ObjectMapper().readValue(url, Order[].class);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+            return mapper.readValue(url, Order[].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +58,7 @@ public class JSONRetriever {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // Fail on unknown properties is set to false because we don't need to store the name of the point, only
         // the coordinates.
-        NoFlyZone[] noFlyZoneObjectArray = new NoFlyZone[0];
+        NoFlyZone[] noFlyZoneObjectArray;
 
         try {
             noFlyZoneObjectArray = objectMapper.readValue(url, NoFlyZone[].class);

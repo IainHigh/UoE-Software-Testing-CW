@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.SystemTests;
+package uk.ac.ed.inf.UnitTests;
 
 import IO.JSONRetriever;
 import org.junit.Test;
@@ -7,7 +7,7 @@ import uk.ac.ed.inf.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class OrderPatternSystemTest {
+public class OrderPatternUnitTest {
 
     @Test
     public void testPattern() {
@@ -19,21 +19,16 @@ public class OrderPatternSystemTest {
         * */
 
         Order[] orders;
+        Restaurant[] restaurants;
         try {
             JSONRetriever retriever = new JSONRetriever();
             orders = retriever.getOrders(new URL("https://ilp-rest.azurewebsites.net/orders"));
+            restaurants = Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites.net/restaurants"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
         for (int i = 0; i < orders.length; i++){
-            OrderValidator validator = new OrderValidator();
-            try {
-                orders[i].outcome = validator.validateOrder(orders[i], new URL("https://ilp-rest.azurewebsites" +
-                        ".net/restaurants"));
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(i);
+            orders[i].outcome = orders[i].validateOrder(restaurants);
             switch (i % 9){
                 case 0:
                 case 1:

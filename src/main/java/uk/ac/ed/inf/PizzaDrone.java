@@ -40,9 +40,7 @@ public class PizzaDrone {
             restAPIUrl = args[1];
         }
         else {
-            System.err.println("Error in input arguments using default values");
-            date = "2023-01-01";
-            restAPIUrl = "https://ilp-rest.azurewebsites.net/test";
+            throw new IllegalArgumentException("Invalid input arguments.");
         }
 
 
@@ -52,8 +50,9 @@ public class PizzaDrone {
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
         LngLat currentLocation = Constants.APPLETON_TOWER;
         for (Order order : validOrders) {
-            calculateNextRoute(currentLocation, order);
+            currentLocation = calculateNextRoute(currentLocation, order);
             if (maxMoves > 0){
+                System.out.println(maxMoves);
                 // If we're able to follow the current route, add the directions and coordinates to the list of all
                 // directions and coordinates.
                 allDirectionsFollowed.addAll(currentDirectionsFollowed);
@@ -98,15 +97,6 @@ public class PizzaDrone {
             new URL(args[1] + "/test");
         } catch (MalformedURLException e) {
             System.err.println("Second argument is not a valid URL, got: " + args[1]);
-            System.err.println("Trying with default URL: https://ilp-rest.azurewebsites.net/");
-            try {
-                new URL("https://ilp-rest.azurewebsites.net/test");
-            } catch (MalformedURLException e1) {
-                System.err.println("Could not access the test JSON at default URL");
-                System.err.println("Please check your internet connection and try again");
-                throw new RuntimeException(e);
-            }
-            System.err.println("Successfully accessed the test JSON at default URL");
             return false;
         }
         return true;
@@ -165,15 +155,16 @@ public class PizzaDrone {
 
     private static ArrayList<Order> validateOrders(String restAPIUrl) {
         // Validate the orders and store the valid orders in a new list - validOrders.
-        var validator = new OrderValidator();
+        Restaurant[] restaurants;
+        try {
+            restaurants = Restaurant.getRestaurantsFromRestServer(new URL(restAPIUrl + "/restaurants/"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
             OrderOutcome outcome;
-            try {
-                outcome = validator.validateOrder(order, new URL(restAPIUrl + "/restaurants"));
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
+            outcome = order.validateOrder(restaurants);
             order.outcome = outcome;
             if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED){
                 validOrders.add(order);
@@ -190,16 +181,8 @@ public class PizzaDrone {
 
         return validOrders;
     }
-
-    private static void writeToOutputFiles(String date){
-        // Write the results to the JSON and GEOJSON files.
-        FileWriterSingleton.setDate(date);
-        FileWriterSingleton.getInstance().writeToDroneGEOJSON(pathWayCoordinates);
-        FileWriterSingleton.getInstance().writeToFlightpathJSON(allDirectionsFollowed);
-        FileWriterSingleton.getInstance().writeToDeliveriesJSON(orders);
-    }
-
-    private static void calculateNextRoute(LngLat currentLocation, Order order) {
+        private static LngLat calculateNextRoute(LngLat currentLocation, Order order) {
+        // TODO: Hover should be part of the enum!
         CompassDirection[] hover = {null};
         // Reset the current directions and coordinates for the next journey.
         currentDirectionsFollowed = new ArrayList<>();
@@ -208,27 +191,34 @@ public class PizzaDrone {
         LngLat restaurantLocation = new LngLat(order.restaurantOrderedFrom.longitude,
                 order.restaurantOrderedFrom.latitude);
 
-        if (restaurantLocation.inNoFlyZone()){
-            return;
-        }
-
         // Move to the restaurant.
         currentLocation = followRoute(currentLocation, currentLocation.routeTo(restaurantLocation), order.orderNo);
         // Hover at the restaurant to pick up the pizza.
         currentLocation = followRoute(currentLocation, hover, order.orderNo);
 
-        if (!currentLocation.inCentralArea()) {
-            // If we're not currently in the central area, we need to find the closest point to the border first
-            // and then go here.
-            LngLat borderPoint = RouteCalculator.findClosestPointInCentralArea(currentLocation);
-            currentLocation = followRoute(currentLocation, currentLocation.routeTo(borderPoint), order.orderNo);
-        }
+
+        // According to piazza post 160 - this is no longer the case. However, could help to increase efficiency.
+//        if (!currentLocation.inCentralArea()) {
+//            // If we're not currently in the central area, we need to find the closest point to the border first
+//            // and then go here.
+//            LngLat borderPoint = RouteCalculator.findClosestPointInCentralArea(currentLocation);
+//            currentLocation = followRoute(currentLocation, currentLocation.routeTo(borderPoint), order.orderNo);
+//        }
 
         // Move to appleton tower.
         currentLocation = followRoute(currentLocation, currentLocation.routeTo(Constants.APPLETON_TOWER),
                 order.orderNo);
         // Hover at appleton tower to drop off the pizza.
         currentLocation = followRoute(currentLocation, hover, order.orderNo);
+        return currentLocation;
 
     }
+    private static void writeToOutputFiles(String date){
+        // Write the results to the JSON and GEOJSON files.
+        FileWriterSingleton.setDate(date);
+        FileWriterSingleton.getInstance().writeToDroneGEOJSON(pathWayCoordinates);
+        FileWriterSingleton.getInstance().writeToFlightpathJSON(allDirectionsFollowed);
+        FileWriterSingleton.getInstance().writeToDeliveriesJSON(orders);
+    }
+
 }
