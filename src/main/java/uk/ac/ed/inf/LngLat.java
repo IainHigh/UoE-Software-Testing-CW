@@ -4,6 +4,7 @@ import IO.RestAPIDataSingleton;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
+
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the zone.
      * Draws a horizontal line from the point to the right and counts the number of times it intersects with the border.

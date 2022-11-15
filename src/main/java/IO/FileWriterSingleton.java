@@ -16,7 +16,7 @@ public class FileWriterSingleton {
     /**
      * @return The instance of the singleton.
      */
-    public static FileWriterSingleton getInstance() {
+    public static synchronized FileWriterSingleton getInstance() {
         if (instance == null) {
             instance = new FileWriterSingleton();
         }

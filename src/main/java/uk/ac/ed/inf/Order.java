@@ -120,7 +120,7 @@ public class Order {
                 break;
             }
         }
-        return totalCost + 100;
+        return totalCost + Constants.FIXED_ORDER_CHARGE;
     }
 
     /**

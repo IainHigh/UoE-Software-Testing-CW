@@ -3,6 +3,7 @@ package uk.ac.ed.inf.UnitTests;
 import org.junit.Before;
 import org.junit.Test;
 import IO.RestAPIDataSingleton;
+import uk.ac.ed.inf.Constants;
 import uk.ac.ed.inf.LngLat;
 
 import java.net.MalformedURLException;
@@ -16,10 +17,10 @@ public class InCentralAreaUnitTest {
     public void setUp() throws MalformedURLException {
         String base = "https://ilp-rest.azurewebsites.net";
         RestAPIDataSingleton.getInstance().setURLs(
-                new URL( base + "/centralarea"),
-                new URL(base + "/noflyzones"),
-                new URL(base + "/restaurants"),
-                new URL(base + "/orders/"));
+                new URL(base + Constants.CENTRAL_AREA_URL_SLUG),
+                new URL(base + Constants.NO_FLY_ZONES_URL_SLUG),
+                new URL(base + Constants.RESTAURANTS_URL_SLUG),
+                new URL(base + Constants.ORDERS_NO_DATE_URL_SLUG));
     }
 
     @Test

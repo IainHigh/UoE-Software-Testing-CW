@@ -18,7 +18,7 @@ public final class RestAPIDataSingleton {
 
     private Order[] orders;
 
-    private static <T> T deserialize(URL url, Class<T> clazz) {
+    private <T> T deserialize(URL url, Class<T> clazz) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
@@ -42,7 +42,7 @@ public final class RestAPIDataSingleton {
      * @param url The URL of the JSON file.
      * @return An array of no-fly zones, where each no-fly zone is an array of coordinates.
      */
-    public LngLat[][] getNoFlyZones(URL url) {
+    private LngLat[][] getNoFlyZones(URL url) {
         //TODO: Tidy this up :)
         NoFlyZone[] noFlyZoneObjectArray = deserialize(url, NoFlyZone[].class);
 
@@ -73,7 +73,7 @@ public final class RestAPIDataSingleton {
     /**
      * @return The instance of the singleton.
      */
-    public static RestAPIDataSingleton getInstance() {
+    public static synchronized RestAPIDataSingleton getInstance() {
         if (instance == null) {
             instance = new RestAPIDataSingleton();
         }

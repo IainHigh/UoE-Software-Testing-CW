@@ -18,6 +18,7 @@ public class NextPositionUnitTest {
 
         // Go through all the possible directions and check that the distance and angle are correct.
         for (CompassDirection dir : CompassDirection.values()) {
+            if (dir == CompassDirection.HOVER) continue;
             LngLat nextPoint = point.nextPosition(dir);
             assert(calculateAngle(point, nextPoint) == dir.getAngle());
             assert(calculateDistance(point, nextPoint) > 0.00015 - 10e-12);

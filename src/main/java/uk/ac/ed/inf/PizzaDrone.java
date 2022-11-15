@@ -43,15 +43,14 @@ public class PizzaDrone {
         } else {
             throw new IllegalArgumentException("Invalid input arguments.");
         }
-
         // TODO: Tidy this up.
 
         try {
             RestAPIDataSingleton.getInstance().setURLs(
-                    new URL(restAPIUrl + "/centralarea"),
-                    new URL(restAPIUrl + "/noflyzones"),
-                    new URL(restAPIUrl + "/restaurants"),
-                    new URL(restAPIUrl + "/orders/" + date));
+                    new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
+                    new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG),
+                    new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG),
+                    new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -105,9 +104,14 @@ public class PizzaDrone {
             return false;
         }
 
+        // If the URL ends with a slash, remove it.
+        if (args[1].endsWith("/")) {
+            args[1] = args[1].substring(0, args[1].length() - 1);
+        }
+
         // Check that the second argument is a valid URL. And the test JSON can be accessed.
         try {
-            new URL(args[1] + "/test");
+            new URL(args[1] + Constants.TEST_URL_SLUG);
         } catch (MalformedURLException e) {
             System.err.println("Second argument is not a valid URL, got: " + args[1]);
             return false;
