@@ -43,16 +43,18 @@ public class PizzaDrone {
         }
 
         // TODO: Tidy this up.
+        orders = RestAPIDataSingleton.getInstance().getOrders();
         try {
-            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl +
-                    "/noflyzones"), new URL(restAPIUrl + "/restaurants"), new URL(restAPIUrl + "/orders/" + date));
+            RestAPIDataSingleton.getInstance().setURLs(
+                    new URL(restAPIUrl + "/centralarea"),
+                    new URL(restAPIUrl + "/noflyzones"),
+                    new URL(restAPIUrl + "/restaurants"),
+                    new URL(restAPIUrl + "/orders/" + date));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
 
-
-        setUpOrdersAndFlyZones(date, restAPIUrl);
-        ArrayList<Order> validOrders = validateOrders(restAPIUrl);
+        ArrayList<Order> validOrders = validateOrders();
 
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
         LngLat currentLocation = Constants.APPLETON_TOWER;
@@ -143,20 +145,13 @@ public class PizzaDrone {
         return currentLocation;
     }
 
-    private static void setUpOrdersAndFlyZones(String date, String restAPIUrl) {
-        // Set up the RestAPIDataSingleton with the URLs of the central area border and the no-fly zones.
-
-        // Get the orders from the JSON file and store them in an array.
-        orders = RestAPIDataSingleton.getInstance().getOrders();
-    }
-
-    private static ArrayList<Order> validateOrders(String restAPIUrl) {
+    private static ArrayList<Order> validateOrders() {
         // Validate the orders and store the valid orders in a new list - validOrders.
         Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
+
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
-            OrderOutcome outcome;
-            outcome = order.validateOrder(restaurants);
+            OrderOutcome outcome = order.validateOrder(restaurants);
             order.outcome = outcome;
             if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED){
                 validOrders.add(order);

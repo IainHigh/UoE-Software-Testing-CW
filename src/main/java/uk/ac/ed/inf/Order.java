@@ -6,7 +6,6 @@ import java.util.*;
 public class Order {
     public String orderNo;
     public LocalDate orderDate;
-    public String customer;
     public String creditCardNumber;
     public String creditCardExpiry;
     public String cvv;
