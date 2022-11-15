@@ -1,6 +1,7 @@
 package uk.ac.ed.inf.UnitTests;
 
 import IO.RestAPIDataSingleton;
+import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ed.inf.CompassDirection;
 import uk.ac.ed.inf.LngLat;
@@ -13,7 +14,17 @@ import static org.junit.Assert.assertTrue;
 
 public class ClosestPointInCentralUnitTest {
 
-    public static LngLat generatePoint(){
+    @Before
+    public void setUp() throws MalformedURLException {
+        String base = "https://ilp-rest.azurewebsites.net";
+        RestAPIDataSingleton.getInstance().setURLs(
+                new URL( base + "/centralarea"),
+                new URL(base + "/noflyzones"),
+                new URL(base + "/restaurants"),
+                new URL(base + "/orders/"));
+    }
+
+    private static LngLat generatePoint(){
         double[] point = new double[2];
         point[0] = Math.random() * (-3.179319 + 3.197473) - 3.197473;
         point[1] = Math.random() * (55.947233 - 55.941617) + 55.941617;
@@ -26,12 +37,6 @@ public class ClosestPointInCentralUnitTest {
 
     @Test
     public void TestClosestPointInCentral(){
-        String restAPIUrl = "https://ilp-rest.azurewebsites.net/";
-        try {
-            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
         for (int i = 0; i < 10000; i++) {
             LngLat point1 = generatePoint();
             LngLat point2 = RouteCalculator.findClosestPointInCentralArea(point1);

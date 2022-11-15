@@ -137,7 +137,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * @return a LngLat record which represents the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction){
-        if (direction == null){
+        if (direction == null || direction == CompassDirection.HOVER){
             // If the drone is hovering, it does not move, so we return the same position.
             return new LngLat(this.lng, this.lat);
         }

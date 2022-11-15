@@ -1,9 +1,5 @@
 package uk.ac.ed.inf;
 
-import IO.JSONRetriever;
-
-import java.net.URL;
-
 public class Restaurant {
     public String name;
     public double longitude;
@@ -12,11 +8,6 @@ public class Restaurant {
 
     public Menu[] getMenu() {
         return menu;
-    }
-
-    public static Restaurant[] getRestaurantsFromRestServer(URL serverBaseAddress) {
-        var retriever = new JSONRetriever();
-        return retriever.getRestaurants(serverBaseAddress);
     }
 
     public static class Menu {

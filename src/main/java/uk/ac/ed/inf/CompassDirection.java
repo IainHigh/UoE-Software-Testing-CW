@@ -1,6 +1,7 @@
 package uk.ac.ed.inf;
 
 public enum CompassDirection {
+    HOVER(null),
     E (0.0),
     ENE (22.5),
     NE (45.0),
@@ -18,11 +19,11 @@ public enum CompassDirection {
     SE (315.0),
     ESE (337.5);
 
-    private final double angle;
-    CompassDirection(double angle) {
+    private final Double angle;
+    CompassDirection(Double angle) {
         this.angle = angle;
     }
-    public double getAngle() {
+    public Double getAngle() {
         return this.angle;
     }
 }

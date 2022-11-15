@@ -1,7 +1,8 @@
 package uk.ac.ed.inf.UnitTests;
 
+import IO.RestAPIDataSingleton;
+import org.junit.Before;
 import org.junit.Test;
-import IO.JSONRetriever;
 import uk.ac.ed.inf.Order;
 import uk.ac.ed.inf.Restaurant;
 
@@ -10,9 +11,20 @@ import java.net.URL;
 import static org.junit.Assert.*;
 
 public class DeliveryCostUnitTest {
+
+    @Before
+    public void setUp() throws MalformedURLException {
+        String base = "https://ilp-rest.azurewebsites.net";
+        RestAPIDataSingleton.getInstance().setURLs(
+                new URL( base + "/centralarea"),
+                new URL(base + "/noflyzones"),
+                new URL(base + "/restaurants"),
+                new URL(base + "/orders/"));
+    }
+
     @Test
     public void testInvalidOrders() {
-        Restaurant[] participants = getRestaurantsFromRestServer();
+        Restaurant[] participants = RestAPIDataSingleton.getInstance().getRestaurants();
 
         // Order consists of pizzas from two separate restaurants.
         String[] invalidOrder = {"Margarita", "Calzone", "Meat Lover"};
@@ -44,7 +56,7 @@ public class DeliveryCostUnitTest {
 
     @Test
     public void testValidOrders() {
-        Restaurant[] participants = getRestaurantsFromRestServer();
+        Restaurant[] participants = RestAPIDataSingleton.getInstance().getRestaurants();
 
         String[] order1 = {"Margarita", "Calzone"};
         testValidDeliveryCost(participants, order1, 1000 + 1400 + 100);
@@ -64,15 +76,8 @@ public class DeliveryCostUnitTest {
 
     @Test
     public void testRESTOrders() {
-        Restaurant[] participants;
-        Order[] orders;
-
-        try {
-            orders = getOrdersFromRestServer();
-            participants = Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites.net/restaurants"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        Restaurant[] participants = RestAPIDataSingleton.getInstance().getRestaurants();
+        Order[] orders = RestAPIDataSingleton.getInstance().getOrders();
 
         int numberOfMatchingPrices = 0;
         int numberOfValidOrders = 0;
@@ -86,24 +91,6 @@ public class DeliveryCostUnitTest {
         }
         assertTrue("We should expect more than 75% of the orders to have matching prices",
                 numberOfMatchingPrices > numberOfValidOrders * 0.75);
-    }
-
-    private Order[] getOrdersFromRestServer() {
-        try {
-            JSONRetriever retriever = new JSONRetriever();
-            return retriever.getOrders(new URL("https://ilp-rest.azurewebsites.net/orders"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Restaurant[] getRestaurantsFromRestServer() {
-        try {
-            return Restaurant.getRestaurantsFromRestServer(new URL("https://ilp-rest.azurewebsites" +
-                    ".net/restaurants"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void testValidDeliveryCost(Restaurant[] participants, String[] order, int expectedPrice){

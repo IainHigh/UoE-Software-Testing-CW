@@ -1,5 +1,6 @@
 package uk.ac.ed.inf.UnitTests;
 
+import org.junit.Before;
 import org.junit.Test;
 import IO.RestAPIDataSingleton;
 import uk.ac.ed.inf.LngLat;
@@ -10,9 +11,19 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 public class InCentralAreaUnitTest {
+
+    @Before
+    public void setUp() throws MalformedURLException {
+        String base = "https://ilp-rest.azurewebsites.net";
+        RestAPIDataSingleton.getInstance().setURLs(
+                new URL( base + "/centralarea"),
+                new URL(base + "/noflyzones"),
+                new URL(base + "/restaurants"),
+                new URL(base + "/orders/"));
+    }
+
     @Test
     public void testEdgesAndCorners(){
-        initialiseSingleton();
         // Top left corner
         testPointInCentralArea(new LngLat(-3.192473, 55.946233), true);
 
@@ -55,7 +66,6 @@ public class InCentralAreaUnitTest {
 
     @Test
     public void testValidPoints(){
-        initialiseSingleton();
         for (int i = 0; i < 100; i++){
             testPointInCentralArea(generateValidPoint(), true);
         }
@@ -63,7 +73,6 @@ public class InCentralAreaUnitTest {
 
     @Test
     public void testInvalidPoints(){
-        initialiseSingleton();
         for (int i = 0; i < 100; i++){
             testPointInCentralArea(generateInvalidPoint(), false);
         }
@@ -73,15 +82,6 @@ public class InCentralAreaUnitTest {
         boolean actual = point.inCentralArea();
         assertEquals("\n\nExpected value " + expected + " but got " + actual + "\nLongitude: " + point.lng() +
                 "\nLatitude: " + point.lat() + "\n\n", expected, actual);
-    }
-
-    private void initialiseSingleton(){
-        try {
-            RestAPIDataSingleton.getInstance().setURLs(new URL("https://ilp-rest.azurewebsites.net/centralarea"),new URL(
-                    "https://ilp-rest.azurewebsites.net/noflyzones"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private LngLat generateValidPoint(){

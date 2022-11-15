@@ -7,6 +7,7 @@ import uk.ac.ed.inf.LngLat;
 import java.util.Random;
 
 public class NextPositionUnitTest {
+
     @Test
     public void testMove(){
         // Generate a random LngLat point.

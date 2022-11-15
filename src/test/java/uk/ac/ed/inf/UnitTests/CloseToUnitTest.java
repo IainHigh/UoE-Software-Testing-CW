@@ -1,5 +1,4 @@
 package uk.ac.ed.inf.UnitTests;
-
 import org.junit.Test;
 import uk.ac.ed.inf.Constants;
 import uk.ac.ed.inf.LngLat;
@@ -9,7 +8,6 @@ import java.util.Random;
 import static org.junit.Assert.assertFalse;
 
 public class CloseToUnitTest {
-
     @Test
     public void testClosePoint(){
         Random random = new Random();

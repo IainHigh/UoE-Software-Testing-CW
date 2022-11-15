@@ -3,7 +3,6 @@ package uk.ac.ed.inf;
 import IO.FileWriterSingleton;
 import IO.FlightPathPoint;
 import IO.RestAPIDataSingleton;
-import IO.JSONRetriever;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -41,6 +40,14 @@ public class PizzaDrone {
         }
         else {
             throw new IllegalArgumentException("Invalid input arguments.");
+        }
+
+        // TODO: Tidy this up.
+        try {
+            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl +
+                    "/noflyzones"), new URL(restAPIUrl + "/restaurants"), new URL(restAPIUrl + "/orders/" + date));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -138,29 +145,14 @@ public class PizzaDrone {
 
     private static void setUpOrdersAndFlyZones(String date, String restAPIUrl) {
         // Set up the RestAPIDataSingleton with the URLs of the central area border and the no-fly zones.
-        try {
-            RestAPIDataSingleton.getInstance().setURLs(new URL(restAPIUrl + "/centralarea"), new URL(restAPIUrl + "/noflyzones"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
 
         // Get the orders from the JSON file and store them in an array.
-        var retriever = new JSONRetriever();
-        try {
-            orders = retriever.getOrders(new URL(restAPIUrl + "/orders/" + date));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        orders = RestAPIDataSingleton.getInstance().getOrders();
     }
 
     private static ArrayList<Order> validateOrders(String restAPIUrl) {
         // Validate the orders and store the valid orders in a new list - validOrders.
-        Restaurant[] restaurants;
-        try {
-            restaurants = Restaurant.getRestaurantsFromRestServer(new URL(restAPIUrl + "/restaurants/"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
             OrderOutcome outcome;
