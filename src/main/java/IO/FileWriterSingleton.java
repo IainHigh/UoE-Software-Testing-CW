@@ -25,6 +25,7 @@ public class FileWriterSingleton {
 
     /**
      * Set the date for the output file.
+     *
      * @param date The date to set. Must be in the format YYYY-MM-DD.
      */
     public static void setDate(String date) {
@@ -33,6 +34,7 @@ public class FileWriterSingleton {
 
     /**
      * Write the order number, the order outcome and the cost to the deliveries file as an array of JSON objects.
+     *
      * @param orders The array of orders and their outcome to given on that day.
      */
     public void writeToDeliveriesJSON(Order[] orders) {
@@ -55,6 +57,7 @@ public class FileWriterSingleton {
 
     /**
      * Write the list of drone coordinates to the drone file as a LineString to view the path the drone took.
+     *
      * @param droneCoordinates The list of coordinates the drone took.
      */
     public void writeToDroneGEOJSON(List<double[]> droneCoordinates) {
@@ -63,9 +66,7 @@ public class FileWriterSingleton {
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\"," +
-                    " " +
-                    "\"coordinates\": [");
+            fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\"," + " " + "\"coordinates\": [");
             for (int i = 0; i < droneCoordinates.size(); i++) {
                 fileWriter.write(Arrays.toString(droneCoordinates.get(i)));
                 if (i != droneCoordinates.size() - 1) fileWriter.write(",");
@@ -79,6 +80,7 @@ public class FileWriterSingleton {
 
     /**
      * Write the full flightpath of the drone to the flightpath output file.
+     *
      * @param flight The flightpath to write to the file.
      */
     public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
@@ -101,9 +103,10 @@ public class FileWriterSingleton {
 
     /**
      * Prepares the file for writing by ensuring it exists.
+     *
      * @param fileName The name of the file to prepare.
      */
-    private void prepareFile(String fileName){
+    private void prepareFile(String fileName) {
         File file = new File(fileName);
         try {
             file.createNewFile();

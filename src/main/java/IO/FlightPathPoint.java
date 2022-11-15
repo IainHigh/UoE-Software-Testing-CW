@@ -15,10 +15,11 @@ public class FlightPathPoint {
 
     /**
      * Converts the flight path point to a JSON object.
+     *
      * @return The JSON object.
      */
     public String toJSON() {
-        return "{\"orderNumber\": \"" + orderNumber  + "\""
+        return "{\"orderNumber\": \"" + orderNumber + "\""
                 + ", \"fromLongitude\": " + fromLongitude
                 + ", \"fromLatitude\": " + fromLatitude
                 + ", \"angle\": " + angle

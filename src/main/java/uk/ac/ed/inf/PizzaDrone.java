@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PizzaDrone {
+
+    // TODO: ADD COMMENTS TO CLASSES!
     private static List<FlightPathPoint> allDirectionsFollowed;
     private static List<FlightPathPoint> currentDirectionsFollowed;
 
@@ -23,6 +25,7 @@ public class PizzaDrone {
 
     /**
      * This is the main method of the program which will be called when the program is run.
+     *
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
@@ -34,16 +37,15 @@ public class PizzaDrone {
 
         // Validate and parse the command line arguments.
         String date, restAPIUrl;
-        if (validateInput(args)){
+        if (validateInput(args)) {
             date = args[0];
             restAPIUrl = args[1];
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid input arguments.");
         }
 
         // TODO: Tidy this up.
-        orders = RestAPIDataSingleton.getInstance().getOrders();
+
         try {
             RestAPIDataSingleton.getInstance().setURLs(
                     new URL(restAPIUrl + "/centralarea"),
@@ -53,6 +55,7 @@ public class PizzaDrone {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+        orders = RestAPIDataSingleton.getInstance().getOrders();
 
         ArrayList<Order> validOrders = validateOrders();
 
@@ -60,7 +63,7 @@ public class PizzaDrone {
         LngLat currentLocation = Constants.APPLETON_TOWER;
         for (Order order : validOrders) {
             currentLocation = calculateNextRoute(currentLocation, order);
-            if (maxMoves > 0){
+            if (maxMoves > 0) {
                 System.out.println(maxMoves);
                 // If we're able to follow the current route, add the directions and coordinates to the list of all
                 // directions and coordinates.
@@ -74,6 +77,7 @@ public class PizzaDrone {
 
     /**
      * This method validates the input from the command line.
+     *
      * @param args The command line arguments.
      */
     private static boolean validateInput(String[] args) {
@@ -96,7 +100,7 @@ public class PizzaDrone {
         int month = Integer.parseInt(dateParts[1]);
         int day = Integer.parseInt(dateParts[2]);
         if (year != 2023 || month < 1 || month > 5 || day < 1 || day > 31
-        || (month == 2 && day > 28) || (month == 4 && day > 30)) {
+                || (month == 2 && day > 28) || (month == 4 && day > 30)) {
             System.err.println("Expected first argument to be a date in the range 2023-01-01 to 2023-05-31, got " + args[0]);
             return false;
         }
@@ -113,9 +117,10 @@ public class PizzaDrone {
 
     /**
      * This method follows a route and records the directions followed.
+     *
      * @param currentLocation The current location of the drone.
-     * @param route The route to follow.
-     * @param orderNo The order number.
+     * @param route           The route to follow.
+     * @param orderNo         The order number.
      * @return The new location of the drone after following the route.
      */
     private static LngLat followRoute(LngLat currentLocation, CompassDirection[] route, String orderNo) {
@@ -153,7 +158,7 @@ public class PizzaDrone {
         for (Order order : orders) {
             OrderOutcome outcome = order.validateOrder(restaurants);
             order.outcome = outcome;
-            if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED){
+            if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED) {
                 validOrders.add(order);
             }
         }
@@ -168,7 +173,8 @@ public class PizzaDrone {
 
         return validOrders;
     }
-        private static LngLat calculateNextRoute(LngLat currentLocation, Order order) {
+
+    private static LngLat calculateNextRoute(LngLat currentLocation, Order order) {
         // TODO: Hover should be part of the enum!
         CompassDirection[] hover = {null};
         // Reset the current directions and coordinates for the next journey.
@@ -200,7 +206,8 @@ public class PizzaDrone {
         return currentLocation;
 
     }
-    private static void writeToOutputFiles(String date){
+
+    private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.
         FileWriterSingleton.setDate(date);
         FileWriterSingleton.getInstance().writeToDroneGEOJSON(pathWayCoordinates);

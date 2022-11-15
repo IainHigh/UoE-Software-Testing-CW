@@ -12,18 +12,20 @@ public class RouteCalculator {
     /**
      * Internal class used to represent a node in the graph.
      */
-    private static class Node{
+    private static class Node {
         LngLat point;
         double g; // The cost of the path from the start node to this node.
         double h; // The heuristic cost of the path from this node to the goal node. Heuristic chosen is the straight
         // line distance from the current point to the end point. This is an admissible heuristic because it never
         // overestimates the cost of the path.
-        Node parent = null;
-        CompassDirection directionFromParent = null;
+        Node parent;
+        CompassDirection directionFromParent;
 
         public Node(LngLat point, LngLat end) {
             this.point = point;
-            this.h = point.distanceTo(end);
+            this.parent = null;
+            this.directionFromParent = null;
+            this.h = calculateHeuristic(end);
             this.g = 0;
         }
 
@@ -36,26 +38,26 @@ public class RouteCalculator {
             this.g = parent.g + Constants.LENGTH_OF_MOVE;
         }
 
-        private double calculateHeuristic(LngLat end){
-            if (end.inNoFlyZone(this.point)){
+        private double calculateHeuristic(LngLat end) {
+            if (end.inNoFlyZone(this.point)) {
                 // If the straight line goes through a no-fly zone, calculate the closest point on the border of the
                 // no-fly zone and then calculate the distance to that point and then the distance from that point to
                 // the end.
-                for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()){
+                for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
                     boolean flag = false;
-                    for (int i = 0; i < zone.length; i++){
+                    for (int i = 0; i < zone.length; i++) {
                         LngLat p1 = zone[i];
-                        LngLat p2 = zone[(i+1) % zone.length];
+                        LngLat p2 = zone[(i + 1) % zone.length];
 
                         // If the line between the two points intersects with the line between the border points, then the line
                         // intersects with the no-fly zone.
                         if (LngLat.lineIntersects(p1, p2, this.point, end)) flag = true;
                     }
-                    if (flag){
+                    if (flag) {
                         double min = Double.MAX_VALUE;
-                        for (LngLat p : zone){
+                        for (LngLat p : zone) {
                             double dist = this.point.distanceTo(p) + p.distanceTo(end);
-                            if (dist < min){
+                            if (dist < min) {
                                 min = dist;
                             }
                         }
@@ -78,14 +80,15 @@ public class RouteCalculator {
     /**
      * Use the A* algorithm to find the shortest route from the start to the end.
      * The heuristic will be the straight line distance (distanceTo) between the current node and the end node.
+     *
      * @param start the start node.
-     * @param end the end node.
+     * @param end   the end node.
      * @return the shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end) {
         // This will be used to go through every possible direction except Hover.
         List<CompassDirection> dir2 = new ArrayList<>();
-        for (CompassDirection d : CompassDirection.values()){
+        for (CompassDirection d : CompassDirection.values()) {
             if (d != CompassDirection.HOVER) dir2.add(d);
         }
 
@@ -103,9 +106,9 @@ public class RouteCalculator {
 
             // Get the node with the lowest f value
             Node currentNode = openList.poll();
-            if ( (currentNode.parent != null) && (currentNode.point.inNoFlyZone(currentNode.parent.point) )
-                || (currentNode.point.inNoFlyZone())
-                || (targetInCentralArea && !currentNode.point.inCentralArea() && (currentNode.parent != null) && currentNode.parent.point.inCentralArea())
+            if ((currentNode.parent != null) && (currentNode.point.inNoFlyZone(currentNode.parent.point))
+                    || (currentNode.point.inNoFlyZone())
+                    || (targetInCentralArea && !currentNode.point.inCentralArea() && (currentNode.parent != null) && currentNode.parent.point.inCentralArea())
             ) {
                 // If the next point is in a no-fly zone, or if the next point takes us out of the central area then
                 // ignore the point.
@@ -119,8 +122,8 @@ public class RouteCalculator {
                 // Get the next node in the direction and add to list.
                 LngLat newPoint = currentNode.point.nextPosition(direction);
                 boolean flag = false;
-                for (Node node : closedList){
-                    if (node.point.closeTo(newPoint)){
+                for (Node node : closedList) {
+                    if (node.point.closeTo(newPoint)) {
                         // If the new point is close to a point in the closed list, then ignore it.
                         flag = true;
                         break;
@@ -134,7 +137,8 @@ public class RouteCalculator {
         }
         return null; // In the case that there is no route.
     }
-    private static CompassDirection[] reconstructPath(Node currentNode){
+
+    private static CompassDirection[] reconstructPath(Node currentNode) {
         List<CompassDirection> route = new ArrayList<>();
         while (currentNode.parent != null) {
             route.add(currentNode.directionFromParent);
@@ -148,6 +152,7 @@ public class RouteCalculator {
      * TODO: MIGHT NOT NEED THIS METHOD, DEPENDING ON PIAZZA POSTS.
      * Goes through every pair of lines that make up the central area border and finds the shortest route from the
      * current point to get inside central area.
+     *
      * @param point the current point.
      * @return The closest LngLat point which lies in the central area.
      */
@@ -157,8 +162,8 @@ public class RouteCalculator {
         LngLat closestPoint = null;
         for (int i = 0; i < centralAreaBorder.length; i++) {
             LngLat lineStart = new LngLat(centralAreaBorder[i].lng(), centralAreaBorder[i].lat());
-            LngLat lineEnd = new LngLat(centralAreaBorder[(i+1) % centralAreaBorder.length].lng(),
-                    centralAreaBorder[(i+1) % centralAreaBorder.length].lat());
+            LngLat lineEnd = new LngLat(centralAreaBorder[(i + 1) % centralAreaBorder.length].lng(),
+                    centralAreaBorder[(i + 1) % centralAreaBorder.length].lat());
             LngLat closestPointOnLine = closestPointOnLine(point, lineStart, lineEnd);
             double distance = point.distanceTo(closestPointOnLine);
             if (distance < minDistance) {
@@ -172,9 +177,10 @@ public class RouteCalculator {
     /**
      * TODO: MIGHT NOT NEED THIS METHOD DEPENDING ON PIAZZA POSTS.
      * Given three points, calculate the point on the line between the first two points which is closest to the third point.
-     * @param point the point to find the closest point on the line to.
+     *
+     * @param point     the point to find the closest point on the line to.
      * @param lineStart the start of the line.
-     * @param lineEnd the end of the line.
+     * @param lineEnd   the end of the line.
      * @return the closest point on the line to the given point.
      */
     private static LngLat closestPointOnLine(LngLat point, LngLat lineStart, LngLat lineEnd) {
@@ -184,15 +190,15 @@ public class RouteCalculator {
         double y2 = lineEnd.lat();
         double x3 = point.lng();
         double y3 = point.lat();
-        if ( (x3 < Math.max(x1, x2) && x3 > Math.min(x1, x2) )
-                || ( y3 < Math.max(y1, y2) && y3 > Math.min(y1, y2) )
+        if ((x3 < Math.max(x1, x2) && x3 > Math.min(x1, x2))
+                || (y3 < Math.max(y1, y2) && y3 > Math.min(y1, y2))
         ) {
             // If the point lies between the two points start and end.
             double x4 = x3 + (y2 - y1);
             double y4 = y3 + (x1 - x2);
             double v = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-            double x = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4)) / v;
-            double y = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4)) / v;
+            double x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / v;
+            double y = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / v;
             return new LngLat(x, y);
         }
         // If the point is not between the two points then we just return the closest point.

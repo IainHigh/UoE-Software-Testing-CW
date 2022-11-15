@@ -16,6 +16,7 @@ public class Order {
 
     /**
      * Validates the order and assigns the outcome.
+     *
      * @return An OrderOutcome enum value depending on the validity of the order.
      */
     public OrderOutcome validateOrder(Restaurant[] participatingRestaurants) {
@@ -26,8 +27,7 @@ public class Order {
         try {
             int calculatedTotal = this.getDeliveryCost(participatingRestaurants, this.orderItems);
             if (calculatedTotal != this.priceTotalInPence) return OrderOutcome.INVALID_TOTAL;
-        }
-        catch (Order.InvalidPizzaCombinationException e) {
+        } catch (Order.InvalidPizzaCombinationException e) {
             if (Objects.equals(e.getMessage(), "Pizzas cannot be ordered from different restaurants")) {
                 return OrderOutcome.INVALID_PIZZA_COMBINATION_MULTIPLE_SUPPLIERS;
             }
@@ -41,6 +41,7 @@ public class Order {
 
     /**
      * Validates the credit card number of an order.
+     *
      * @param cardNumber The credit card number.
      * @return True if the credit card number is valid (16 digits, all numbers), false otherwise.
      */
@@ -54,8 +55,9 @@ public class Order {
 
     /**
      * Validates the credit card expiration date of an order.
+     *
      * @param cardExpiry The credit card expiration date.
-     * @param orderDate The date the order was placed.
+     * @param orderDate  The date the order was placed.
      * @return True if the credit card expiration date is valid (format MM/YY and before the order date), false
      * otherwise.
      */
@@ -72,6 +74,7 @@ public class Order {
 
     /**
      * Validates the CVV of an order.
+     *
      * @param cvv The CVV.
      * @return True if the CVV is valid (3 digits, all numbers), false otherwise.
      */
@@ -82,11 +85,11 @@ public class Order {
 
     /**
      * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @param pizzasOrdered - Variable number of strings for the individual pizzas ordered.
+     * @param pizzasOrdered            - Variable number of strings for the individual pizzas ordered.
      * @return - The cost in pence of having all these items delivered by drone including the standard delivery
      * charge of £1.
      * @throws InvalidPizzaCombinationException - If a combination where the ordered pizza cannot be delivered by the
-     * same restaurant this is an invalid combination.
+     *                                          same restaurant this is an invalid combination.
      */
     public int getDeliveryCost(Restaurant[] participatingRestaurants, String... pizzasOrdered) throws InvalidPizzaCombinationException {
 
@@ -109,8 +112,8 @@ public class Order {
                 totalCost += numberOfMenuOrder * menu.priceInPence;
                 count += numberOfMenuOrder;
             }
-            if (count != 0)  {
-                if (count != pizzasOrdered.length){
+            if (count != 0) {
+                if (count != pizzasOrdered.length) {
                     throw new InvalidPizzaCombinationException("Pizzas cannot be ordered from different restaurants");
                 }
                 restaurantOrderedFrom = restaurant;
@@ -122,7 +125,7 @@ public class Order {
 
     /**
      * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @param pizzasOrdered - Variable number of strings for the individual pizzas ordered.
+     * @param pizzasOrdered            - Variable number of strings for the individual pizzas ordered.
      * @return - True if the order contains any pizzas which aren't sold by any restaurant.
      */
     private boolean containsInvalidPizza(Restaurant[] participatingRestaurants, String... pizzasOrdered) {
@@ -143,6 +146,7 @@ public class Order {
                 + "\", \"costInPence\": "
                 + priceTotalInPence + "}";
     }
+
     public static class InvalidPizzaCombinationException extends Throwable {
         public InvalidPizzaCombinationException(String message) {
             super(message);

@@ -38,6 +38,7 @@ public final class RestAPIDataSingleton {
 
     /**
      * Retrieves the no-fly zones from the JSON file.
+     *
      * @param url The URL of the JSON file.
      * @return An array of no-fly zones, where each no-fly zone is an array of coordinates.
      */
@@ -58,8 +59,9 @@ public final class RestAPIDataSingleton {
 
     /**
      * Pass in the URLs of the central area border and the no-fly zones.
+     *
      * @param centralAreaUrl The URL of the central area border.
-     * @param noFlyZonesUrl The URL of the no-fly zones.
+     * @param noFlyZonesUrl  The URL of the no-fly zones.
      */
     public void setURLs(URL centralAreaUrl, URL noFlyZonesUrl, URL restaurantsURL, URL ordersURL) {
         centralAreaBorder = deserialize(centralAreaUrl, LngLat[].class);
@@ -80,6 +82,7 @@ public final class RestAPIDataSingleton {
 
     /**
      * Accessor method for the central area border.
+     *
      * @return The central area border.
      */
     public LngLat[] getCentralAreaBorder() {
@@ -88,6 +91,7 @@ public final class RestAPIDataSingleton {
 
     /**
      * Accessor method for the no-fly zones.
+     *
      * @return The no-fly zones.
      */
     public LngLat[][] getNoFlyZones() {
