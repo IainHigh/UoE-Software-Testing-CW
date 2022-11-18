@@ -1,5 +1,6 @@
 package IO;
 
+import uk.ac.ed.inf.Constants;
 import uk.ac.ed.inf.Order;
 
 import java.io.File;
@@ -7,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileWriterSingleton {
     private static FileWriterSingleton instance;
@@ -60,13 +62,18 @@ public class FileWriterSingleton {
      *
      * @param droneCoordinates The list of coordinates the drone took.
      */
-    public void writeToDroneGEOJSON(List<double[]> droneCoordinates) {
+    public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
+        double[] startingCoordinates = {Constants.APPLETON_TOWER.lng(), Constants.APPLETON_TOWER.lat()};
+        List<double[]> droneCoordinates = flight.stream().map(f -> new double[]{f.toLongitude, f.toLatitude}).toList();
+
         String fileName = outputDirectory + "drone-" + date + ".geojson";
         prepareFile(fileName);
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\"," + " " + "\"coordinates\": [");
+            fileWriter.write(Arrays.toString(startingCoordinates));
+            fileWriter.write(",");
             for (int i = 0; i < droneCoordinates.size(); i++) {
                 fileWriter.write(Arrays.toString(droneCoordinates.get(i)));
                 if (i != droneCoordinates.size() - 1) fileWriter.write(",");

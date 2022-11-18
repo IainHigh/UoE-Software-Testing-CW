@@ -17,17 +17,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PizzaDrone {
-
-
     private static List<FlightPathPoint> allDirectionsFollowed;
     private static List<FlightPathPoint> currentDirectionsFollowed;
-
-    private static List<double[]> pathWayCoordinates;
-    private static List<double[]> currentPathWayCoordinates;
-
-    private static int ticksSinceStartOfCalculation;
-    private static int maxMoves;
-
+    private static int remainingMoves;
     private static Order[] orders;
 
     /**
@@ -37,10 +29,7 @@ public class PizzaDrone {
      */
     public static void main(String[] args) {
         allDirectionsFollowed = new ArrayList<>();
-        pathWayCoordinates = new ArrayList<>();
-
-        maxMoves = Constants.MAX_MOVES;
-        ticksSinceStartOfCalculation = 0;
+        remainingMoves = Constants.MAX_MOVES;
 
         // Validate and parse the command line arguments.
         String date, restAPIUrl;
@@ -71,23 +60,22 @@ public class PizzaDrone {
             Order order = validOrders.get(i);
 
             LngLat nextLocation;
-            if (i == (validOrders.size()) - 1){
+            if (i == (validOrders.size()) - 1) {
                 nextLocation = Constants.APPLETON_TOWER;
-            }
-            else {
+            } else {
                 Order nextOrder = validOrders.get(i + 1);
                 nextLocation = new LngLat(nextOrder.restaurantOrderedFrom.longitude, nextOrder.restaurantOrderedFrom.latitude);
             }
             currentLocation = calculateNextRoute(currentLocation, order, nextLocation);
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
-            if (maxMoves < 0) break;
+            if (remainingMoves < 0) break;
 
-            System.out.println(maxMoves);
+            System.out.println(remainingMoves);
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
-            pathWayCoordinates.addAll(currentPathWayCoordinates);
             order.outcome = OrderOutcome.Delivered;
         }
+        System.out.println(allDirectionsFollowed.size());
         writeToOutputFiles(date);
     }
 
@@ -145,24 +133,17 @@ public class PizzaDrone {
      * @return The new location of the drone after following the route.
      */
     private static LngLat followRoute(LngLat currentLocation, CompassDirection[] route, String orderNo) {
-        double[] coordinate = new double[2];
-        coordinate[0] = currentLocation.lng();
-        coordinate[1] = currentLocation.lat();
-        currentPathWayCoordinates.add(coordinate);
         for (CompassDirection direction : route) {
+            remainingMoves--;
+
             FlightPathPoint flightPathPoint = new FlightPathPoint();
             flightPathPoint.orderNumber = orderNo;
             flightPathPoint.fromLongitude = currentLocation.lng();
             flightPathPoint.fromLatitude = currentLocation.lat();
             flightPathPoint.angle = direction.getAngle();
-            flightPathPoint.ticksSinceStartOfCalculation = ticksSinceStartOfCalculation++;
+            flightPathPoint.ticksSinceStartOfCalculation = 0;
 
-            coordinate = new double[2];
             currentLocation = currentLocation.nextPosition(direction);
-            maxMoves--;
-            coordinate[0] = currentLocation.lng();
-            coordinate[1] = currentLocation.lat();
-            currentPathWayCoordinates.add(coordinate);
 
             flightPathPoint.toLongitude = currentLocation.lng();
             flightPathPoint.toLatitude = currentLocation.lat();
@@ -203,9 +184,8 @@ public class PizzaDrone {
 
     private static LngLat calculateNextRoute(LngLat currentLocation, Order order, LngLat nextRestaurantLocation) {
         CompassDirection[] hover = {CompassDirection.HOVER};
-        // Reset the current directions and coordinates for the next journey.
+
         currentDirectionsFollowed = new ArrayList<>();
-        currentPathWayCoordinates = new ArrayList<>();
 
         LngLat restaurantLocation = new LngLat(order.restaurantOrderedFrom.longitude,
                 order.restaurantOrderedFrom.latitude);
@@ -228,7 +208,7 @@ public class PizzaDrone {
     private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.
         FileWriterSingleton.setDate(date);
-        FileWriterSingleton.getInstance().writeToDroneGEOJSON(pathWayCoordinates);
+        FileWriterSingleton.getInstance().writeToDroneGEOJSON(allDirectionsFollowed);
         FileWriterSingleton.getInstance().writeToFlightpathJSON(allDirectionsFollowed);
         FileWriterSingleton.getInstance().writeToDeliveriesJSON(orders);
     }

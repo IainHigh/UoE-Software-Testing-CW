@@ -86,7 +86,7 @@ public class RouteCalculator {
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
 
-        if (start.closeTo(end)){
+        if (start.closeTo(end)) {
             return new CompassDirection[]{};
         }
 
@@ -113,7 +113,7 @@ public class RouteCalculator {
             }
             if (currentNode.point.closeTo(end)) {
                 // We have found a route to the endpoint. Now we just reconstruct by going back through the parents.
-                if (nextTarget == null){
+                if (nextTarget == null) {
                     return reconstructPath(currentNode);
                 }
                 Node newNode = test(currentNode.parent, end, nextTarget);
@@ -139,24 +139,24 @@ public class RouteCalculator {
         return null; // In the case that there is no route.
     }
 
-    private static Node test(Node currentNode, LngLat end, LngLat nextTarget){
+    private static Node test(Node currentNode, LngLat end, LngLat nextTarget) {
         List<Node> validNodes = new ArrayList<>();
-        for (CompassDirection direction : CompassDirection.valuesNoHover()){
+        for (CompassDirection direction : CompassDirection.valuesNoHover()) {
             LngLat newPoint = currentNode.point.nextPosition(direction);
-            if (newPoint.closeTo(end)){
+            if (newPoint.closeTo(end)) {
                 validNodes.add(new Node(newPoint, end, currentNode, direction));
             }
         }
         // Find the node that is closest to the next target.
         Node closestNode = null;
         double minDist = Double.MAX_VALUE;
-        for (Node node : validNodes){
+        for (Node node : validNodes) {
             double dist = node.point.numberOfMovesTo(nextTarget);
-            if (dist < minDist){
+            if (dist < minDist) {
                 minDist = dist;
                 closestNode = node;
             }
-            if (dist == minDist && node.directionFromParent == node.parent.directionFromParent){
+            if (dist == minDist && node.directionFromParent == node.parent.directionFromParent) {
                 // If the distance is the same, then choose the node that is in the same direction as the parent.
                 // This is just a cosmetic preference for looking at the geojson and doesn't affect the algorithm.
                 System.out.println("HERE");

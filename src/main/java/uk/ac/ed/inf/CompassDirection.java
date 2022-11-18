@@ -30,6 +30,6 @@ public enum CompassDirection {
     }
 
     public static CompassDirection[] valuesNoHover() {
-        return new CompassDirection[] {E, ENE, NE, NNE, N, NNW, NW, WNW, W, WSW, SW, SSW, S, SSE, SE, ESE};
+        return new CompassDirection[]{E, ENE, NE, NNE, N, NNW, NW, WNW, W, WSW, SW, SSW, S, SSE, SE, ESE};
     }
 }
