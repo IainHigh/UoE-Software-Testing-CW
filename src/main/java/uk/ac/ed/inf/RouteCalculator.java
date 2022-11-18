@@ -34,39 +34,38 @@ public class RouteCalculator {
             this.parent = parent;
             this.directionFromParent = directionFromParent;
             this.h = calculateHeuristic(end);
-            // this.h = point.distanceTo(end);
             this.g = parent.g + Constants.LENGTH_OF_MOVE;
         }
 
         private double calculateHeuristic(LngLat end) {
-            if (end.inNoFlyZone(this.point)) {
-                // If the straight line goes through a no-fly zone, calculate the closest point on the border of the
-                // no-fly zone and then calculate the distance to that point and then the distance from that point to
-                // the end.
-                for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
-                    boolean flag = false;
-                    for (int i = 0; i < zone.length; i++) {
-                        LngLat p1 = zone[i];
-                        LngLat p2 = zone[(i + 1) % zone.length];
+            // If the straight line goes through a no-fly zone, calculate the closest point on the border of the
+            // no-fly zone and then calculate the distance to that point and then the distance from that point to
+            // the end.
+            for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
+                boolean flag = false;
+                for (int i = 0; i < zone.length; i++) {
+                    LngLat p1 = zone[i];
+                    LngLat p2 = zone[(i + 1) % zone.length];
 
-                        // If the line between the two points intersects with the line between the border points, then the line
-                        // intersects with the no-fly zone.
-                        if (LngLat.lineIntersects(p1, p2, this.point, end)) flag = true;
+                    // If the line between the two points intersects with the line between the border points, then the line
+                    // intersects with the no-fly zone.
+                    if (LngLat.lineIntersects(p1, p2, this.point, end)) {
+                        flag = true;
+                        break;
                     }
-                    if (flag) {
-                        double min = Double.MAX_VALUE;
-                        for (LngLat p : zone) {
-                            double dist = this.point.distanceTo(p) + p.distanceTo(end);
-                            if (dist < min) {
-                                min = dist;
-                            }
+                }
+                if (flag) {
+                    double min = Double.MAX_VALUE;
+                    for (LngLat p : zone) {
+                        double dist = this.point.distanceTo(p) + p.distanceTo(end);
+                        if (dist < min) {
+                            min = dist;
                         }
-                        return min;
                     }
-
+                    return min;
                 }
             }
-            return point.distanceTo(end);
+            return this.point.distanceTo(end);
         }
     }
 
@@ -85,7 +84,12 @@ public class RouteCalculator {
      * @param end   the end node.
      * @return the shortest route from the start to the end.
      */
-    public static CompassDirection[] calculateRoute(LngLat start, LngLat end) {
+    public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
+
+        if (start.closeTo(end)){
+            return new CompassDirection[]{};
+        }
+
         // Create the priority queue and add the start node.
         PriorityQueue<Node> openList = new PriorityQueue<>(new NodeComparator());
         openList.add(new Node(start, end));
@@ -101,7 +105,6 @@ public class RouteCalculator {
             // Get the node with the lowest f value
             Node currentNode = openList.poll();
             if ((currentNode.parent != null) && (currentNode.point.inNoFlyZone(currentNode.parent.point))
-                    || (currentNode.point.inNoFlyZone())
                     || (targetInCentralArea && !currentNode.point.inCentralArea() && (currentNode.parent != null) && currentNode.parent.point.inCentralArea())
             ) {
                 // If the next point is in a no-fly zone, or if the next point takes us out of the central area then
@@ -110,7 +113,11 @@ public class RouteCalculator {
             }
             if (currentNode.point.closeTo(end)) {
                 // We have found a route to the endpoint. Now we just reconstruct by going back through the parents.
-                return reconstructPath(currentNode);
+                if (nextTarget == null){
+                    return reconstructPath(currentNode);
+                }
+                Node newNode = test(currentNode.parent, end, nextTarget);
+                return reconstructPath(newNode);
             }
             for (CompassDirection direction : CompassDirection.valuesNoHover()) {
                 // Get the next node in the direction and add to list.
@@ -130,6 +137,33 @@ public class RouteCalculator {
             closedList.add(currentNode);
         }
         return null; // In the case that there is no route.
+    }
+
+    private static Node test(Node currentNode, LngLat end, LngLat nextTarget){
+        List<Node> validNodes = new ArrayList<>();
+        for (CompassDirection direction : CompassDirection.valuesNoHover()){
+            LngLat newPoint = currentNode.point.nextPosition(direction);
+            if (newPoint.closeTo(end)){
+                validNodes.add(new Node(newPoint, end, currentNode, direction));
+            }
+        }
+        // Find the node that is closest to the next target.
+        Node closestNode = null;
+        double minDist = Double.MAX_VALUE;
+        for (Node node : validNodes){
+            double dist = node.point.numberOfMovesTo(nextTarget);
+            if (dist < minDist){
+                minDist = dist;
+                closestNode = node;
+            }
+            if (dist == minDist && node.directionFromParent == node.parent.directionFromParent){
+                // If the distance is the same, then choose the node that is in the same direction as the parent.
+                // This is just a cosmetic preference for looking at the geojson and doesn't affect the algorithm.
+                System.out.println("HERE");
+                closestNode = node;
+            }
+        }
+        return closestNode;
     }
 
     private static CompassDirection[] reconstructPath(Node currentNode) {

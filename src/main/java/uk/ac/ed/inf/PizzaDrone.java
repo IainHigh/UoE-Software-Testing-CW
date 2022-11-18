@@ -2,6 +2,7 @@
 // TODO: Add Javadoc to all methods
 // TODO: Credit card check in more detail
 // TODO: write the report
+// TODO: Ticks
 
 package uk.ac.ed.inf;
 
@@ -12,6 +13,7 @@ import IO.RestAPIDataSingleton;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PizzaDrone {
@@ -61,19 +63,30 @@ public class PizzaDrone {
         orders = RestAPIDataSingleton.getInstance().getOrders();
 
         ArrayList<Order> validOrders = validateOrders();
+        sortValidOrders(validOrders);
 
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
         LngLat currentLocation = Constants.APPLETON_TOWER;
-        for (Order order : validOrders) {
-            currentLocation = calculateNextRoute(currentLocation, order);
-            if (maxMoves > 0) {
-                System.out.println(maxMoves);
-                // If we're able to follow the current route, add the directions and coordinates to the list of all
-                // directions and coordinates.
-                allDirectionsFollowed.addAll(currentDirectionsFollowed);
-                pathWayCoordinates.addAll(currentPathWayCoordinates);
-                order.outcome = OrderOutcome.Delivered;
+        for (int i = 0; i < validOrders.size(); i++) {
+            Order order = validOrders.get(i);
+
+            LngLat nextLocation;
+            if (i == (validOrders.size()) - 1){
+                nextLocation = Constants.APPLETON_TOWER;
             }
+            else {
+                Order nextOrder = validOrders.get(i + 1);
+                nextLocation = new LngLat(nextOrder.restaurantOrderedFrom.longitude, nextOrder.restaurantOrderedFrom.latitude);
+            }
+            currentLocation = calculateNextRoute(currentLocation, order, nextLocation);
+
+            // If making this journey would result in the drone running out of battery, then don't make the journey.
+            if (maxMoves < 0) break;
+
+            System.out.println(maxMoves);
+            allDirectionsFollowed.addAll(currentDirectionsFollowed);
+            pathWayCoordinates.addAll(currentPathWayCoordinates);
+            order.outcome = OrderOutcome.Delivered;
         }
         writeToOutputFiles(date);
     }
@@ -141,7 +154,7 @@ public class PizzaDrone {
             flightPathPoint.orderNumber = orderNo;
             flightPathPoint.fromLongitude = currentLocation.lng();
             flightPathPoint.fromLatitude = currentLocation.lat();
-            flightPathPoint.angle = direction != null ? direction.getAngle() : -1;
+            flightPathPoint.angle = direction.getAngle();
             flightPathPoint.ticksSinceStartOfCalculation = ticksSinceStartOfCalculation++;
 
             coordinate = new double[2];
@@ -158,9 +171,24 @@ public class PizzaDrone {
         return currentLocation;
     }
 
+    private static void sortValidOrders(ArrayList<Order> validOrders) {
+        // Sort the orders by the restaurants distance from appleton tower so that the closest restaurant is first.
+        Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
+        for (Restaurant r : restaurants) {
+            LngLat restaurantLocation = new LngLat(r.longitude, r.latitude);
+            r.numberOfMovesFromAppletonTower = restaurantLocation.numberOfMovesTo(Constants.APPLETON_TOWER);
+        }
+
+        validOrders.sort(Comparator.comparingDouble(o -> o.restaurantOrderedFrom.numberOfMovesFromAppletonTower));
+    }
+
     private static ArrayList<Order> validateOrders() {
         // Validate the orders and store the valid orders in a new list - validOrders.
         Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
+        for (Restaurant r : restaurants) {
+            LngLat restaurantLocation = new LngLat(r.longitude, r.latitude);
+            r.numberOfMovesFromAppletonTower = restaurantLocation.numberOfMovesTo(Constants.APPLETON_TOWER);
+        }
 
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
@@ -170,19 +198,10 @@ public class PizzaDrone {
                 validOrders.add(order);
             }
         }
-
-        // Sort the orders by the number of moves to appleton tower.
-        validOrders.sort((o1, o2) -> {
-            LngLat o1LngLat = new LngLat(o1.restaurantOrderedFrom.longitude, o1.restaurantOrderedFrom.latitude);
-            LngLat o2LngLat = new LngLat(o2.restaurantOrderedFrom.longitude, o2.restaurantOrderedFrom.latitude);
-            return Double.compare(o1LngLat.numberOfMovesTo(Constants.APPLETON_TOWER),
-                    o2LngLat.numberOfMovesTo(Constants.APPLETON_TOWER));
-        });
-
         return validOrders;
     }
 
-    private static LngLat calculateNextRoute(LngLat currentLocation, Order order) {
+    private static LngLat calculateNextRoute(LngLat currentLocation, Order order, LngLat nextRestaurantLocation) {
         CompassDirection[] hover = {CompassDirection.HOVER};
         // Reset the current directions and coordinates for the next journey.
         currentDirectionsFollowed = new ArrayList<>();
@@ -192,21 +211,13 @@ public class PizzaDrone {
                 order.restaurantOrderedFrom.latitude);
 
         // Move to the restaurant.
-        currentLocation = followRoute(currentLocation, currentLocation.routeTo(restaurantLocation), order.orderNo);
+        currentLocation = followRoute(currentLocation, currentLocation.routeTo(restaurantLocation, Constants.APPLETON_TOWER),
+                order.orderNo);
         // Hover at the restaurant to pick up the pizza.
         currentLocation = followRoute(currentLocation, hover, order.orderNo);
 
-
-        // According to piazza post 160 - this is no longer the case. However, could help to increase efficiency.
-//        if (!currentLocation.inCentralArea()) {
-//            // If we're not currently in the central area, we need to find the closest point to the border first
-//            // and then go here.
-//            LngLat borderPoint = RouteCalculator.findClosestPointInCentralArea(currentLocation);
-//            currentLocation = followRoute(currentLocation, currentLocation.routeTo(borderPoint), order.orderNo);
-//        }
-
         // Move to appleton tower.
-        currentLocation = followRoute(currentLocation, currentLocation.routeTo(Constants.APPLETON_TOWER),
+        currentLocation = followRoute(currentLocation, currentLocation.routeTo(Constants.APPLETON_TOWER, nextRestaurantLocation),
                 order.orderNo);
         // Hover at appleton tower to drop off the pizza.
         currentLocation = followRoute(currentLocation, hover, order.orderNo);

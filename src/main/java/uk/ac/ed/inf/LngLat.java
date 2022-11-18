@@ -87,7 +87,8 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
                 if (lineIntersects(p1, p2, previousPoint, this)) return true;
             }
         }
-        return (inNoFlyZone() || previousPoint.inNoFlyZone());
+        // If the line's don't intersect then check if the current point is in a no-fly zone.
+        return inNoFlyZone();
     }
 
     /**
@@ -164,9 +165,20 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * @param destination the point we are trying to reach.
      * @return the shortest route from this point to the destination.
      */
+    public CompassDirection[] routeTo(LngLat destination, LngLat nextTarget) {
+        // Calculate the route to the destination.
+        return RouteCalculator.calculateRoute(this, destination, nextTarget);
+    }
+
+    /**
+     * Uses the RouteCalculator to calculate the shortest route from this point to the destination.
+     *
+     * @param destination the point we are trying to reach.
+     * @return the shortest route from this point to the destination.
+     */
     public CompassDirection[] routeTo(LngLat destination) {
         // Calculate the route to the destination.
-        return RouteCalculator.calculateRoute(this, destination);
+        return RouteCalculator.calculateRoute(this, destination, null);
     }
 
     /**

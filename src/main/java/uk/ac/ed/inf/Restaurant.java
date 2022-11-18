@@ -4,6 +4,7 @@ public class Restaurant {
     public double longitude;
     public double latitude;
     public Menu[] menu;
+    public int numberOfMovesFromAppletonTower;
 
     public Menu[] getMenu() {
         return menu;
