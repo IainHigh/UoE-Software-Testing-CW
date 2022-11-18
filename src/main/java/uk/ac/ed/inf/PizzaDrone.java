@@ -1,3 +1,8 @@
+// TODO: ADD COMMENTS TO CLASSES!
+// TODO: Add Javadoc to all methods
+// TODO: Credit card check in more detail
+// TODO: write the report
+
 package uk.ac.ed.inf;
 
 import IO.FileWriterSingleton;
@@ -11,7 +16,7 @@ import java.util.List;
 
 public class PizzaDrone {
 
-    // TODO: ADD COMMENTS TO CLASSES!
+
     private static List<FlightPathPoint> allDirectionsFollowed;
     private static List<FlightPathPoint> currentDirectionsFollowed;
 
@@ -43,7 +48,6 @@ public class PizzaDrone {
         } else {
             throw new IllegalArgumentException("Invalid input arguments.");
         }
-        // TODO: Tidy this up.
 
         try {
             RestAPIDataSingleton.getInstance().setURLs(
@@ -68,7 +72,7 @@ public class PizzaDrone {
                 // directions and coordinates.
                 allDirectionsFollowed.addAll(currentDirectionsFollowed);
                 pathWayCoordinates.addAll(currentPathWayCoordinates);
-                order.outcome = OrderOutcome.DELIVERED;
+                order.outcome = OrderOutcome.Delivered;
             }
         }
         writeToOutputFiles(date);
@@ -162,7 +166,7 @@ public class PizzaDrone {
         for (Order order : orders) {
             OrderOutcome outcome = order.validateOrder(restaurants);
             order.outcome = outcome;
-            if (outcome == OrderOutcome.VALID_BUT_NOT_DELIVERED) {
+            if (outcome == OrderOutcome.ValidButNotDelivered) {
                 validOrders.add(order);
             }
         }
@@ -179,8 +183,7 @@ public class PizzaDrone {
     }
 
     private static LngLat calculateNextRoute(LngLat currentLocation, Order order) {
-        // TODO: Hover should be part of the enum!
-        CompassDirection[] hover = {null};
+        CompassDirection[] hover = {CompassDirection.HOVER};
         // Reset the current directions and coordinates for the next journey.
         currentDirectionsFollowed = new ArrayList<>();
         currentPathWayCoordinates = new ArrayList<>();

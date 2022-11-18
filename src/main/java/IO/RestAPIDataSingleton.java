@@ -43,7 +43,6 @@ public final class RestAPIDataSingleton {
      * @return An array of no-fly zones, where each no-fly zone is an array of coordinates.
      */
     private LngLat[][] getNoFlyZones(URL url) {
-        //TODO: Tidy this up :)
         NoFlyZone[] noFlyZoneObjectArray = deserialize(url, NoFlyZone[].class);
 
         // Convert the Array of NoFlyZones to a 2d array of LngLat
