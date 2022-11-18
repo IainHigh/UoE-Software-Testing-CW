@@ -20,23 +20,23 @@ public class Order {
      * @return An OrderOutcome enum value depending on the validity of the order.
      */
     public OrderOutcome validateOrder(Restaurant[] participatingRestaurants) {
-        if (!validCardNumber(this.creditCardNumber)) return OrderOutcome.INVALID_CARD_NUMBER;
-        if (!validCardExpiry(this.creditCardExpiry, this.orderDate)) return OrderOutcome.INVALID_EXPIRY_DATE;
-        if (!validCVV(this.cvv)) return OrderOutcome.INVALID_CVV;
-        if (this.orderItems.length == 0 || this.orderItems.length > 4) return OrderOutcome.INVALID_PIZZA_COUNT;
+        if (!validCardNumber(this.creditCardNumber)) return OrderOutcome.InvalidCardNumber;
+        if (!validCardExpiry(this.creditCardExpiry, this.orderDate)) return OrderOutcome.InvalidExpiryDate;
+        if (!validCVV(this.cvv)) return OrderOutcome.InvalidCvv;
+        if (this.orderItems.length == 0 || this.orderItems.length > 4) return OrderOutcome.InvalidPizzaCount;
         try {
             int calculatedTotal = this.getDeliveryCost(participatingRestaurants, this.orderItems);
-            if (calculatedTotal != this.priceTotalInPence) return OrderOutcome.INVALID_TOTAL;
+            if (calculatedTotal != this.priceTotalInPence) return OrderOutcome.InvalidTotal;
         } catch (Order.InvalidPizzaCombinationException e) {
             if (Objects.equals(e.getMessage(), "Pizzas cannot be ordered from different restaurants")) {
-                return OrderOutcome.INVALID_PIZZA_COMBINATION_MULTIPLE_SUPPLIERS;
+                return OrderOutcome.InvalidPizzaCombinationMultipleSuppliers;
             }
             if (Objects.equals(e.getMessage(), "Invalid pizza ordered")) {
-                return OrderOutcome.INVALID_PIZZA_NOT_DEFINED;
+                return OrderOutcome.InvalidPizzaNotDefined;
             }
-            return OrderOutcome.INVALID;
+            return OrderOutcome.Invalid;
         }
-        return OrderOutcome.VALID_BUT_NOT_DELIVERED;
+        return OrderOutcome.ValidButNotDelivered;
     }
 
     /**
