@@ -27,7 +27,7 @@ public class Driver {
 
     private static String[] generateAllDates(){
         List<String> dates = new ArrayList<>();
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 5; i++) {
             for (int j = 1; j <= 31; j++) {
                 if ((i == 2 && j > 28) || (i == 4 && j > 30)) {
                     break;

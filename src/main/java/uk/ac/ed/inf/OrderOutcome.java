@@ -1,6 +1,8 @@
 package uk.ac.ed.inf;
 
 public enum OrderOutcome {
+
+    // TODO: THESE SHOULD BE CAMEL_CASE AS THEY ARE IN THE SPECIFICATION!
     DELIVERED,
     VALID_BUT_NOT_DELIVERED,
     INVALID_CARD_NUMBER,

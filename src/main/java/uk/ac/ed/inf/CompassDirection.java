@@ -28,4 +28,8 @@ public enum CompassDirection {
     public Double getAngle() {
         return this.angle;
     }
+
+    public static CompassDirection[] valuesNoHover() {
+        return new CompassDirection[] {E, ENE, NE, NNE, N, NNW, NW, WNW, W, WSW, SW, SSW, S, SSE, SE, ESE};
+    }
 }

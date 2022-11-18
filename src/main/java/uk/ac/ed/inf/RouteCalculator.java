@@ -86,12 +86,6 @@ public class RouteCalculator {
      * @return the shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end) {
-        // This will be used to go through every possible direction except Hover.
-        List<CompassDirection> dir2 = new ArrayList<>();
-        for (CompassDirection d : CompassDirection.values()) {
-            if (d != CompassDirection.HOVER) dir2.add(d);
-        }
-
         // Create the priority queue and add the start node.
         PriorityQueue<Node> openList = new PriorityQueue<>(new NodeComparator());
         openList.add(new Node(start, end));
@@ -118,7 +112,7 @@ public class RouteCalculator {
                 // We have found a route to the endpoint. Now we just reconstruct by going back through the parents.
                 return reconstructPath(currentNode);
             }
-            for (CompassDirection direction : dir2) {
+            for (CompassDirection direction : CompassDirection.valuesNoHover()) {
                 // Get the next node in the direction and add to list.
                 LngLat newPoint = currentNode.point.nextPosition(direction);
                 boolean flag = false;

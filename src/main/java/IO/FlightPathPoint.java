@@ -8,7 +8,7 @@ public class FlightPathPoint {
     public String orderNumber;
     public double fromLongitude;
     public double fromLatitude;
-    public double angle;
+    public Double angle;
     public double toLongitude;
     public double toLatitude;
     public int ticksSinceStartOfCalculation;
