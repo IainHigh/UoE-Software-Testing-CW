@@ -20,10 +20,22 @@ public class Order {
      * @return An OrderOutcome enum value depending on the validity of the order.
      */
     public OrderOutcome validateOrder(Restaurant[] participatingRestaurants) {
-        if (!validCardNumber(this.creditCardNumber)) return OrderOutcome.InvalidCardNumber;
-        if (!validCardExpiry(this.creditCardExpiry, this.orderDate)) return OrderOutcome.InvalidExpiryDate;
-        if (!validCVV(this.cvv)) return OrderOutcome.InvalidCvv;
-        if (this.orderItems.length == 0 || this.orderItems.length > 4) return OrderOutcome.InvalidPizzaCount;
+        if (!validCardNumber(this.creditCardNumber)) {
+            return OrderOutcome.InvalidCardNumber;
+        }
+
+        if (!validCardExpiry(this.creditCardExpiry, this.orderDate)) {
+            return OrderOutcome.InvalidExpiryDate;
+        }
+
+        if (!validCVV(this.cvv)) {
+            return OrderOutcome.InvalidCvv;
+        }
+
+        if (this.orderItems.length == 0 || this.orderItems.length > 4) {
+            return OrderOutcome.InvalidPizzaCount;
+        }
+
         try {
             int calculatedTotal = this.getDeliveryCost(participatingRestaurants, this.orderItems);
             if (calculatedTotal != this.priceTotalInPence) return OrderOutcome.InvalidTotal;
@@ -36,6 +48,7 @@ public class Order {
             }
             return OrderOutcome.Invalid;
         }
+
         return OrderOutcome.ValidButNotDelivered;
     }
 

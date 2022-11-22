@@ -12,6 +12,7 @@ public class Restaurant {
     @JsonProperty("menu")
     private Menu[] menu;
     public int numberOfMovesFromAppletonTower;
+
     public Menu[] getMenu() {
         return menu;
     }

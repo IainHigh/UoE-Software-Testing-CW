@@ -8,6 +8,7 @@ import java.awt.geom.Line2D;
 
 /**
  * Record to represent a (Lng, Lat) coordinate pair.
+ *
  * @param lng The longitude.
  * @param lat The latitude.
  */
@@ -32,12 +33,9 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             double latDiff = this.lat - p1.lat();
 
             // If the point lies on the line of the border, it is inside the central area.
-            boolean onVerticalLine = (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(),
-                    p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
-            boolean onHorizontalLine = (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng()
-                    , p2.lng()) && this.lng <= Math.max(p1.lng(), p2.lng()));
-            boolean onDiagonalLine = ((this.lng == (latDiff * gradient) + p1.lng()) && this.lat >= Math.min(p1.lat(),
-                    p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
+            boolean onVerticalLine = (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
+            boolean onHorizontalLine = (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng(), p2.lng()) && this.lng <= Math.max(p1.lng(), p2.lng()));
+            boolean onDiagonalLine = ((this.lng == (latDiff * gradient) + p1.lng()) && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
             if (onVerticalLine || onHorizontalLine || onDiagonalLine) {
                 return true;
             }
@@ -45,10 +43,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             // Determine if the line intersects with the border.
             // If it's above the lower point and below the upper point and lies to the left of the line between
             // border points then it will intersect.
-            if (this.lat > Math.min(p1.lat(), p2.lat())
-                    && this.lat < Math.max(p1.lat(), p2.lat())
-                    && this.lng < (latDiff * gradient) + p1.lng()
-            ) {
+            if (this.lat > Math.min(p1.lat(), p2.lat()) && this.lat < Math.max(p1.lat(), p2.lat()) && this.lng < (latDiff * gradient) + p1.lng()) {
                 inside = !inside;
             }
         }
@@ -74,7 +69,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     public boolean inNoFlyZone(LngLat previousPoint) {
         Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
         for (LngLat[] noFlyZone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
-            if (inZone(noFlyZone)){
+            if (inZone(noFlyZone)) {
                 return true;
             }
             for (int i = 0; i < noFlyZone.length; i++) {

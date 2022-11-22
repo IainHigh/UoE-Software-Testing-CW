@@ -4,33 +4,27 @@ import uk.ac.ed.inf.Constants;
 import uk.ac.ed.inf.Order;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileWriterSingleton {
-    private static FileWriterSingleton instance;
-    private static String date;
-    private static final String OUTPUT_DIRECTORY = "outputFiles/";
+/**
+ * A class for writing the output to the required files.
+ * Writes the orderNo, outcome and costInPence for every order to deliveries-YYY-MM-DD.json
+ * Writes the flight path information to flightpath-YYY-MM-DD.json
+ * Writes the visited coordinates to drone-YYY-MM-DD.geojson.
+ */
+public class FileWriter {
+    private final String DATE;
+    private final String OUTPUT_DIRECTORY = "outputFiles/";
 
     /**
-     * @return The instance of the singleton.
-     */
-    public static synchronized FileWriterSingleton getInstance() {
-        if (instance == null) {
-            instance = new FileWriterSingleton();
-        }
-        return instance;
-    }
-
-    /**
-     * Set the date for the output file.
+     * Constructor for the FileWriter class.
      *
-     * @param date The date to set. Must be in the format YYYY-MM-DD.
+     * @param date The date of the orders.
      */
-    public static void setDate(String date) {
-        FileWriterSingleton.date = date;
+    public FileWriter(String date) {
+        this.DATE = date;
     }
 
     /**
@@ -39,11 +33,11 @@ public class FileWriterSingleton {
      * @param orders The array of orders and their outcome to given on that day.
      */
     public void writeToDeliveriesJSON(Order[] orders) {
-        String fileName = OUTPUT_DIRECTORY + "deliveries-" + date + ".json";
+        String fileName = OUTPUT_DIRECTORY + "deliveries-" + DATE + ".json";
         prepareFile(fileName);
 
         try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("[");
             for (int i = 0; i < orders.length; i++) {
                 fileWriter.write(orders[i].toJSON());
@@ -63,13 +57,13 @@ public class FileWriterSingleton {
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = {Constants.APPLETON_TOWER.lng(), Constants.APPLETON_TOWER.lat()};
-        List<double[]> droneCoordinates = flight.stream().map(f -> new double[]{f.toLongitude, f.toLatitude}).toList();
+        List<double[]> droneCoordinates = flight.stream().map(FlightPathPoint::getDestinationCoordinates).toList();
 
-        String fileName = OUTPUT_DIRECTORY + "drone-" + date + ".geojson";
+        String fileName = OUTPUT_DIRECTORY + "drone-" + DATE + ".geojson";
         prepareFile(fileName);
 
         try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\"," + " " + "\"coordinates\": [");
             fileWriter.write(Arrays.toString(startingCoordinates));
             fileWriter.write(",");
@@ -90,11 +84,11 @@ public class FileWriterSingleton {
      * @param flight The flightpath to write to the file.
      */
     public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
-        String fileName = OUTPUT_DIRECTORY + "flightpath-" + date + ".json";
+        String fileName = OUTPUT_DIRECTORY + "flightpath-" + DATE + ".json";
         prepareFile(fileName);
 
         try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("[");
             for (int i = 0; i < flight.size(); i++) {
                 fileWriter.write(flight.get(i).toJSON());

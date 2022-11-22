@@ -4,7 +4,8 @@
 // TODO: write the report
 
 package uk.ac.ed.inf;
-import IO.FileWriterSingleton;
+
+import IO.FileWriter;
 import IO.FlightPathPoint;
 import IO.RestAPIDataSingleton;
 
@@ -16,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The main class for the PizzaDrone program.
+ */
 public class PizzaDrone {
     private static List<FlightPathPoint> allDirectionsFollowed;
     private static List<FlightPathPoint> currentDirectionsFollowed;
@@ -140,19 +144,18 @@ public class PizzaDrone {
 
         for (CompassDirection direction : route) {
             currentTime = Clock.systemDefaultZone().instant();
+            LngLat nextLocation = currentLocation.nextPosition(direction);
 
-            FlightPathPoint flightPathPoint = new FlightPathPoint();
-            flightPathPoint.orderNumber = orderNo;
-            flightPathPoint.fromLongitude = currentLocation.lng();
-            flightPathPoint.fromLatitude = currentLocation.lat();
-            flightPathPoint.angle = direction.getAngle();
-            flightPathPoint.ticksSinceStartOfCalculation = (int) (currentTime.toEpochMilli() - startTime.toEpochMilli());
+            currentDirectionsFollowed.add(new FlightPathPoint(
+                    orderNo,
+                    currentLocation.lng(),
+                    currentLocation.lat(),
+                    direction.getAngle(),
+                    nextLocation.lng(),
+                    nextLocation.lat(),
+                    (int) (currentTime.toEpochMilli() - startTime.toEpochMilli())));
 
-            currentLocation = currentLocation.nextPosition(direction);
-
-            flightPathPoint.toLongitude = currentLocation.lng();
-            flightPathPoint.toLatitude = currentLocation.lat();
-            currentDirectionsFollowed.add(flightPathPoint);
+            currentLocation = nextLocation;
         }
         return currentLocation;
     }
@@ -213,9 +216,9 @@ public class PizzaDrone {
 
     private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.
-        FileWriterSingleton.setDate(date);
-        FileWriterSingleton.getInstance().writeToDroneGEOJSON(allDirectionsFollowed);
-        FileWriterSingleton.getInstance().writeToFlightpathJSON(allDirectionsFollowed);
-        FileWriterSingleton.getInstance().writeToDeliveriesJSON(orders);
+        FileWriter fileWriter = new FileWriter(date);
+        fileWriter.writeToDroneGEOJSON(allDirectionsFollowed);
+        fileWriter.writeToFlightpathJSON(allDirectionsFollowed);
+        fileWriter.writeToDeliveriesJSON(orders);
     }
 }
