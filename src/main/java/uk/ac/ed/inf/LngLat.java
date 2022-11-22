@@ -1,8 +1,16 @@
 package uk.ac.ed.inf;
 
 import IO.RestAPIDataSingleton;
+import RouteCalculation.RouteCalculator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.awt.geom.Line2D;
+
+/**
+ * Record to represent a (Lng, Lat) coordinate pair.
+ * @param lng The longitude.
+ * @param lat The latitude.
+ */
 public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
 
     /**
@@ -12,8 +20,8 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      *
      * @return true if the point is inside the zone, false otherwise.
      */
-    public boolean inZone(LngLat[] zoneCoordinates) {
-        int intersections = 0;
+    private boolean inZone(LngLat[] zoneCoordinates) {
+        boolean inside = false;
 
         // Loop through the border points (in anti-clockwise pairs)
         for (int i = 0; i < zoneCoordinates.length; i++) {
@@ -41,10 +49,10 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
                     && this.lat < Math.max(p1.lat(), p2.lat())
                     && this.lng < (latDiff * gradient) + p1.lng()
             ) {
-                intersections++;
+                inside = !inside;
             }
         }
-        return (intersections % 2 != 0);
+        return (inside);
     }
 
     /**
@@ -58,56 +66,29 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     }
 
     /**
-     * Checks if the current point is in a no-fly zone.
-     * Gets the no-fly zone coordinates from the singleton class and calls the inZone method.
-     *
-     * @return true if the point is inside a no-fly zone, false otherwise.
-     */
-    public boolean inNoFlyZone() {
-        for (LngLat[] noFlyZone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
-            if (inZone(noFlyZone)) return true;
-        }
-        return false;
-    }
-
-    /**
      * Checks if the line between the current point and the previous point is in a no-fly zone.
      *
      * @param previousPoint the previous point in the path.
      * @return true if the line is in a no-fly zone, false otherwise.
      */
     public boolean inNoFlyZone(LngLat previousPoint) {
-        for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
-            for (int i = 0; i < zone.length; i++) {
-                LngLat p1 = zone[i];
-                LngLat p2 = zone[(i + 1) % zone.length];
+        Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
+        for (LngLat[] noFlyZone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
+            if (inZone(noFlyZone)){
+                return true;
+            }
+            for (int i = 0; i < noFlyZone.length; i++) {
+                LngLat p1 = noFlyZone[i];
+                LngLat p2 = noFlyZone[(i + 1) % noFlyZone.length];
 
                 // If the line between the two points intersects with the line between the border points, then the line
                 // intersects with the no-fly zone.
-                if (lineIntersects(p1, p2, previousPoint, this)) return true;
+                if (l.intersectsLine(p1.lng(), p1.lat(), p2.lng(), p2.lat())) {
+                    return true;
+                }
             }
         }
-        // If the line's don't intersect then check if the current point is in a no-fly zone.
-        return inNoFlyZone();
-    }
-
-    /**
-     * Given two lines (p1->p2 and p3->p4), determines if they intersect or cross each other.
-     *
-     * @param p1 The first point of the first line.
-     * @param p2 The second point of the first line.
-     * @param p3 The first point of the second line.
-     * @param p4 The second point of the second line.
-     * @return true if the lines intersect, false otherwise.
-     */
-    public static boolean lineIntersects(LngLat p1, LngLat p2, LngLat p3, LngLat p4) {
-        double denominator = (p4.lat() - p3.lat()) * (p2.lng() - p1.lng()) - (p4.lng() - p3.lng()) * (p2.lat() - p1.lat());
-        if (denominator == 0) return false;
-        double uA = ((p4.lng() - p3.lng()) * (p1.lat() - p3.lat()) - (p4.lat() - p3.lat()) * (p1.lng() - p3.lng()))
-                / denominator;
-        double uB = ((p2.lng() - p1.lng()) * (p1.lat() - p3.lat()) - (p2.lat() - p1.lat()) * (p1.lng() - p3.lng()))
-                / denominator;
-        return uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1;
+        return false;
     }
 
     /**
@@ -171,17 +152,6 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     }
 
     /**
-     * Uses the RouteCalculator to calculate the shortest route from this point to the destination.
-     *
-     * @param destination the point we are trying to reach.
-     * @return the shortest route from this point to the destination.
-     */
-    public CompassDirection[] routeTo(LngLat destination) {
-        // Calculate the route to the destination.
-        return RouteCalculator.calculateRoute(this, destination, null);
-    }
-
-    /**
      * Uses the RouteCalculator to calculate the shortest route from this point to the destination. Then counts the
      * number of moves that it takes.
      *
@@ -194,7 +164,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             // If the destination is null, it is infinitely far away, so we return the maximum integer value.
             return Integer.MAX_VALUE;
         }
-        CompassDirection[] route = routeTo(destination);
+        CompassDirection[] route = routeTo(destination, null);
         if (route == null) {
             // If the route is null, then this means we can't find a path to the destination, and so we can treat it
             // as if it is infinitely far away, so we return the maximum integer value.

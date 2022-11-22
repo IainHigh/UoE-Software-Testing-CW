@@ -8,12 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FileWriterSingleton {
     private static FileWriterSingleton instance;
     private static String date;
-    private static final String outputDirectory = "outputFiles/";
+    private static final String OUTPUT_DIRECTORY = "outputFiles/";
 
     /**
      * @return The instance of the singleton.
@@ -40,7 +39,7 @@ public class FileWriterSingleton {
      * @param orders The array of orders and their outcome to given on that day.
      */
     public void writeToDeliveriesJSON(Order[] orders) {
-        String fileName = outputDirectory + "deliveries-" + date + ".json";
+        String fileName = OUTPUT_DIRECTORY + "deliveries-" + date + ".json";
         prepareFile(fileName);
 
         try {
@@ -60,13 +59,13 @@ public class FileWriterSingleton {
     /**
      * Write the list of drone coordinates to the drone file as a LineString to view the path the drone took.
      *
-     * @param droneCoordinates The list of coordinates the drone took.
+     * @param flight The flightpath - used to get the coordinates to write.
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = {Constants.APPLETON_TOWER.lng(), Constants.APPLETON_TOWER.lat()};
         List<double[]> droneCoordinates = flight.stream().map(f -> new double[]{f.toLongitude, f.toLatitude}).toList();
 
-        String fileName = outputDirectory + "drone-" + date + ".geojson";
+        String fileName = OUTPUT_DIRECTORY + "drone-" + date + ".geojson";
         prepareFile(fileName);
 
         try {
@@ -91,7 +90,7 @@ public class FileWriterSingleton {
      * @param flight The flightpath to write to the file.
      */
     public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
-        String fileName = outputDirectory + "flightpath-" + date + ".json";
+        String fileName = OUTPUT_DIRECTORY + "flightpath-" + date + ".json";
         prepareFile(fileName);
 
         try {

@@ -2,10 +2,8 @@
 // TODO: Add Javadoc to all methods
 // TODO: Credit card check in more detail
 // TODO: write the report
-// TODO: Ticks
 
 package uk.ac.ed.inf;
-
 import IO.FileWriterSingleton;
 import IO.FlightPathPoint;
 import IO.RestAPIDataSingleton;
@@ -69,12 +67,13 @@ public class PizzaDrone {
                 nextLocation = Constants.APPLETON_TOWER;
             } else {
                 Order nextOrder = validOrders.get(i + 1);
-                nextLocation = new LngLat(nextOrder.restaurantOrderedFrom.longitude, nextOrder.restaurantOrderedFrom.latitude);
+                nextLocation = nextOrder.restaurantOrderedFrom.getLngLat();
             }
             currentLocation = calculateNextRoute(currentLocation, order, nextLocation);
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
+            System.out.println(remainingMoves);
 
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
             order.outcome = OrderOutcome.Delivered;
@@ -162,7 +161,7 @@ public class PizzaDrone {
         // Sort the orders by the restaurants distance from appleton tower so that the closest restaurant is first.
         Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
         for (Restaurant r : restaurants) {
-            LngLat restaurantLocation = new LngLat(r.longitude, r.latitude);
+            LngLat restaurantLocation = r.getLngLat();
             r.numberOfMovesFromAppletonTower = restaurantLocation.numberOfMovesTo(Constants.APPLETON_TOWER);
         }
 
@@ -173,7 +172,7 @@ public class PizzaDrone {
         // Validate the orders and store the valid orders in a new list - validOrders.
         Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
         for (Restaurant r : restaurants) {
-            LngLat restaurantLocation = new LngLat(r.longitude, r.latitude);
+            LngLat restaurantLocation = r.getLngLat();
             r.numberOfMovesFromAppletonTower = restaurantLocation.numberOfMovesTo(Constants.APPLETON_TOWER);
         }
 
@@ -193,15 +192,15 @@ public class PizzaDrone {
         //  which the drone is currently collecting or delivering"
 
         currentDirectionsFollowed = new ArrayList<>();
-        LngLat restaurantLocation = new LngLat(order.restaurantOrderedFrom.longitude,
-                order.restaurantOrderedFrom.latitude);
+        LngLat restaurantLocation = order.restaurantOrderedFrom.getLngLat();
 
         // Move to the restaurant.
         CompassDirection[] route = currentLocation.routeTo(restaurantLocation, Constants.APPLETON_TOWER);
         currentLocation = followRoute(currentLocation, route, order.orderNo);
 
         if (remainingMoves < 0) {
-            return null;
+            // If battery is too low, break out of the function early and return the current location.
+            return currentLocation;
         }
 
         // Move to appleton tower.
