@@ -12,6 +12,8 @@ import IO.RestAPIDataSingleton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +23,8 @@ public class PizzaDrone {
     private static List<FlightPathPoint> currentDirectionsFollowed;
     private static int remainingMoves;
     private static Order[] orders;
+
+    private static Instant startTime;
 
     /**
      * This is the main method of the program which will be called when the program is run.
@@ -54,6 +58,7 @@ public class PizzaDrone {
         ArrayList<Order> validOrders = validateOrders();
         sortValidOrders(validOrders);
 
+        startTime = Clock.systemDefaultZone().instant();
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
         LngLat currentLocation = Constants.APPLETON_TOWER;
         for (int i = 0; i < validOrders.size(); i++) {
@@ -71,11 +76,9 @@ public class PizzaDrone {
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
 
-            System.out.println(remainingMoves);
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
             order.outcome = OrderOutcome.Delivered;
         }
-        System.out.println(allDirectionsFollowed.size());
         writeToOutputFiles(date);
     }
 
@@ -133,15 +136,18 @@ public class PizzaDrone {
      * @return The new location of the drone after following the route.
      */
     private static LngLat followRoute(LngLat currentLocation, CompassDirection[] route, String orderNo) {
+        Instant currentTime;
+        remainingMoves -= route.length;
+
         for (CompassDirection direction : route) {
-            remainingMoves--;
+            currentTime = Clock.systemDefaultZone().instant();
 
             FlightPathPoint flightPathPoint = new FlightPathPoint();
             flightPathPoint.orderNumber = orderNo;
             flightPathPoint.fromLongitude = currentLocation.lng();
             flightPathPoint.fromLatitude = currentLocation.lat();
             flightPathPoint.angle = direction.getAngle();
-            flightPathPoint.ticksSinceStartOfCalculation = 0;
+            flightPathPoint.ticksSinceStartOfCalculation = (int) (currentTime.toEpochMilli() - startTime.toEpochMilli());
 
             currentLocation = currentLocation.nextPosition(direction);
 
@@ -183,24 +189,25 @@ public class PizzaDrone {
     }
 
     private static LngLat calculateNextRoute(LngLat currentLocation, Order order, LngLat nextRestaurantLocation) {
-        CompassDirection[] hover = {CompassDirection.HOVER};
+        // TODO - May want to re-look at the orderNo section, "The eight-character order number for the pizza order
+        //  which the drone is currently collecting or delivering"
 
         currentDirectionsFollowed = new ArrayList<>();
-
         LngLat restaurantLocation = new LngLat(order.restaurantOrderedFrom.longitude,
                 order.restaurantOrderedFrom.latitude);
 
         // Move to the restaurant.
-        currentLocation = followRoute(currentLocation, currentLocation.routeTo(restaurantLocation, Constants.APPLETON_TOWER),
-                order.orderNo);
-        // Hover at the restaurant to pick up the pizza.
-        currentLocation = followRoute(currentLocation, hover, order.orderNo);
+        CompassDirection[] route = currentLocation.routeTo(restaurantLocation, Constants.APPLETON_TOWER);
+        currentLocation = followRoute(currentLocation, route, order.orderNo);
+
+        if (remainingMoves < 0) {
+            return null;
+        }
 
         // Move to appleton tower.
-        currentLocation = followRoute(currentLocation, currentLocation.routeTo(Constants.APPLETON_TOWER, nextRestaurantLocation),
-                order.orderNo);
-        // Hover at appleton tower to drop off the pizza.
-        currentLocation = followRoute(currentLocation, hover, order.orderNo);
+        route = currentLocation.routeTo(Constants.APPLETON_TOWER, nextRestaurantLocation);
+        currentLocation = followRoute(currentLocation, route, order.orderNo);
+
         return currentLocation;
 
     }
@@ -212,5 +219,4 @@ public class PizzaDrone {
         FileWriterSingleton.getInstance().writeToFlightpathJSON(allDirectionsFollowed);
         FileWriterSingleton.getInstance().writeToDeliveriesJSON(orders);
     }
-
 }

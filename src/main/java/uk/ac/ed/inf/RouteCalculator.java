@@ -159,7 +159,6 @@ public class RouteCalculator {
             if (dist == minDist && node.directionFromParent == node.parent.directionFromParent) {
                 // If the distance is the same, then choose the node that is in the same direction as the parent.
                 // This is just a cosmetic preference for looking at the geojson and doesn't affect the algorithm.
-                System.out.println("HERE");
                 closestNode = node;
             }
         }
@@ -173,6 +172,9 @@ public class RouteCalculator {
             currentNode = currentNode.parent;
         }
         Collections.reverse(route);
+
+        // All routes must end in a hover.
+        route.add(CompassDirection.HOVER);
         return route.toArray(new CompassDirection[0]);
     }
 }

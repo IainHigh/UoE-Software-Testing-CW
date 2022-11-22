@@ -4,14 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Added change for checking the next restaurant to deliver to to optimise path finding.">
+    <list default="true" id="07973dcf-6849-4997-a2f2-6c9917310548" name="Changes" comment="Jesse, I forgot the git message Jesse!&#10;&#10;⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠜⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⠿⠿⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿&#10;⣿⣿⡏⠁⠀⠀⠀⠀⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣦⣤⡄⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿&#10;⣿⣿⣷⣄⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⡧⠇⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣾⣮⣭⣿⡻⣽⣒⠀⣤⣜⣭⠐⢐⣒⠢⢰⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⣏⣿⣿⣿⣿⣿⣿⡟⣾⣿⠂⢈⢿⣷⣞⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣷⣶⣾⡿⠿⣿⠗⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠻⠋⠉⠑⠀⠀⢘⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⣿⡿⠟⢹⣿⣿⡇⢀⣶⣶⠴⠶⠀⠀⢽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⣿⣿⣿⡿⠀⠀⢸⣿⣿⠀⠀⠣⠀⠀⠀⠀⠀⡟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠹⣿⣧⣀⠀⠀⠀⠀⡀⣴⠁⢘⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿&#10;⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿&#10;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿&#10;&#10;Who are you talking to right now? Who is it that you think you see?&#10;Do you know how much commits I make a year? I mean, even if I tell you,&#10;you wouldn't believe it. Do you know what happens if I suddenly&#10;decide to stop coding? A buisness big enough it could be listed&#10;on the NASDAQ goes belly-up. Gone. It ceases to exist without me. No,&#10;you clearly don't know who you're talking to so let me clue you in.&#10;I am not in danger, Skyler. I am the danger. A guy pushes his code to&#10;review and gets rejected, and you think that of me? No, I am the one&#10;who reviews.">
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-01.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-02.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-03.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-04.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-05.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-06.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-07.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-08.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/deliveries-2023-01-09.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-02.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-03.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-04.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-05.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-06.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-07.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-08.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-09.geojson" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-02.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-03.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-04.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-05.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-06.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-07.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-08.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-09.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/drone-2023-02-03.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/outputFiles/drone-2023-02-03.geojson" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputFiles/flightpath-2023-02-03.json" beforeDir="false" afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-02-03.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/IO/FileWriterSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/IO/FileWriterSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/CompassDirection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/deliveries-2023-02-03.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/drone-2023-02-03.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/outputFiles/drone-2023-01-01.geojson" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputFiles/flightpath-2023-02-03.json" beforeDir="false" afterPath="$PROJECT_DIR$/outputFiles/flightpath-2023-01-01.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/PizzaDrone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/PizzaDrone.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uk/ac/ed/inf/RouteCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/SystemTests/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/SystemTests/Driver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +94,10 @@
       <recent name="IO" />
       <recent name="REST.Server.Accesser" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/SystemTests" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="uk.ac.ed.inf" />
     </key>
@@ -100,46 +130,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ClosestPointInCentralUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OutputChecks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.UnitTests.*" />
+          <option name="PATTERN" value="uk.ac.ed.inf.SystemTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.UnitTests.ClosestPointInCentralUnitTest" />
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.SystemTests" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.OutputChecks" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OrderPatternUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OutputChecks.getVisitedCoordinates" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.UnitTests.*" />
+          <option name="PATTERN" value="uk.ac.ed.inf.SystemTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.UnitTests.OrderPatternUnitTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.SystemTests" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.OutputChecks" />
+      <option name="METHOD_NAME" value="getVisitedCoordinates" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="uk.ac.ed.inf.UnitTests in ilp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OutputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.UnitTests.*" />
+          <option name="PATTERN" value="uk.ac.ed.inf.SystemTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.UnitTests" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.SystemTests" />
+      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.OutputTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -147,17 +179,17 @@
     <list>
       <item itemvalue="Application.PizzaDrone" />
       <item itemvalue="Application.Driver" />
-      <item itemvalue="JUnit.OrderPatternUnitTest" />
-      <item itemvalue="JUnit.ClosestPointInCentralUnitTest" />
-      <item itemvalue="JUnit.uk.ac.ed.inf.UnitTests in ilp" />
+      <item itemvalue="JUnit.OutputChecks" />
+      <item itemvalue="JUnit.OutputChecks.getVisitedCoordinates" />
+      <item itemvalue="JUnit.OutputTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Driver" />
-        <item itemvalue="JUnit.uk.ac.ed.inf.UnitTests in ilp" />
+        <item itemvalue="JUnit.OutputTest" />
         <item itemvalue="Application.PizzaDrone" />
-        <item itemvalue="JUnit.OrderPatternUnitTest" />
-        <item itemvalue="JUnit.ClosestPointInCentralUnitTest" />
+        <item itemvalue="JUnit.OutputChecks.getVisitedCoordinates" />
+        <item itemvalue="JUnit.OutputChecks" />
       </list>
     </recent_temporary>
   </component>
@@ -373,7 +405,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668795788131</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Refactoring">
+      <created>1668798563921</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1668798563921</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -425,7 +464,8 @@
     <MESSAGE value="Changed OrderOutcome from SNAKE_CASE to CamelCase cause the course apecification is stupid" />
     <MESSAGE value="Just adding comments and tidy up" />
     <MESSAGE value="Added change for checking the next restaurant to deliver to to optimise path finding." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added change for checking the next restaurant to deliver to to optimise path finding." />
+    <MESSAGE value="Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
