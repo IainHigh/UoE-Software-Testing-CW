@@ -3,10 +3,7 @@ package RouteCalculation;
 import uk.ac.ed.inf.CompassDirection;
 import uk.ac.ed.inf.LngLat;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * This class is used for calculating the shortest route between two points.
@@ -22,9 +19,13 @@ public class RouteCalculator {
      * @return the shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
+        if (start == null || end == null) {
+            System.err.println("caclulateRoute was called with a null start or end point.");
+            return null;
+        }
 
-        // Create the priority queue and add the start node.
-        PriorityQueue<Node> openList = new PriorityQueue<>(new NodeComparator());
+        // Create the priority queue and add the start node
+        PriorityQueue<Node> openList = new PriorityQueue<>(Comparator.comparingDouble(Node::getFScore));
         openList.add(new Node(start, end));
 
         // Create a list of the nodes that have already been visited.

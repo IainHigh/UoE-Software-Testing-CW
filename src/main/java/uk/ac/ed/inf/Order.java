@@ -1,55 +1,73 @@
 package uk.ac.ed.inf;
 
+import IO.RestAPIDataSingleton;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.*;
 import java.util.*;
 
 public class Order {
-    public String orderNo;
-    public LocalDate orderDate;
-    public String creditCardNumber;
-    public String creditCardExpiry;
-    public String cvv;
-    public int priceTotalInPence;
-    public String[] orderItems;
-    public Restaurant restaurantOrderedFrom;
-    public OrderOutcome outcome;
+
+    @JsonProperty("orderNo")
+    private String orderNo;
+
+    @JsonProperty("orderDate")
+    private LocalDate orderDate;
+
+    @JsonProperty("creditCardNumber")
+    private String creditCardNumber;
+
+    @JsonProperty("creditCardExpiry")
+    private String creditCardExpiry;
+
+    @JsonProperty("cvv")
+    private String cvv;
+
+    @JsonProperty("priceTotalInPence")
+    private int priceTotalInPence;
+
+    @JsonProperty("orderItems")
+    private String[] orderItems;
+
+    @JsonProperty("restaurantOrderedFrom")
+    private Restaurant restaurantOrderedFrom;
+
+    private OrderOutcome outcome;
 
     /**
      * Validates the order and assigns the outcome.
      *
      * @return An OrderOutcome enum value depending on the validity of the order.
      */
-    public OrderOutcome validateOrder(Restaurant[] participatingRestaurants) {
-        if (!validCardNumber(this.creditCardNumber)) {
-            return OrderOutcome.InvalidCardNumber;
+    public OrderOutcome validateOrder() {
+
+        Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
+
+        if (restaurants == null || this.orderItems == null) {
+            this.outcome = OrderOutcome.Invalid;
         }
 
-        if (!validCardExpiry(this.creditCardExpiry, this.orderDate)) {
-            return OrderOutcome.InvalidExpiryDate;
+        // Check if the order contains any pizzas which aren't sold by any restaurant.
+        else if (containsInvalidPizza(restaurants)) {
+            this.outcome = OrderOutcome.InvalidPizzaNotDefined;
+        } else if (pizzaOrderedFromMultipleRestaurants(restaurants)) {
+            this.outcome = OrderOutcome.InvalidPizzaCombinationMultipleSuppliers;
+        } else if (!validCardNumber()) {
+            this.outcome = OrderOutcome.InvalidCardNumber;
+        } else if (!validCardExpiry()) {
+            this.outcome = OrderOutcome.InvalidExpiryDate;
+        } else if (!validCVV()) {
+            this.outcome = OrderOutcome.InvalidCvv;
+        } else if (this.orderItems.length == 0 || this.orderItems.length > 4) {
+            this.outcome = OrderOutcome.InvalidPizzaCount;
+        } else if (!validatePriceTotal()) {
+            this.outcome = OrderOutcome.InvalidTotal;
+        } else {
+            this.outcome = OrderOutcome.ValidButNotDelivered;
         }
 
-        if (!validCVV(this.cvv)) {
-            return OrderOutcome.InvalidCvv;
-        }
+        return this.outcome;
 
-        if (this.orderItems.length == 0 || this.orderItems.length > 4) {
-            return OrderOutcome.InvalidPizzaCount;
-        }
-
-        try {
-            int calculatedTotal = this.getDeliveryCost(participatingRestaurants, this.orderItems);
-            if (calculatedTotal != this.priceTotalInPence) return OrderOutcome.InvalidTotal;
-        } catch (Order.InvalidPizzaCombinationException e) {
-            if (Objects.equals(e.getMessage(), "Pizzas cannot be ordered from different restaurants")) {
-                return OrderOutcome.InvalidPizzaCombinationMultipleSuppliers;
-            }
-            if (Objects.equals(e.getMessage(), "Invalid pizza ordered")) {
-                return OrderOutcome.InvalidPizzaNotDefined;
-            }
-            return OrderOutcome.Invalid;
-        }
-
-        return OrderOutcome.ValidButNotDelivered;
     }
 
     /**
@@ -58,12 +76,12 @@ public class Order {
      * @param cardNumber The credit card number.
      * @return True if the credit card number is valid (16 digits, all numbers), false otherwise.
      */
-    private boolean validCardNumber(String cardNumber) {
+    private boolean validCardNumber() {
         // Card number must be 16 digits long
-        if (cardNumber.length() != 16) return false;
+        if (this.creditCardNumber.length() != 16) return false;
 
         // Check that all characters are digits
-        return cardNumber.chars().allMatch(Character::isDigit);
+        return this.creditCardNumber.chars().allMatch(Character::isDigit);
     }
 
     /**
@@ -74,15 +92,15 @@ public class Order {
      * @return True if the credit card expiration date is valid (format MM/YY and before the order date), false
      * otherwise.
      */
-    private boolean validCardExpiry(String cardExpiry, LocalDate orderDate) {
+    private boolean validCardExpiry() {
         // Check that the card expiry is in the format MM/YY
-        if (!cardExpiry.matches("\\d{2}/\\d{2}")) return false;
+        if (!this.creditCardExpiry.matches("\\d{2}/\\d{2}")) return false;
 
         // Check that the card expiry is after the order date
-        int month = Integer.parseInt(cardExpiry.substring(0, 2));
-        int year = 2000 + Integer.parseInt(cardExpiry.substring(3, 5));
+        int month = Integer.parseInt(this.creditCardExpiry.substring(0, 2));
+        int year = 2000 + Integer.parseInt(this.creditCardExpiry.substring(3, 5));
 
-        return (year > orderDate.getYear()) || (year == orderDate.getYear() && month >= orderDate.getMonthValue());
+        return (year > this.orderDate.getYear()) || (year == this.orderDate.getYear() && month >= this.orderDate.getMonthValue());
     }
 
     /**
@@ -91,57 +109,30 @@ public class Order {
      * @param cvv The CVV.
      * @return True if the CVV is valid (3 digits, all numbers), false otherwise.
      */
-    private boolean validCVV(String cvv) {
-        if (cvv.length() != 3) return false;
-        return cvv.chars().allMatch(Character::isDigit);
+    private boolean validCVV() {
+        if (this.cvv.length() != 3) return false;
+        return this.cvv.chars().allMatch(Character::isDigit);
     }
 
     /**
-     * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @param pizzasOrdered            - Variable number of strings for the individual pizzas ordered.
-     * @return - The cost in pence of having all these items delivered by drone including the standard delivery
-     * charge of £1.
-     * @throws InvalidPizzaCombinationException - If a combination where the ordered pizza cannot be delivered by the
-     *                                          same restaurant this is an invalid combination.
+     * @param pizzasOrdered - Variable number of strings for the individual pizzas ordered.
+     * @return - True if the priceTotalInPence is equal to the sum of the prices of the pizzas ordered. False otherwise.
      */
-    public int getDeliveryCost(Restaurant[] participatingRestaurants, String... pizzasOrdered) throws InvalidPizzaCombinationException {
-
-        // Check if the input is valid
-        if (participatingRestaurants == null || pizzasOrdered == null || pizzasOrdered.length == 0) {
-            throw new InvalidPizzaCombinationException("Invalid input");
-        }
-
-        // Check if the order contains any pizzas which aren't sold by any restaurant.
-        if (containsInvalidPizza(participatingRestaurants, pizzasOrdered)) {
-            throw new InvalidPizzaCombinationException("Invalid pizza ordered");
-        }
-
+    private boolean validatePriceTotal() {
         int totalCost = 0;
-        int count = 0;
         // For every restaurant menu, check if the menu item is in the pizzas ordered.
-        for (Restaurant restaurant : participatingRestaurants) {
-            for (Restaurant.Menu menu : restaurant.getMenu()) {
-                int numberOfMenuOrder = Collections.frequency(Arrays.asList(pizzasOrdered), menu.name);
-                totalCost += numberOfMenuOrder * menu.priceInPence;
-                count += numberOfMenuOrder;
-            }
-            if (count != 0) {
-                if (count != pizzasOrdered.length) {
-                    throw new InvalidPizzaCombinationException("Pizzas cannot be ordered from different restaurants");
-                }
-                restaurantOrderedFrom = restaurant;
-                break;
-            }
+        for (Restaurant.Menu menu : this.restaurantOrderedFrom.getMenu()) {
+            int numberOfMenuOrder = Collections.frequency(Arrays.asList(this.orderItems), menu.name);
+            totalCost += numberOfMenuOrder * menu.priceInPence;
         }
-        return totalCost + Constants.FIXED_ORDER_CHARGE;
+        return (totalCost + Constants.FIXED_ORDER_CHARGE == this.priceTotalInPence);
     }
 
     /**
      * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @param pizzasOrdered            - Variable number of strings for the individual pizzas ordered.
      * @return - True if the order contains any pizzas which aren't sold by any restaurant.
      */
-    private boolean containsInvalidPizza(Restaurant[] participatingRestaurants, String... pizzasOrdered) {
+    private boolean containsInvalidPizza(Restaurant[] participatingRestaurants) {
         // Generate a list of all valid pizzas from all restaurants
         String[] validPizzas = Arrays.stream(participatingRestaurants)
                 .flatMap(restaurant -> Arrays.stream(restaurant.getMenu()))
@@ -149,10 +140,30 @@ public class Order {
                 .toArray(String[]::new);
 
         // Check if any of the pizzas ordered are not in the list of valid pizzas
-        return Arrays.stream(pizzasOrdered)
+        return Arrays.stream(this.orderItems)
                 .anyMatch(pizza -> !Arrays.asList(validPizzas).contains(pizza));
     }
 
+    private boolean pizzaOrderedFromMultipleRestaurants(Restaurant[] participatingRestaurants) {
+        // Get the restaurant that the first pizza is ordered from
+        Restaurant restaurant = Arrays.stream(participatingRestaurants)
+                .filter(r -> Arrays.stream(r.getMenu()).anyMatch(menu -> menu.name.equals(this.orderItems[0])))
+                .findFirst()
+                .orElse(null);
+
+        if (restaurant == null) return true;
+        restaurantOrderedFrom = restaurant;
+
+        // Check if any of the pizzas ordered are not from the same restaurant
+        return Arrays.stream(this.orderItems)
+                .anyMatch(pizza -> Arrays.stream(restaurant.getMenu()).noneMatch(menu -> menu.name.equals(pizza)));
+    }
+
+    /**
+     * Converts the order to a string in JSON format.
+     *
+     * @return A String storing the information in JSON format.
+     */
     public String toJSON() {
         return "{\"orderNo\": \"" + orderNo + "\""
                 + ", \"outcome\": \"" + outcome
@@ -160,9 +171,19 @@ public class Order {
                 + priceTotalInPence + "}";
     }
 
-    public static class InvalidPizzaCombinationException extends Throwable {
-        public InvalidPizzaCombinationException(String message) {
-            super(message);
+    public void setValidOrderToDelivered() {
+        if (this.outcome == OrderOutcome.ValidButNotDelivered) {
+            this.outcome = OrderOutcome.Delivered;
+        } else {
+            System.err.println("Order is not valid, cannot be set to delivered.");
         }
+    }
+
+    public String getOrderNo() {
+        return this.orderNo;
+    }
+
+    public Restaurant getRestaurant() {
+        return this.restaurantOrderedFrom;
     }
 }

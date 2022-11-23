@@ -28,7 +28,7 @@ public class FileWriter {
     }
 
     /**
-     * Write the order number, the order outcome and the cost to the deliveries file as an array of JSON objects.
+     * Write the order number, the order outcome and the cost of all deliveries as an array of JSON objects.
      *
      * @param orders The array of orders and their outcome to given on that day.
      */

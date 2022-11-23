@@ -11,7 +11,8 @@ public class Restaurant {
 
     @JsonProperty("menu")
     private Menu[] menu;
-    public int numberOfMovesFromAppletonTower;
+
+    private int numberOfMovesFromAppletonTower;
 
     public Menu[] getMenu() {
         return menu;
@@ -19,6 +20,15 @@ public class Restaurant {
 
     public LngLat getLngLat() {
         return new LngLat(longitude, latitude);
+    }
+
+    public int getNumberOfMovesFromAppletonTower() {
+        if (numberOfMovesFromAppletonTower == 0) {
+            int numberOfMoves = this.getLngLat().numberOfMovesTo(Constants.APPLETON_TOWER);
+            this.numberOfMovesFromAppletonTower = numberOfMoves;
+            return numberOfMoves;
+        }
+        return numberOfMovesFromAppletonTower;
     }
 
     public static class Menu {

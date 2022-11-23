@@ -52,7 +52,7 @@ public class FlightPathPoint {
     }
 
     /**
-     * Converts the flight path point to a JSON object.
+     * Converts the flight path point to a string in JSON format.
      *
      * @return A String storing the information in JSON format.
      */

@@ -22,6 +22,11 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * @return true if the point is inside the zone, false otherwise.
      */
     private boolean inZone(LngLat[] zoneCoordinates) {
+        if (zoneCoordinates == null || zoneCoordinates.length < 3) {
+            System.err.println("inZone called with invalid zone coordinates.");
+            return false;
+        }
+
         boolean inside = false;
 
         // Loop through the border points (in anti-clockwise pairs)
@@ -31,14 +36,6 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
 
             double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
             double latDiff = this.lat - p1.lat();
-
-            // If the point lies on the line of the border, it is inside the central area.
-            boolean onVerticalLine = (p1.lng() == this.lng && p2.lng() == this.lng && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
-            boolean onHorizontalLine = (p1.lat() == this.lat && p2.lat() == this.lat && this.lng >= Math.min(p1.lng(), p2.lng()) && this.lng <= Math.max(p1.lng(), p2.lng()));
-            boolean onDiagonalLine = ((this.lng == (latDiff * gradient) + p1.lng()) && this.lat >= Math.min(p1.lat(), p2.lat()) && this.lat <= Math.max(p1.lat(), p2.lat()));
-            if (onVerticalLine || onHorizontalLine || onDiagonalLine) {
-                return true;
-            }
 
             // Determine if the line intersects with the border.
             // If it's above the lower point and below the upper point and lies to the left of the line between
@@ -67,6 +64,10 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * @return true if the line is in a no-fly zone, false otherwise.
      */
     public boolean inNoFlyZone(LngLat previousPoint) {
+        if (previousPoint == null) {
+            System.err.println("inNoFlyZone called with null previousPoint.");
+            return false;
+        }
         Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
         for (LngLat[] noFlyZone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
             if (inZone(noFlyZone)) {
@@ -95,6 +96,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     public double distanceTo(LngLat source) {
         if (source == null) {
             // If the source is null, it is infinitely far away from the current point.
+            System.err.println("distanceTo called with null source.");
             return Double.POSITIVE_INFINITY;
         }
         // Calculates the pythagorean distance between two points.
@@ -110,6 +112,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     public boolean closeTo(LngLat source) {
         if (source == null) {
             // If the source is null, the point is not close to it.
+            System.err.println("closeTo called with null source.");
             return false;
         }
         // Finds the distance to the other source and checks if it is less than 0.00015.
@@ -155,14 +158,10 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      */
     public int numberOfMovesTo(LngLat destination) {
         // Calculate the number of moves to the destination.
-        if (destination == null) {
-            // If the destination is null, it is infinitely far away, so we return the maximum integer value.
-            return Integer.MAX_VALUE;
-        }
         CompassDirection[] route = routeTo(destination, null);
         if (route == null) {
             // If the route is null, then this means we can't find a path to the destination, and so we can treat it
-            // as if it is infinitely far away, so we return the maximum integer value.
+            // as if it is infinitely far away.
             return Integer.MAX_VALUE;
         }
         return route.length;
