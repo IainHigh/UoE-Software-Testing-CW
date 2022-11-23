@@ -1,7 +1,7 @@
 package IO;
 
 import uk.ac.ed.inf.Constants;
-import uk.ac.ed.inf.Order;
+import OrderInformation.Order;
 
 import java.io.File;
 import java.io.IOException;

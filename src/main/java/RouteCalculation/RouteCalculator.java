@@ -20,7 +20,7 @@ public class RouteCalculator {
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
         if (start == null || end == null) {
-            System.err.println("caclulateRoute was called with a null start or end point.");
+            System.err.println("calculateRoute was called with a null start or end point.");
             return null;
         }
 

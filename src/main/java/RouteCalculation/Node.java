@@ -11,7 +11,7 @@ import java.awt.geom.Line2D;
  * A class to represent a node in the A* search algorithm.
  */
 class Node {
-    private final LngLat POINT; // The point represented by the node.
+    private final LngLat POINT; // The LngLat point represented by the node.
     private final double g; // The cost of the path from the start node to this node.
     private final double h; // The heuristic cost of the path from this node to the goal node.
     private final Node PARENT; // The parent node of this node.

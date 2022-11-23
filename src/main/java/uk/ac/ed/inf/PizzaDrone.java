@@ -1,12 +1,10 @@
-// TODO: ADD COMMENTS TO CLASSES!
-// TODO: Add Javadoc to all methods
-// TODO: write the report
-
 package uk.ac.ed.inf;
 
 import IO.FileWriter;
 import IO.FlightPathPoint;
 import IO.RestAPIDataSingleton;
+import OrderInformation.Order;
+import OrderInformation.OrderOutcome;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +43,7 @@ public class PizzaDrone {
             throw new IllegalArgumentException("Invalid input arguments.");
         }
 
+        // Set up the URLs for the RestAPIDataSingleton
         try {
             RestAPIDataSingleton.getInstance().setURLs(
                     new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
@@ -55,32 +54,15 @@ public class PizzaDrone {
             throw new RuntimeException(e);
         }
 
+        // Get the orders, determine the outcome for invalid orders and sort the valid orders by the distance from
+        // Appleton Tower.
         orders = RestAPIDataSingleton.getInstance().getOrders();
+        ArrayList<Order> validOrders = validateAndSortOrders();
 
-        ArrayList<Order> validOrders = validateOrders();
-        sortValidOrders(validOrders);
+        // Calculate the full path around all the valid orders and back to Appleton Tower.
+        calculatePath(validOrders);
 
-        startTime = Clock.systemDefaultZone().instant();
-        // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
-        LngLat currentLocation = Constants.APPLETON_TOWER;
-        for (int i = 0; i < validOrders.size(); i++) {
-            Order order = validOrders.get(i);
-
-            LngLat nextLocation;
-            if (i == (validOrders.size()) - 1) {
-                nextLocation = Constants.APPLETON_TOWER;
-            } else {
-                Order nextOrder = validOrders.get(i + 1);
-                nextLocation = nextOrder.getRestaurant().getLngLat();
-            }
-            currentLocation = calculateNextRoute(currentLocation, order, nextLocation);
-
-            // If making this journey would result in the drone running out of battery, then don't make the journey.
-            if (remainingMoves < 0) break;
-
-            allDirectionsFollowed.addAll(currentDirectionsFollowed);
-            order.setValidOrderToDelivered();
-        }
+        // Write the output to the required files.
         writeToOutputFiles(date);
     }
 
@@ -130,6 +112,68 @@ public class PizzaDrone {
     }
 
     /**
+     * Go through the orders and determine the initial outcome. If the order is valid, add it to the list of valid orders.
+     * Sort the valid orders by the number of moves from Appleton Tower to the restaurant.
+     * This ensures that we start by delivering the orders with the fewest moves from Appleton Tower.
+     * Which means that we will be able to deliver more orders.
+     *
+     * @return The sorted list of valid orders.
+     */
+    private static ArrayList<Order> validateAndSortOrders() {
+        // Validate the orders and store the valid orders in a new list - validOrders.
+        ArrayList<Order> validOrders = new ArrayList<>();
+        for (Order order : orders) {
+            OrderOutcome outcome = order.validateOrder();
+            if (outcome == OrderOutcome.ValidButNotDelivered) {
+                validOrders.add(order);
+            }
+        }
+
+        // Sort the orders by the restaurants distance from appleton tower so that the closest restaurant is first.
+        validOrders.sort(Comparator.comparingDouble(o -> o.getRestaurant().getNumberOfMovesFromAppletonTower()));
+        return validOrders;
+    }
+
+    /**
+     * Calculate the full path around all the valid orders and back to Appleton Tower.
+     * Record this path in the allDirectionsFollowed list.
+     *
+     * @param validOrders The sorted list of valid orders.
+     */
+    private static void calculatePath(ArrayList<Order> validOrders) {
+        startTime = Clock.systemDefaultZone().instant();
+
+        // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
+        LngLat currentLocation = Constants.APPLETON_TOWER;
+
+        for (int i = 0; i < validOrders.size(); i++) {
+            Order order = validOrders.get(i);
+
+            LngLat nextLocation = (i != validOrders.size() - 1) ?
+                    validOrders.get(i + 1).getRestaurant().getLngLat() : null;
+
+            currentDirectionsFollowed = new ArrayList<>();
+
+            // Move to the restaurant.
+            CompassDirection[] route = currentLocation.routeTo(order.getRestaurant().getLngLat(), Constants.APPLETON_TOWER);
+            currentLocation = followRoute(currentLocation, route, order.getOrderNo());
+
+            // If making this journey would result in the drone running out of battery, then don't make the journey.
+            if (remainingMoves < 0) break;
+
+            // Move to appleton tower to pick up the next order.
+            route = currentLocation.routeTo(Constants.APPLETON_TOWER, nextLocation);
+            currentLocation = followRoute(currentLocation, route, order.getOrderNo());
+
+            // If making this journey would result in the drone running out of battery, then don't make the journey.
+            if (remainingMoves < 0) break;
+
+            allDirectionsFollowed.addAll(currentDirectionsFollowed);
+            order.setValidOrderToDelivered();
+        }
+    }
+
+    /**
      * This method follows a route and records the directions followed.
      *
      * @param currentLocation The current location of the drone.
@@ -159,44 +203,11 @@ public class PizzaDrone {
         return currentLocation;
     }
 
-    private static void sortValidOrders(ArrayList<Order> validOrders) {
-        // Sort the orders by the restaurants distance from appleton tower so that the closest restaurant is first.
-        validOrders.sort(Comparator.comparingDouble(o -> o.getRestaurant().getNumberOfMovesFromAppletonTower()));
-    }
-
-    private static ArrayList<Order> validateOrders() {
-        // Validate the orders and store the valid orders in a new list - validOrders.
-
-        ArrayList<Order> validOrders = new ArrayList<>();
-        for (Order order : orders) {
-            OrderOutcome outcome = order.validateOrder();
-            if (outcome == OrderOutcome.ValidButNotDelivered) {
-                validOrders.add(order);
-            }
-        }
-        return validOrders;
-    }
-
-    private static LngLat calculateNextRoute(LngLat currentLocation, Order order, LngLat nextRestaurantLocation) {
-        currentDirectionsFollowed = new ArrayList<>();
-        LngLat restaurantLocation = order.getRestaurant().getLngLat();
-
-        // Move to the restaurant.
-        CompassDirection[] route = currentLocation.routeTo(restaurantLocation, Constants.APPLETON_TOWER);
-        currentLocation = followRoute(currentLocation, route, order.getOrderNo());
-
-        if (remainingMoves < 0) {
-            // If battery is too low, break out of the function early and return the current location.
-            return currentLocation;
-        }
-
-        // Move to appleton tower to pick up the next order.
-        route = currentLocation.routeTo(Constants.APPLETON_TOWER, nextRestaurantLocation);
-        currentLocation = followRoute(currentLocation, route, order.getOrderNo());
-
-        return currentLocation;
-    }
-
+    /**
+     * This method uses the FileWriter class to write to all the required files.
+     *
+     * @param date The date of the orders - used to name the files.
+     */
     private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.
         FileWriter fileWriter = new FileWriter(date);
