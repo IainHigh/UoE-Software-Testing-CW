@@ -1,8 +1,5 @@
 package RouteCalculation;
 
-import uk.ac.ed.inf.CompassDirection;
-import uk.ac.ed.inf.LngLat;
-
 import java.util.*;
 
 /**

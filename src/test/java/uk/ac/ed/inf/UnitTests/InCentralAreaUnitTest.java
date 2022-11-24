@@ -1,10 +1,11 @@
 package uk.ac.ed.inf.UnitTests;
 
+import RouteCalculation.AreaSingleton;
 import org.junit.Before;
 import org.junit.Test;
-import IO.RestAPIDataSingleton;
+import OrderInformation.RestAPIDataSingleton;
 import uk.ac.ed.inf.Constants;
-import uk.ac.ed.inf.LngLat;
+import RouteCalculation.LngLat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,39 +16,13 @@ public class InCentralAreaUnitTest {
 
     @Before
     public void setUp() throws MalformedURLException {
-        String base = "https://ilp-rest.azurewebsites.net";
+        String restAPIUrl = "https://ilp-rest.azurewebsites.net";
         RestAPIDataSingleton.getInstance().setURLs(
-                new URL(base + Constants.CENTRAL_AREA_URL_SLUG),
-                new URL(base + Constants.NO_FLY_ZONES_URL_SLUG),
-                new URL(base + Constants.RESTAURANTS_URL_SLUG),
-                new URL(base + Constants.ORDERS_NO_DATE_URL_SLUG));
-    }
-
-    @Test
-    public void testEdgesAndCorners(){
-        // Top left corner
-        testPointInCentralArea(new LngLat(-3.192473, 55.946233), true);
-
-        // Bottom left corner
-        testPointInCentralArea(new LngLat(-3.192473, 55.942617), true);
-
-        // Bottom right corner
-        testPointInCentralArea(new LngLat(-3.184319, 55.942617), true);
-
-        // Top right corner
-        testPointInCentralArea(new LngLat(-3.184319, 55.946233), true);
-
-        // Top edge
-        testPointInCentralArea(new LngLat(-3.188386951227769, 55.946233), true);
-
-        // Bottom edge
-        testPointInCentralArea(new LngLat(-3.188386951227769, 55.942617), true);
-
-        // Left edge
-        testPointInCentralArea(new LngLat(-3.192473, 55.944425), true);
-
-        // Right edge
-        testPointInCentralArea(new LngLat(-3.184319, 55.944425), true);
+                new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG),
+                new URL(restAPIUrl + Constants.ORDERS_NO_DATE_URL_SLUG));
+        AreaSingleton.getInstance().setURLs(
+                new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
+                new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG));
     }
 
     @Test

@@ -1,11 +1,10 @@
 package OrderInformation;
 
-import IO.RestAPIDataSingleton;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import uk.ac.ed.inf.Constants;
 
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Record to represent an order.
@@ -37,15 +36,12 @@ public class Order {
     @JsonProperty("restaurantOrderedFrom")
     private Restaurant restaurantOrderedFrom;
 
-    private OrderOutcome outcome;
+    public OrderOutcome outcome;
 
     /**
      * Validates the order and assigns the outcome.
-     *
-     * @return An OrderOutcome enum value depending on the validity of the order.
      */
-    public OrderOutcome validateOrder() {
-
+    public void validateOrder() {
         Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
 
         if (restaurants == null || this.orderItems == null) {
@@ -75,7 +71,6 @@ public class Order {
             // If all the checks pass, the order is valid.
             this.outcome = OrderOutcome.ValidButNotDelivered;
         }
-        return this.outcome;
     }
 
     /**
@@ -163,13 +158,14 @@ public class Order {
      * @return - True if the priceTotalInPence is equal to the sum of the prices of the pizzas ordered. False otherwise.
      */
     private boolean validatePriceTotal() {
+        final int FIXED_ORDER_CHARGE = 100;
         int totalCost = 0;
         // For every restaurant menu, check if the menu item is in the pizzas ordered.
         for (Menu menu : this.restaurantOrderedFrom.getMenu()) {
             int numberOfMenuOrder = Collections.frequency(Arrays.asList(this.orderItems), menu.name());
             totalCost += numberOfMenuOrder * menu.priceInPence();
         }
-        return (totalCost + Constants.FIXED_ORDER_CHARGE == this.priceTotalInPence);
+        return (totalCost + FIXED_ORDER_CHARGE == this.priceTotalInPence);
     }
 
     /**
@@ -203,6 +199,10 @@ public class Order {
      */
     public String getOrderNo() {
         return this.orderNo;
+    }
+
+    public boolean isValid() {
+        return this.outcome == OrderOutcome.ValidButNotDelivered || this.outcome == OrderOutcome.Delivered;
     }
 
     /**

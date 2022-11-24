@@ -1,7 +1,5 @@
-package uk.ac.ed.inf;
+package RouteCalculation;
 
-import IO.RestAPIDataSingleton;
-import RouteCalculation.RouteCalculator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.awt.geom.Line2D;
@@ -13,6 +11,8 @@ import java.awt.geom.Line2D;
  * @param lat The latitude.
  */
 public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
+    final static double DISTANCE_TOLERANCE = 0.00015;
+    final static double LENGTH_OF_MOVE = 0.00015;
 
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the zone.
@@ -54,7 +54,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * @return true if the point is inside the central area, false otherwise.
      */
     public boolean inCentralArea() {
-        return inZone(RestAPIDataSingleton.getInstance().getCentralAreaBorder());
+        return inZone(AreaSingleton.getInstance().getCentralAreaBorder());
     }
 
     /**
@@ -69,7 +69,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             return false;
         }
         Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
-        for (LngLat[] noFlyZone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
+        for (LngLat[] noFlyZone : AreaSingleton.getInstance().getNoFlyZones()) {
             if (inZone(noFlyZone)) {
                 return true;
             }
@@ -116,7 +116,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             return false;
         }
         // Finds the distance to the other source and checks if it is less than 0.00015.
-        return distanceTo(source) < Constants.DISTANCE_TOLERANCE;
+        return distanceTo(source) < DISTANCE_TOLERANCE;
     }
 
     /**
@@ -132,8 +132,8 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
         }
         // Calculates the next position based on the direction.
         double radian = Math.toRadians(direction.getAngle());
-        double newLng = this.lng + Constants.LENGTH_OF_MOVE * Math.cos(radian);
-        double newLat = this.lat + Constants.LENGTH_OF_MOVE * Math.sin(radian);
+        double newLng = this.lng + LENGTH_OF_MOVE * Math.cos(radian);
+        double newLat = this.lat + LENGTH_OF_MOVE * Math.sin(radian);
         return new LngLat(newLng, newLat);
     }
 

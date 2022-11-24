@@ -1,7 +1,6 @@
 package uk.ac.ed.inf.UnitTests;
 import org.junit.Test;
-import uk.ac.ed.inf.Constants;
-import uk.ac.ed.inf.LngLat;
+import RouteCalculation.LngLat;
 
 import java.util.Random;
 
@@ -41,7 +40,7 @@ public class CloseToUnitTest {
     public LngLat generateCloseSecondPoint(LngLat p1) {
         // Generates a point that is within a radius of 0.00015 degrees of the first point
         Random random = new Random();
-        double radius = Constants.DISTANCE_TOLERANCE * random.nextDouble();
+        double radius = 0.00015 * random.nextDouble();
         double angle = random.nextDouble() * 2 * Math.PI;
         double lng2 = p1.lng() + radius * Math.cos(angle);
         double lat2 = p1.lat() + radius * Math.sin(angle);
@@ -51,7 +50,7 @@ public class CloseToUnitTest {
     public LngLat generateDistantSecondPoint(LngLat p1) {
         // Generates a point that is outwith the radius of 0.00015 degrees of the first point
         Random random = new Random();
-        double radius = Constants.DISTANCE_TOLERANCE * random.nextDouble() + Constants.DISTANCE_TOLERANCE;
+        double radius = 0.00015 * random.nextDouble() + 0.00015;
         double angle = random.nextDouble() * 2 * Math.PI;
         double lng2 = p1.lng() + radius * Math.cos(angle);
         double lat2 = p1.lat() + radius * Math.sin(angle);

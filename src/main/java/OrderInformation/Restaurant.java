@@ -1,8 +1,6 @@
 package OrderInformation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import uk.ac.ed.inf.Constants;
-import uk.ac.ed.inf.LngLat;
 
 /**
  * Record to represent a restaurant.
@@ -29,25 +27,19 @@ public class Restaurant {
         return menu;
     }
 
-    /**
-     * Converts and returns the longitude and latitude of the restaurant as a LngLat object.
-     *
-     * @return the LngLat object representing the longitude and latitude of the restaurant.
-     */
-    public LngLat getLngLat() {
-        return new LngLat(longitude, latitude);
+    public double getLongitude() {
+        return this.longitude;
     }
 
-    /**
-     * If the number of moves to return to appleton tower has not yet been calculated, calculates it.
-     * Otherwise, just an accessor method for this value.
-     *
-     * @return the number of moves required to return to appleton tower.
-     */
+    public double getLatitude() {
+        return this.latitude;
+    }
+
+    public void setNumberOfMovesFromAppleton(int noOfMoves) {
+        this.numberOfMovesFromAppletonTower = noOfMoves;
+    }
+
     public int getNumberOfMovesFromAppletonTower() {
-        if (numberOfMovesFromAppletonTower == 0) {
-            this.numberOfMovesFromAppletonTower = this.getLngLat().numberOfMovesTo(Constants.APPLETON_TOWER);
-        }
-        return numberOfMovesFromAppletonTower;
+        return this.numberOfMovesFromAppletonTower;
     }
 }

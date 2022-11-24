@@ -1,4 +1,4 @@
-package IO;
+package Output;
 
 /**
  * This class is used to represent a single point on the flight path of the drone.
@@ -43,7 +43,16 @@ public class FlightPathPoint {
     }
 
     /**
-     * Accessor for the destination longitude and latitude.
+     * Accessor for the longitude and latitude at the start of the move.
+     *
+     * @return a 2-element array containing the destination longitude and latitude.
+     */
+    public double[] getStartingCoordinates() {
+        return new double[]{FROM_LONGITUDE, FROM_LATITUDE};
+    }
+
+    /**
+     * Accessor for the longitude and latitude at the end of the move.
      *
      * @return a 2-element array containing the destination longitude and latitude.
      */

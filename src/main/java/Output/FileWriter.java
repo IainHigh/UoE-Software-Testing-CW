@@ -1,7 +1,4 @@
-package IO;
-
-import uk.ac.ed.inf.Constants;
-import OrderInformation.Order;
+package Output;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +7,9 @@ import java.util.List;
 
 /**
  * A class for writing the output to the required files.
- * Writes the orderNo, outcome and costInPence for every order to deliveries-YYY-MM-DD.json
- * Writes the flight path information to flightpath-YYY-MM-DD.json
- * Writes the visited coordinates to drone-YYY-MM-DD.geojson.
+ * Writes the orderNo, outcome and costInPence for every order to deliveries-YYYY-MM-DD.json
+ * Writes the flight path information to flightpath-YYYY-MM-DD.json
+ * Writes the visited coordinates to drone-YYYY-MM-DD.geojson.
  */
 public class FileWriter {
     private final String DATE;
@@ -27,21 +24,16 @@ public class FileWriter {
         this.DATE = date;
     }
 
-    /**
-     * Write the order number, the order outcome and the cost of all deliveries as an array of JSON objects.
-     *
-     * @param orders The array of orders and their outcome to given on that day.
-     */
-    public void writeToDeliveriesJSON(Order[] orders) {
+    public void writeToDeliveriesJSON(String[] orderJson) {
         String fileName = OUTPUT_DIRECTORY + "deliveries-" + DATE + ".json";
         prepareFile(fileName);
 
         try {
             java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("[");
-            for (int i = 0; i < orders.length; i++) {
-                fileWriter.write(orders[i].toJSON());
-                if (i != orders.length - 1) fileWriter.write(",");
+            for (int i = 0; i < orderJson.length; i++) {
+                fileWriter.write(orderJson[i]);
+                if (i != orderJson.length - 1) fileWriter.write(",");
             }
             fileWriter.write("]");
             fileWriter.close();
@@ -56,7 +48,7 @@ public class FileWriter {
      * @param flight The flightpath - used to get the coordinates to write.
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
-        double[] startingCoordinates = {Constants.APPLETON_TOWER.lng(), Constants.APPLETON_TOWER.lat()};
+        double[] startingCoordinates = flight.get(0).getStartingCoordinates();
         List<double[]> droneCoordinates = flight.stream().map(FlightPathPoint::getDestinationCoordinates).toList();
 
         String fileName = OUTPUT_DIRECTORY + "drone-" + DATE + ".geojson";

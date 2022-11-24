@@ -1,16 +1,22 @@
+//TODO: Put main in separate class.
+//TODO: Re-do javadoc for everything that's changed
+//TODO: ctrl+alt+l, to clean up code
 package uk.ac.ed.inf;
 
-import IO.FileWriter;
-import IO.FlightPathPoint;
-import IO.RestAPIDataSingleton;
 import OrderInformation.Order;
-import OrderInformation.OrderOutcome;
+import OrderInformation.RestAPIDataSingleton;
+import Output.FileWriter;
+import Output.FlightPathPoint;
+import RouteCalculation.AreaSingleton;
+import RouteCalculation.CompassDirection;
+import RouteCalculation.LngLat;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -46,10 +52,11 @@ public class PizzaDrone {
         // Set up the URLs for the RestAPIDataSingleton
         try {
             RestAPIDataSingleton.getInstance().setURLs(
-                    new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
-                    new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG),
                     new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG),
                     new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date));
+            AreaSingleton.getInstance().setURLs(
+                    new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
+                    new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -123,9 +130,15 @@ public class PizzaDrone {
         // Validate the orders and store the valid orders in a new list - validOrders.
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
-            OrderOutcome outcome = order.validateOrder();
-            if (outcome == OrderOutcome.ValidButNotDelivered) {
+            order.validateOrder();
+            if (order.isValid()) {
                 validOrders.add(order);
+                if (order.getRestaurant().getNumberOfMovesFromAppletonTower() == 0) {
+                    // If we haven't yet calculated the number of moves to appleton tower for this restaurant, calculate it.
+                    LngLat rLocation = new LngLat(order.getRestaurant().getLongitude(),
+                            order.getRestaurant().getLatitude());
+                    order.getRestaurant().setNumberOfMovesFromAppleton(rLocation.numberOfMovesTo(Constants.APPLETON_TOWER));
+                }
             }
         }
 
@@ -149,13 +162,16 @@ public class PizzaDrone {
         for (int i = 0; i < validOrders.size(); i++) {
             Order order = validOrders.get(i);
 
-            LngLat nextLocation = (i != validOrders.size() - 1) ?
-                    validOrders.get(i + 1).getRestaurant().getLngLat() : null;
+            LngLat nextLocation = (i != validOrders.size() - 1)
+                    ? new LngLat(validOrders.get(i + 1).getRestaurant().getLongitude(),
+                    validOrders.get(i + 1).getRestaurant().getLatitude())
+                    : null;
 
             currentDirectionsFollowed = new ArrayList<>();
 
             // Move to the restaurant.
-            CompassDirection[] route = currentLocation.routeTo(order.getRestaurant().getLngLat(), Constants.APPLETON_TOWER);
+            CompassDirection[] route = currentLocation.routeTo(new LngLat(order.getRestaurant().getLongitude(),
+                    order.getRestaurant().getLatitude()), Constants.APPLETON_TOWER);
             currentLocation = followRoute(currentLocation, route, order.getOrderNo());
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
@@ -213,6 +229,6 @@ public class PizzaDrone {
         FileWriter fileWriter = new FileWriter(date);
         fileWriter.writeToDroneGEOJSON(allDirectionsFollowed);
         fileWriter.writeToFlightpathJSON(allDirectionsFollowed);
-        fileWriter.writeToDeliveriesJSON(orders);
+        fileWriter.writeToDeliveriesJSON(Arrays.stream(orders).map(Order::toJSON).toArray(String[]::new));
     }
 }

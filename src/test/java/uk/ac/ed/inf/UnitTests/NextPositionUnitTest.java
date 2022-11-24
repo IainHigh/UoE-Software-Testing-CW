@@ -1,8 +1,8 @@
 package uk.ac.ed.inf.UnitTests;
 
 import org.junit.Test;
-import uk.ac.ed.inf.CompassDirection;
-import uk.ac.ed.inf.LngLat;
+import RouteCalculation.CompassDirection;
+import RouteCalculation.LngLat;
 
 import java.util.Random;
 

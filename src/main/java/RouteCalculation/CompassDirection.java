@@ -1,4 +1,4 @@
-package uk.ac.ed.inf;
+package RouteCalculation;
 
 /**
  * An enum for storing the 16 compass directions (and hover).

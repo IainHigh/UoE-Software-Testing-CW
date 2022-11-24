@@ -1,11 +1,7 @@
 package RouteCalculation;
 
-import IO.RestAPIDataSingleton;
-import uk.ac.ed.inf.CompassDirection;
-import uk.ac.ed.inf.Constants;
-import uk.ac.ed.inf.LngLat;
-
 import java.awt.geom.Line2D;
+import java.util.Arrays;
 
 /**
  * A class to represent a node in the A* search algorithm.
@@ -45,7 +41,7 @@ class Node {
         this.PARENT = parent;
         this.DIRECTION_FROM_PARENT = directionFromParent;
         this.h = calculateHeuristic(end);
-        this.g = parent.g + Constants.LENGTH_OF_MOVE;
+        this.g = parent.g + LngLat.LENGTH_OF_MOVE;
     }
 
     /**
@@ -60,7 +56,7 @@ class Node {
         // If the straight line goes through a no-fly zone, calculate the closest point on the border of the
         // no-fly zone and then calculate the distance to that point and then the distance from that point to
         // the end.
-        for (LngLat[] zone : RestAPIDataSingleton.getInstance().getNoFlyZones()) {
+        for (LngLat[] zone : AreaSingleton.getInstance().getNoFlyZones()) {
             for (int i = 0; i < zone.length; i++) {
                 LngLat p1 = zone[i];
                 LngLat p2 = zone[(i + 1) % zone.length];
@@ -69,14 +65,7 @@ class Node {
                 // intersects with the no-fly zone.
                 if (line.intersectsLine(p1.lng(), p1.lat(), p2.lng(), p2.lat())) {
                     // Calculate the border point p which minimises the distance from start to p and then from p to end.
-                    double min = Double.MAX_VALUE;
-                    for (LngLat p : zone) {
-                        double dist = this.POINT.distanceTo(p) + p.distanceTo(end);
-                        if (dist < min) {
-                            min = dist;
-                        }
-                    }
-                    return min;
+                    return Arrays.stream(zone).mapToDouble(p -> this.POINT.distanceTo(p) + p.distanceTo(end)).min().getAsDouble();
                 }
             }
         }
