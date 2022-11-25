@@ -11,31 +11,14 @@ import java.net.URL;
  * Stored in a singleton class so that it can be accessed from anywhere in the program. And so that it is only retrieved
  * once.
  */
-public final class RestAPIDataSingleton {
-    private static RestAPIDataSingleton instance;
-    private Restaurant[] restaurants;
-
-    private Order[] orders;
+public final class OrderRetriever {
 
     /**
-     * Public method for getting the instance of the singleton.
-     * Synchronised to ensure that only one instance is created.
+     * Accessor method for the restaurants.
      *
-     * @return The instance of the singleton.
+     * @return The array of all restaurants which was accessed.
      */
-    public static synchronized RestAPIDataSingleton getInstance() {
-        if (instance == null) {
-            instance = new RestAPIDataSingleton();
-        }
-        return instance;
-    }
-
-    public void setURLs(URL restaurantsURL, URL ordersURL) {
-        restaurants = deserializeRestaurants(restaurantsURL);
-        orders = deserializeOrders(ordersURL);
-    }
-
-    private Restaurant[] deserializeRestaurants(URL url) {
+    public static Restaurant[] getRestaurants(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
@@ -46,7 +29,12 @@ public final class RestAPIDataSingleton {
         }
     }
 
-    private Order[] deserializeOrders(URL url) {
+    /**
+     * Accessor method for the orders.
+     *
+     * @return The array of all orders accessed.
+     */
+    public static Order[] getOrders(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
@@ -55,23 +43,5 @@ public final class RestAPIDataSingleton {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Accessor method for the restaurants.
-     *
-     * @return The array of all restaurants which was accessed.
-     */
-    public Restaurant[] getRestaurants() {
-        return restaurants;
-    }
-
-    /**
-     * Accessor method for the orders.
-     *
-     * @return The array of all orders accessed.
-     */
-    public Order[] getOrders() {
-        return orders;
     }
 }

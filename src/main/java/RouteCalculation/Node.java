@@ -31,13 +31,13 @@ class Node {
     /**
      * Create a new node with a parent. This constructor is intended for all other nodes.
      *
-     * @param POINT               the LngLat coordinate of the node.
+     * @param point               the LngLat coordinate of the node.
      * @param end                 the LngLat coordinates of the destination.
      * @param parent              the parent node.
      * @param directionFromParent the compass direction from the parent node to this node. Used to reconstruct the path.
      */
-    public Node(LngLat POINT, LngLat end, Node parent, CompassDirection directionFromParent) {
-        this.POINT = POINT;
+    public Node(LngLat point, LngLat end, Node parent, CompassDirection directionFromParent) {
+        this.POINT = point;
         this.PARENT = parent;
         this.DIRECTION_FROM_PARENT = directionFromParent;
         this.h = calculateHeuristic(end);

@@ -41,8 +41,7 @@ public class Order {
     /**
      * Validates the order and assigns the outcome.
      */
-    public void validateOrder() {
-        Restaurant[] restaurants = RestAPIDataSingleton.getInstance().getRestaurants();
+    public void validateOrder(Restaurant[] restaurants) {
 
         if (restaurants == null || this.orderItems == null) {
             this.outcome = OrderOutcome.Invalid;

@@ -3,7 +3,6 @@ package uk.ac.ed.inf.UnitTests;
 import RouteCalculation.AreaSingleton;
 import org.junit.Before;
 import org.junit.Test;
-import OrderInformation.RestAPIDataSingleton;
 import uk.ac.ed.inf.Constants;
 import RouteCalculation.LngLat;
 
@@ -17,9 +16,6 @@ public class InCentralAreaUnitTest {
     @Before
     public void setUp() throws MalformedURLException {
         String restAPIUrl = "https://ilp-rest.azurewebsites.net";
-        RestAPIDataSingleton.getInstance().setURLs(
-                new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG),
-                new URL(restAPIUrl + Constants.ORDERS_NO_DATE_URL_SLUG));
         AreaSingleton.getInstance().setURLs(
                 new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
                 new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG));

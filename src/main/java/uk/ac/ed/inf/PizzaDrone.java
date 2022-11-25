@@ -1,10 +1,10 @@
-//TODO: Put main in separate class.
 //TODO: Re-do javadoc for everything that's changed
 //TODO: ctrl+alt+l, to clean up code
 package uk.ac.ed.inf;
 
 import OrderInformation.Order;
-import OrderInformation.RestAPIDataSingleton;
+import OrderInformation.OrderRetriever;
+import OrderInformation.Restaurant;
 import Output.FileWriter;
 import Output.FlightPathPoint;
 import RouteCalculation.AreaSingleton;
@@ -49,22 +49,25 @@ public class PizzaDrone {
             throw new IllegalArgumentException("Invalid input arguments.");
         }
 
-        // Set up the URLs for the RestAPIDataSingleton
+        URL noFlyURL, centralAreaURL, restaurantsURL, ordersURL;
         try {
-            RestAPIDataSingleton.getInstance().setURLs(
-                    new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG),
-                    new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date));
-            AreaSingleton.getInstance().setURLs(
-                    new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG),
-                    new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG));
+            noFlyURL = new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG);
+            centralAreaURL = new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG);
+            restaurantsURL = new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG);
+            ordersURL = new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
 
-        // Get the orders, determine the outcome for invalid orders and sort the valid orders by the distance from
-        // Appleton Tower.
-        orders = RestAPIDataSingleton.getInstance().getOrders();
-        ArrayList<Order> validOrders = validateAndSortOrders();
+        // Set up the URLs for the AreaSingleton.
+        AreaSingleton.getInstance().setURLs(centralAreaURL, noFlyURL);
+
+        // Retrieve the restaurants and orders.
+        Restaurant[] restaurants = OrderRetriever.getRestaurants(restaurantsURL);
+        orders = OrderRetriever.getOrders(ordersURL);
+
+        // determine the outcome for invalid orders and sort the valid orders by the distance from Appleton Tower.
+        ArrayList<Order> validOrders = validateAndSortOrders(restaurants);
 
         // Calculate the full path around all the valid orders and back to Appleton Tower.
         calculatePath(validOrders);
@@ -123,14 +126,15 @@ public class PizzaDrone {
      * Sort the valid orders by the number of moves from Appleton Tower to the restaurant.
      * This ensures that we start by delivering the orders with the fewest moves from Appleton Tower.
      * Which means that we will be able to deliver more orders.
+     * TODO: restaurants being passed in.
      *
      * @return The sorted list of valid orders.
      */
-    private static ArrayList<Order> validateAndSortOrders() {
+    private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants) {
         // Validate the orders and store the valid orders in a new list - validOrders.
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
-            order.validateOrder();
+            order.validateOrder(restaurants);
             if (order.isValid()) {
                 validOrders.add(order);
                 if (order.getRestaurant().getNumberOfMovesFromAppletonTower() == 0) {
@@ -154,6 +158,7 @@ public class PizzaDrone {
      * @param validOrders The sorted list of valid orders.
      */
     private static void calculatePath(ArrayList<Order> validOrders) {
+        System.out.println(validOrders.get(0).getOrderNo());
         startTime = Clock.systemDefaultZone().instant();
 
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
@@ -183,6 +188,7 @@ public class PizzaDrone {
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
+            System.out.println("\t\t" + remainingMoves);
 
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
             order.setValidOrderToDelivered();
