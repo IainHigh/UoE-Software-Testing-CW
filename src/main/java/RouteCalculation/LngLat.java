@@ -61,7 +61,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * Checks if the line between the current point and the previous point is in a no-fly zone.
      *
      * @param previousPoint the previous point in the path.
-     * @return true if the line is in a no-fly zone, false otherwise.
+     * @return true if the line between the current point and previous point is in a no-fly zone, false otherwise.
      */
     public boolean inNoFlyZone(LngLat previousPoint) {
         if (previousPoint == null) {
@@ -70,15 +70,19 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
         }
         Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
         for (LngLat[] noFlyZone : AreaSingleton.getInstance().getNoFlyZones()) {
+
+            // If the current point is in the no-fly zone, return true.
             if (inZone(noFlyZone)) {
                 return true;
             }
+
+            // If the line between the current point and the previous point intersects with the no-fly zone, return true.
             for (int i = 0; i < noFlyZone.length; i++) {
                 LngLat p1 = noFlyZone[i];
                 LngLat p2 = noFlyZone[(i + 1) % noFlyZone.length];
 
                 // If the line between the two points intersects with the line between the border points, then the line
-                // intersects with the no-fly zone.
+                // enters the no-fly zone.
                 if (l.intersectsLine(p1.lng(), p1.lat(), p2.lng(), p2.lat())) {
                     return true;
                 }

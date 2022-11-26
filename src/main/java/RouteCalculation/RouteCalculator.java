@@ -9,10 +9,11 @@ import java.util.*;
 public class RouteCalculator {
     /**
      * Use the A* algorithm to find the shortest route from the start to the end.
-     * The heuristic will be the straight line distance (distanceTo) between the current node and the end node.
      *
      * @param start the start node.
      * @param end   the end node.
+     * @param nextTarget after the drone has arrived at the end node, this is its next destination. Used to find the
+     *                   best move to make when the drone is near the end node.
      * @return the shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
@@ -93,6 +94,8 @@ public class RouteCalculator {
         // Find the node that is closest to the next target.
         Node closestNode = null;
         double minDist = Double.MAX_VALUE;
+
+
         for (Node node : validNodes) {
             double dist = node.getPoint().numberOfMovesTo(nextTarget);
             if (dist < minDist) {

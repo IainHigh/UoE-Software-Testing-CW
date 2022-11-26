@@ -24,6 +24,11 @@ public class FileWriter {
         this.DATE = date;
     }
 
+    /**
+     * Writes the orderNo, outcome and costInPence for every order to deliveries-YYYY-MM-DD.json.
+     *
+     * @param orderJson The String representation of the order in JSON format.
+     */
     public void writeToDeliveriesJSON(String[] orderJson) {
         String fileName = OUTPUT_DIRECTORY + "deliveries-" + DATE + ".json";
         prepareFile(fileName);

@@ -6,6 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Singleton used to access and store the no-fly zones and central area border.
+ * This is stored as a singleton to avoid having to deserialize the JSON file multiple times.
+ */
 public class AreaSingleton {
     private static AreaSingleton instance;
     private LngLat[] centralAreaBorder;
@@ -38,6 +42,12 @@ public class AreaSingleton {
         noFlyZones = deserializeNoFlyZone(noFlyZonesUrl);
     }
 
+    /**
+     * Retrieves the central area from the JSON file.
+     *
+     * @param url The URL of the JSON file containing the coordinates of the central area border.
+     * @return An array of LngLat objects representing the border of the central area.
+     */
     private LngLat[] deserializeCentralArea(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();

@@ -1,7 +1,7 @@
 package RouteCalculation;
 
 /**
- * An enum for storing the 16 compass directions (and hover).
+ * An enum for storing the 16 compass directions and hover.
  * Each compass direction has a corresponding angle in degrees. Starting at east (0 degrees) and going anti-clockwise.
  */
 public enum CompassDirection {

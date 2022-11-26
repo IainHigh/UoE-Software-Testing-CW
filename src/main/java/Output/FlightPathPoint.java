@@ -45,7 +45,7 @@ public class FlightPathPoint {
     /**
      * Accessor for the longitude and latitude at the start of the move.
      *
-     * @return a 2-element array containing the destination longitude and latitude.
+     * @return a 2-element array containing the from_longitude and from_latitude.
      */
     public double[] getStartingCoordinates() {
         return new double[]{FROM_LONGITUDE, FROM_LATITUDE};
@@ -54,7 +54,7 @@ public class FlightPathPoint {
     /**
      * Accessor for the longitude and latitude at the end of the move.
      *
-     * @return a 2-element array containing the destination longitude and latitude.
+     * @return a 2-element array containing the to_longitude and to_latitude.
      */
     public double[] getDestinationCoordinates() {
         return new double[]{TO_LONGITUDE, TO_LATITUDE};

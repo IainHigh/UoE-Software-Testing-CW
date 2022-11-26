@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Record to represent a restaurant.
- * Stores the name, longitude, latitude, and number of moves required to return to appleton tower.
+ * Stores the longitude, latitude, menu, and number of moves required to return to appleton tower.
  */
 public class Restaurant {
     @JsonProperty("longitude")
@@ -27,18 +27,43 @@ public class Restaurant {
         return menu;
     }
 
+    /**
+     * Accessor method for the longitude.
+     *
+     * @return the longitude of the restaurant.
+     */
     public double getLongitude() {
         return this.longitude;
     }
 
+    /**
+     * Accessor method for the latitude.
+     *
+     * @return the latitude of the restaurant.
+     */
     public double getLatitude() {
         return this.latitude;
     }
 
+    /**
+     * Mutator method for the number of moves from Appleton Tower.
+     *
+     * @param noOfMoves the number of moves from Appleton Tower.
+     */
     public void setNumberOfMovesFromAppleton(int noOfMoves) {
-        this.numberOfMovesFromAppletonTower = noOfMoves;
+        if (noOfMoves > 0) {
+            this.numberOfMovesFromAppletonTower = noOfMoves;
+        }
+        else {
+            System.err.println("Number of moves must be greater than zero.");
+        }
     }
 
+    /**
+     * Accessor method for the number of moves from Appleton Tower.
+     *
+     * @return the number of moves from Appleton Tower.
+     */
     public int getNumberOfMovesFromAppletonTower() {
         return this.numberOfMovesFromAppletonTower;
     }

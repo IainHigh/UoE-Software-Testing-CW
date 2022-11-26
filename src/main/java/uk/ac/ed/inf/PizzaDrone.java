@@ -1,5 +1,3 @@
-//TODO: Re-do javadoc for everything that's changed
-//TODO: ctrl+alt+l, to clean up code
 package uk.ac.ed.inf;
 
 import OrderInformation.Order;
@@ -66,6 +64,11 @@ public class PizzaDrone {
         Restaurant[] restaurants = OrderRetriever.getRestaurants(restaurantsURL);
         orders = OrderRetriever.getOrders(ordersURL);
 
+        if(orders.length == 0) {
+            System.err.println("No orders found for the given date.");
+            return;
+        }
+
         // determine the outcome for invalid orders and sort the valid orders by the distance from Appleton Tower.
         ArrayList<Order> validOrders = validateAndSortOrders(restaurants);
 
@@ -126,7 +129,8 @@ public class PizzaDrone {
      * Sort the valid orders by the number of moves from Appleton Tower to the restaurant.
      * This ensures that we start by delivering the orders with the fewest moves from Appleton Tower.
      * Which means that we will be able to deliver more orders.
-     * TODO: restaurants being passed in.
+     *
+     * @param restaurants The array of all restaurants that are accessed from the server.
      *
      * @return The sorted list of valid orders.
      */
@@ -137,8 +141,9 @@ public class PizzaDrone {
             order.validateOrder(restaurants);
             if (order.isValid()) {
                 validOrders.add(order);
+
+                // If we haven't yet calculated the number of moves to appleton tower for this restaurant, calculate it.
                 if (order.getRestaurant().getNumberOfMovesFromAppletonTower() == 0) {
-                    // If we haven't yet calculated the number of moves to appleton tower for this restaurant, calculate it.
                     LngLat rLocation = new LngLat(order.getRestaurant().getLongitude(),
                             order.getRestaurant().getLatitude());
                     order.getRestaurant().setNumberOfMovesFromAppleton(rLocation.numberOfMovesTo(Constants.APPLETON_TOWER));
@@ -146,7 +151,7 @@ public class PizzaDrone {
             }
         }
 
-        // Sort the orders by the restaurants distance from appleton tower so that the closest restaurant is first.
+        // Sort the orders by the number of moves from appleton tower so that the closest restaurant is first.
         validOrders.sort(Comparator.comparingDouble(o -> o.getRestaurant().getNumberOfMovesFromAppletonTower()));
         return validOrders;
     }
@@ -158,7 +163,6 @@ public class PizzaDrone {
      * @param validOrders The sorted list of valid orders.
      */
     private static void calculatePath(ArrayList<Order> validOrders) {
-        System.out.println(validOrders.get(0).getOrderNo());
         startTime = Clock.systemDefaultZone().instant();
 
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
@@ -188,7 +192,6 @@ public class PizzaDrone {
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
-            System.out.println("\t\t" + remainingMoves);
 
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
             order.setValidOrderToDelivered();

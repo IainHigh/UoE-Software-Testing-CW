@@ -7,16 +7,15 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * A singleton class for storing the data retrieved from the REST API.
- * Stored in a singleton class so that it can be accessed from anywhere in the program. And so that it is only retrieved
- * once.
+ * Class to retrieve and deserialize the restaurants and orders from the REST API.
  */
 public final class OrderRetriever {
 
     /**
-     * Accessor method for the restaurants.
+     * Retrieves and deserializes the restaurants from the REST API.
      *
-     * @return The array of all restaurants which was accessed.
+     * @param url The URL of the JSON file containing the list of restaurants.
+     * @return An array of Restaurant objects.
      */
     public static Restaurant[] getRestaurants(URL url) {
         try {
@@ -30,9 +29,10 @@ public final class OrderRetriever {
     }
 
     /**
-     * Accessor method for the orders.
+     * Retrieves and deserializes the orders from the REST API.
      *
-     * @return The array of all orders accessed.
+     * @param url The URL of the JSON file containing the list of orders.
+     * @return An array of Order objects.
      */
     public static Order[] getOrders(URL url) {
         try {
