@@ -24,6 +24,7 @@ public final class OrderRetriever {
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, Restaurant[].class);
         } catch (IOException e) {
+            System.err.println("Error retrieving restaurants from REST API.");
             throw new RuntimeException(e);
         }
     }
@@ -41,6 +42,7 @@ public final class OrderRetriever {
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, Order[].class);
         } catch (IOException e) {
+            System.err.println("Error retrieving orders from REST API.");
             throw new RuntimeException(e);
         }
     }

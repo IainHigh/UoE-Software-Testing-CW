@@ -53,8 +53,7 @@ public class Restaurant {
     public void setNumberOfMovesFromAppleton(int noOfMoves) {
         if (noOfMoves > 0) {
             this.numberOfMovesFromAppletonTower = noOfMoves;
-        }
-        else {
+        } else {
             System.err.println("Number of moves must be greater than zero.");
         }
     }

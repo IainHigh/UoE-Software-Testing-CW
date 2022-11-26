@@ -48,7 +48,9 @@ public class Order {
      */
     public void validateOrder(Restaurant[] restaurants) {
 
-        if (restaurants == null || this.orderItems == null) {
+        if (restaurants == null || this.orderItems == null || orderNo.length() != 8) {
+            // orderNo has to be 8 digits, and there must be restaurants and orderItems.
+            System.out.println("HERE");
             this.outcome = OrderOutcome.Invalid;
         } else if (containsInvalidPizza(restaurants)) {
             // Check if the order contains any pizzas which aren't sold by any restaurant.

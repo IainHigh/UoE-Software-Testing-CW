@@ -55,6 +55,7 @@ public class AreaSingleton {
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, LngLat[].class);
         } catch (IOException e) {
+            System.err.println("Error retrieving central area from REST API.");
             throw new RuntimeException(e);
         }
     }
@@ -82,6 +83,7 @@ public class AreaSingleton {
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             noFlyZoneObjectArray = mapper.readValue(url, NoFlyZone[].class);
         } catch (IOException e) {
+            System.err.println("Error retrieving no-fly zones from REST API.");
             throw new RuntimeException(e);
         }
 

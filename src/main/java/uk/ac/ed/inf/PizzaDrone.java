@@ -54,7 +54,9 @@ public class PizzaDrone {
             restaurantsURL = new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG);
             ordersURL = new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            System.err.println("Can't create URL from given string.");
+            e.printStackTrace();
+            return;
         }
 
         // Set up the URLs for the AreaSingleton.
@@ -64,7 +66,7 @@ public class PizzaDrone {
         Restaurant[] restaurants = OrderRetriever.getRestaurants(restaurantsURL);
         orders = OrderRetriever.getOrders(ordersURL);
 
-        if(orders.length == 0) {
+        if (orders.length == 0) {
             System.err.println("No orders found for the given date.");
             return;
         }
@@ -131,7 +133,6 @@ public class PizzaDrone {
      * Which means that we will be able to deliver more orders.
      *
      * @param restaurants The array of all restaurants that are accessed from the server.
-     *
      * @return The sorted list of valid orders.
      */
     private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants) {

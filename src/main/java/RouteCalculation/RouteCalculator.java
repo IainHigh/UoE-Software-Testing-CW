@@ -10,8 +10,8 @@ public class RouteCalculator {
     /**
      * Use the A* algorithm to find the shortest route from the start to the end.
      *
-     * @param start the start node.
-     * @param end   the end node.
+     * @param start      the start node.
+     * @param end        the end node.
      * @param nextTarget after the drone has arrived at the end node, this is its next destination. Used to find the
      *                   best move to make when the drone is near the end node.
      * @return the shortest route from the start to the end.
