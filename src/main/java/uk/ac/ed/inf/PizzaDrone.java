@@ -94,7 +94,7 @@ public class PizzaDrone {
             System.err.println("Expected 2 or 3 arguments, got " + args.length);
             return false;
         }
-        if (args.length == 3){
+        if (args.length == 3) {
             System.out.println("Please note we do not use random number generation, so the seed is ignored.");
         }
 
