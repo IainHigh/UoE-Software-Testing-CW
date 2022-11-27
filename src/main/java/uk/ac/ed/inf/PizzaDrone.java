@@ -44,7 +44,8 @@ public class PizzaDrone {
             date = args[0];
             restAPIUrl = args[1];
         } else {
-            throw new IllegalArgumentException("Invalid input arguments.");
+            System.err.println("Invalid input. Unable to continue.");
+            return;
         }
 
         URL noFlyURL, centralAreaURL, restaurantsURL, ordersURL;
@@ -89,9 +90,12 @@ public class PizzaDrone {
     private static boolean validateInput(String[] args) {
 
         // Check that there are exactly two arguments - the date and the URL.
-        if (args.length != 2) {
-            System.err.println("Expected 2 arguments, got " + args.length);
+        if (args.length != 2 && args.length != 3) {
+            System.err.println("Expected 2 or 3 arguments, got " + args.length);
             return false;
+        }
+        if (args.length == 3){
+            System.out.println("Please note we do not use random number generation, so the seed is ignored.");
         }
 
         // Check that the first argument follows the pattern "YYYY-MM-DD".

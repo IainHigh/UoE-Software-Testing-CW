@@ -47,10 +47,11 @@ public class Order {
      * @param restaurants the array of restaurants used to validate the order.
      */
     public void validateOrder(Restaurant[] restaurants) {
-
-        if (restaurants == null || this.orderItems == null || orderNo.length() != 8) {
-            // orderNo has to be 8 digits, and there must be restaurants and orderItems.
-            System.out.println("HERE");
+        if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
+            // The orderNo must be an 8 digit hexadecimal number.
+            this.outcome = OrderOutcome.Invalid;
+        } else if (restaurants == null || this.orderItems == null) {
+            // There must be restaurants and orderItems.
             this.outcome = OrderOutcome.Invalid;
         } else if (containsInvalidPizza(restaurants)) {
             // Check if the order contains any pizzas which aren't sold by any restaurant.
