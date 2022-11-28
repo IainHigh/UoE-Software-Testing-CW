@@ -8,6 +8,7 @@ import Output.FlightPathPoint;
 import RouteCalculation.AreaSingleton;
 import RouteCalculation.CompassDirection;
 import RouteCalculation.LngLat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -122,8 +123,9 @@ public class PizzaDrone {
 
         // Check that the second argument is a valid URL. And the test JSON can be accessed.
         try {
-            new URL(args[1] + Constants.TEST_URL_SLUG);
-        } catch (MalformedURLException e) {
+            URL temp = new URL(args[1] + Constants.TEST_URL_SLUG);
+            new ObjectMapper().readValue(temp, Object.class);
+        } catch (Exception e) {
             System.err.println("Second argument is not a valid URL, got: " + args[1]);
             return false;
         }
@@ -243,6 +245,6 @@ public class PizzaDrone {
         FileWriter fileWriter = new FileWriter(date);
         fileWriter.writeToDroneGEOJSON(allDirectionsFollowed);
         fileWriter.writeToFlightpathJSON(allDirectionsFollowed);
-        fileWriter.writeToDeliveriesJSON(Arrays.stream(orders).map(Order::toJSON).toArray(String[]::new));
+        fileWriter.writeToDeliveriesJSON(Arrays.stream(orders).map(Order::toJson).toArray(String[]::new));
     }
 }

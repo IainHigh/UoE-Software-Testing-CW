@@ -20,7 +20,6 @@ public final class OrderRetriever {
     public static Restaurant[] getRestaurants(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, Restaurant[].class);
         } catch (IOException e) {

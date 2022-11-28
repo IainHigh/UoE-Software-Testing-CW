@@ -90,7 +90,7 @@ public class FileWriter {
             java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("[");
             for (int i = 0; i < flight.size(); i++) {
-                fileWriter.write(flight.get(i).toJSON());
+                fileWriter.write(flight.get(i).toJson());
                 if (i != flight.size() - 1) fileWriter.write(",");
             }
             fileWriter.write("]");

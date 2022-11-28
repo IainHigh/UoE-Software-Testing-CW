@@ -77,6 +77,8 @@ class Node {
     /**
      * Calculate the f value of the node.
      * The f value is the sum of the g and h values.
+     * That is to say the cost of the path from the start node to this node plus the heuristic cost of the path from
+     * this node to the goal node.
      *
      * @return the f value of the node.
      */

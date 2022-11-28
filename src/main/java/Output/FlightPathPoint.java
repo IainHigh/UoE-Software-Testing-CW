@@ -65,7 +65,7 @@ public class FlightPathPoint {
      *
      * @return A String storing the information in JSON format.
      */
-    public String toJSON() {
+    public String toJson() {
         return "{\"orderNumber\": \"" + ORDER_NUMBER + "\""
                 + ", \"fromLongitude\": " + FROM_LONGITUDE
                 + ", \"fromLatitude\": " + FROM_LATITUDE

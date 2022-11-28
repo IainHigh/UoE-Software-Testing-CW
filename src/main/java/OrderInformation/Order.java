@@ -122,51 +122,40 @@ public class Order {
 
     /**
      * Validates the credit card number of an order.
+     * The regex used is provided by stackoverflow users "quinlo" and "ajithparamban".
+     * <a href="https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests">...</a>
      *
      * @return True if the credit card number is valid. False otherwise.
      */
     private boolean validCardNumber() {
-        char[] creditNumberArr = this.creditCardNumber.toCharArray();
+        final String VISA_REGEX = "^4[0-9]{12}(?:[0-9]{3})?$";
+        final String MASTER_CARD_REGEX = "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1" +
+                "][0-9]{13}|720[0-9]{12}))$";
 
-        // Since we are only interested in visa and mastercard, we know it has to be 16 digits.
-        if (creditNumberArr.length != 16) return false;
-        for (char c : creditNumberArr) {
-            if (!isDigit(c)) return false;
-        }
-
-        // Visa card number iin is 4. Visa doesn't use the luhn algorithm.
-        if (creditNumberArr[0] == '4') {
-            return true;
-        }
-
-        // first 4 digits of mastercard iin is 2221-2720 or 5100-5599. Mastercard uses the luhn algorithm.
-        int iin = Integer.parseInt(creditCardNumber.substring(0, 4));
-        if ((iin >= 2221 && iin <= 2720) || (iin >= 5100 && iin <= 5599)) {
+        if (this.creditCardNumber.matches(VISA_REGEX) || this.creditCardNumber.matches(MASTER_CARD_REGEX)) {
+            // Check if the credit card number is a valid visa or mastercard number.
             return luhnCheck();
         }
-
         return false;
     }
 
     /**
-     * Uses the luhn algorithm to check if the mastercard number is valid.
+     * Uses the luhn algorithm to check if the card number is valid.
      * <a href="https://en.wikipedia.org/wiki/Luhn_algorithm">...</a>
      *
      * @return True if the mastercard number is valid. False otherwise.
      */
     private boolean luhnCheck() {
         int sum = 0;
-        boolean alternate = false;
         for (int i = this.creditCardNumber.length() - 1; i >= 0; i--) {
             int n = Integer.parseInt(this.creditCardNumber.substring(i, i + 1));
-            if (alternate) {
+            if (i % 2 == 0) {
                 n *= 2;
                 if (n > 9) {
                     n = (n % 10) + 1;
                 }
             }
             sum += n;
-            alternate = !alternate;
         }
         return (sum % 10 == 0);
     }
@@ -222,7 +211,7 @@ public class Order {
      *
      * @return A String storing the information in JSON format.
      */
-    public String toJSON() {
+    public String toJson() {
         return "{\"orderNo\": \"" + orderNo + "\", "
                 + "\"outcome\": \"" + outcome + "\", "
                 + "\"costInPence\": " + priceTotalInPence + "}";

@@ -51,7 +51,6 @@ public class AreaSingleton {
     private LngLat[] deserializeCentralArea(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, LngLat[].class);
         } catch (IOException e) {
@@ -79,7 +78,6 @@ public class AreaSingleton {
         NoFlyZone[] noFlyZoneObjectArray;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             noFlyZoneObjectArray = mapper.readValue(url, NoFlyZone[].class);
         } catch (IOException e) {
