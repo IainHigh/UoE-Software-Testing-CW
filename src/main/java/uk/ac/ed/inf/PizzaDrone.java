@@ -90,7 +90,7 @@ public class PizzaDrone {
      */
     private static boolean validateInput(String[] args) {
 
-        // Check that there are exactly two arguments - the date and the URL.
+        // Check that there are a valid number of arguments: the date, the URL, and (optionally) the rng seed.
         if (args.length != 2 && args.length != 3) {
             System.err.println("Expected 2 or 3 arguments, got " + args.length);
             return false;
@@ -123,8 +123,8 @@ public class PizzaDrone {
 
         // Check that the second argument is a valid URL. And the test JSON can be accessed.
         try {
-            URL temp = new URL(args[1] + Constants.TEST_URL_SLUG);
-            new ObjectMapper().readValue(temp, Object.class);
+            URL testURL = new URL(args[1] + Constants.TEST_URL_SLUG);
+            new ObjectMapper().readValue(testURL, Object.class);
         } catch (Exception e) {
             System.err.println("Second argument is not a valid URL, got: " + args[1]);
             return false;
