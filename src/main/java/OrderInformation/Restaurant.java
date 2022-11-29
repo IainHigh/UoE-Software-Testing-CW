@@ -21,7 +21,7 @@ public class Restaurant {
     /**
      * Accessor method for the menu.
      *
-     * @return the array of menu records for this restaurant.
+     * @return The array of menu records for this restaurant.
      */
     public Menu[] getMenu() {
         return menu;
@@ -30,7 +30,7 @@ public class Restaurant {
     /**
      * Accessor method for the longitude.
      *
-     * @return the longitude of the restaurant.
+     * @return The longitude of the restaurant.
      */
     public double getLongitude() {
         return this.longitude;
@@ -39,7 +39,7 @@ public class Restaurant {
     /**
      * Accessor method for the latitude.
      *
-     * @return the latitude of the restaurant.
+     * @return The latitude of the restaurant.
      */
     public double getLatitude() {
         return this.latitude;

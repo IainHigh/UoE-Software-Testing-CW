@@ -95,7 +95,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      * Calculates the pythagorean distance between two points.
      *
      * @param source The LngLat point we are measuring the pythagorean distance to.
-     * @return the pythagorean distance between the two points.
+     * @return The pythagorean distance between the two points.
      */
     public double distanceTo(LngLat source) {
         if (source == null) {

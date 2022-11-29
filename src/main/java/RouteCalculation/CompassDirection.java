@@ -29,6 +29,11 @@ public enum CompassDirection {
         this.angle = angle;
     }
 
+    /**
+     * Accessor for the angle of the compass direction.
+     *
+     * @return The angle of the compass direction.
+     */
     public Double getAngle() {
         return this.angle;
     }

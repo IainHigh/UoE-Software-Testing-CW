@@ -10,7 +10,7 @@ import java.util.List;
 import static java.lang.Character.isDigit;
 
 /**
- * Record to represent an order.
+ * Class to represent an order.
  * Contains methods to validate the order and assign the order outcome.
  */
 public class Order {
@@ -42,7 +42,7 @@ public class Order {
     private OrderOutcome outcome;
 
     /**
-     * Validates the order and assigns the outcome.
+     * Validates the order and assigns the order outcome.
      *
      * @param restaurants The array of restaurants used to validate the order.
      * @param date        The date which was passed into the command line arguments.
@@ -97,7 +97,7 @@ public class Order {
                 .map(Menu::name)
                 .toList();
 
-        // Check if any of the pizzas ordered are not in the list of valid pizzas.
+        // Check if any of the pizzas ordered are not in the list of all valid pizzas.
         return Arrays.stream(this.orderItems)
                 .anyMatch(pizza -> !validPizzas.contains(pizza));
     }
