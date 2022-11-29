@@ -48,7 +48,7 @@ public class Restaurant {
     /**
      * Mutator method for the number of moves from Appleton Tower.
      *
-     * @param noOfMoves the number of moves from Appleton Tower.
+     * @param noOfMoves The number of moves from Appleton Tower.
      */
     public void setNumberOfMovesFromAppleton(int noOfMoves) {
         if (noOfMoves > 0) {
@@ -61,7 +61,7 @@ public class Restaurant {
     /**
      * Accessor method for the number of moves from Appleton Tower.
      *
-     * @return the number of moves from Appleton Tower.
+     * @return The number of moves from Appleton Tower.
      */
     public int getNumberOfMovesFromAppletonTower() {
         return this.numberOfMovesFromAppletonTower;

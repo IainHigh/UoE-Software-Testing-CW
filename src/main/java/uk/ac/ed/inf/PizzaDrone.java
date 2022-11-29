@@ -139,7 +139,7 @@ public class PizzaDrone {
      * Which means that we will be able to deliver more orders.
      *
      * @param restaurants The array of all restaurants that are accessed from the server.
-     * @param date        - The command line argument for the date. Used to validate that the order is for the correct date.
+     * @param date        The command line argument for the date. Used to validate that the order is for the correct date.
      * @return The sorted list of valid orders.
      */
     private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants, String date) {
@@ -239,7 +239,7 @@ public class PizzaDrone {
     /**
      * This method uses the FileWriter class to write to all the required files.
      *
-     * @param date The date of the orders - used to name the files.
+     * @param date The date of the orders which is used to name the files.
      */
     private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.

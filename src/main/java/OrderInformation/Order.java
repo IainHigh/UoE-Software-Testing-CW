@@ -44,10 +44,14 @@ public class Order {
     /**
      * Validates the order and assigns the outcome.
      *
-     * @param restaurants the array of restaurants used to validate the order.
+     * @param restaurants The array of restaurants used to validate the order.
+     * @param date        The date which was passed into the command line arguments.
      */
     public void validateOrder(Restaurant[] restaurants, String date) {
-        if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
+        if (!this.orderDate.matches("\\d{4}-\\d{2}-\\d{2}") || !this.orderDate.equals(date)) {
+            // The orderDate must be in YYYY-MM-DD format and be the same as the date given in the command line.
+            this.outcome = OrderOutcome.Invalid;
+        } else if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
             // The orderNo must be an 8 digit hexadecimal number.
             this.outcome = OrderOutcome.Invalid;
         } else if (restaurants == null || this.orderItems == null) {
@@ -62,7 +66,7 @@ public class Order {
         } else if (!validCardNumber()) {
             // Check if the credit card number is valid.
             this.outcome = OrderOutcome.InvalidCardNumber;
-        } else if (!validCardExpiry(date)) {
+        } else if (!validCardExpiry()) {
             // Check if the credit card expiry date is valid.
             this.outcome = OrderOutcome.InvalidExpiryDate;
         } else if (!validCVV()) {
@@ -83,8 +87,8 @@ public class Order {
     /**
      * Checks if the order contains any pizzas which aren't sold by any restaurant.
      *
-     * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @return - True if the order contains any pizzas which aren't sold by any restaurant. False otherwise.
+     * @param participatingRestaurants Array of participating restaurants (including their menus)
+     * @return True if the order contains any pizzas which aren't sold by any restaurant. False otherwise.
      */
     private boolean containsInvalidPizza(Restaurant[] participatingRestaurants) {
         // Generate a list of all valid pizzas from all restaurants.
@@ -102,8 +106,8 @@ public class Order {
      * Checks if the order contains pizzas from multiple restaurants.
      * Also sets the restaurantOrderedFrom variable to the restaurant the order was placed with.
      *
-     * @param participatingRestaurants - Array of participating restaurants (including their menus)
-     * @return - True if the order contains pizzas from multiple restaurants. False otherwise.
+     * @param participatingRestaurants Array of participating restaurants (including their menus)
+     * @return True if the order contains pizzas from multiple restaurants. False otherwise.
      */
     private boolean pizzaOrderedFromMultipleRestaurants(Restaurant[] participatingRestaurants) {
         // Get the restaurant that the first pizza is ordered from.
@@ -143,7 +147,7 @@ public class Order {
      * Uses the luhn algorithm to check if the card number is valid.
      * <a href="https://en.wikipedia.org/wiki/Luhn_algorithm">...</a>
      *
-     * @return True if the mastercard number is valid. False otherwise.
+     * @return True if the credit card number passes the luhn check. False otherwise.
      */
     private boolean luhnCheck() {
         int sum = 0;
@@ -163,16 +167,9 @@ public class Order {
     /**
      * Validates the credit card expiration date of an order.
      *
-     * @param commandLineDate - The date that was entered in the command line. This should match the orderDate.
      * @return True if the credit card expiration date is valid (format MM/YY and before order date). False otherwise.
      */
-    private boolean validCardExpiry(String commandLineDate) {
-
-        // Check the orderDate is in YYYY-MM-DD format.
-        if (!this.orderDate.matches("\\d{4}-\\d{2}-\\d{2}")) return false;
-
-        // Check the date given for the order is the same as the date given in the command line.
-        if (!this.orderDate.equals(commandLineDate)) return false;
+    private boolean validCardExpiry() {
 
         LocalDate date = LocalDate.parse(this.orderDate);
 
@@ -202,7 +199,7 @@ public class Order {
     /**
      * Validates the total price of an order.
      *
-     * @return - True if the priceTotalInPence is equal to the sum of the prices of the pizzas ordered. False otherwise.
+     * @return True if the priceTotalInPence is equal to the sum of the prices of the pizzas ordered. False otherwise.
      */
     private boolean validatePriceTotal() {
         final int FIXED_ORDER_CHARGE = 100;
