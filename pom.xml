@@ -71,15 +71,14 @@
 
   <dependencies>
 
-    <!--  jsr310 is used specifically for the LocalDate deserialization, but using this as a dependency includes normal
-    jackson as well.  -->
+    <!--jackson is used for reading json files.-->
     <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
       <version>2.14.0</version>
     </dependency>
 
-    <!-- junit is used for the testing.   -->
+    <!--junit is used for the testing.-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

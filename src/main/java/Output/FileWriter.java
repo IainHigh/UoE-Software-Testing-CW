@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class FileWriter {
     private final String DATE;
-    private final String OUTPUT_DIRECTORY = "outputFiles/";
+    private final String OUTPUT_DIRECTORY = "resultfiles/";
 
     /**
      * Constructor for the FileWriter class.

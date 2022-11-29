@@ -74,7 +74,7 @@ public class PizzaDrone {
         }
 
         // determine the outcome for invalid orders and sort the valid orders by the distance from Appleton Tower.
-        ArrayList<Order> validOrders = validateAndSortOrders(restaurants);
+        ArrayList<Order> validOrders = validateAndSortOrders(restaurants, date);
 
         // Calculate the full path around all the valid orders and back to Appleton Tower.
         calculatePath(validOrders);
@@ -139,13 +139,14 @@ public class PizzaDrone {
      * Which means that we will be able to deliver more orders.
      *
      * @param restaurants The array of all restaurants that are accessed from the server.
+     * @param date        - The command line argument for the date. Used to validate that the order is for the correct date.
      * @return The sorted list of valid orders.
      */
-    private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants) {
+    private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants, String date) {
         // Validate the orders and store the valid orders in a new list - validOrders.
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
-            order.validateOrder(restaurants);
+            order.validateOrder(restaurants, date);
             if (order.isValid()) {
                 validOrders.add(order);
 

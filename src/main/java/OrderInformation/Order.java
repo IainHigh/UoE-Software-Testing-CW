@@ -19,7 +19,7 @@ public class Order {
     private String orderNo;
 
     @JsonProperty("orderDate")
-    private LocalDate orderDate;
+    private String orderDate;
 
     @JsonProperty("creditCardNumber")
     private String creditCardNumber;
@@ -46,7 +46,7 @@ public class Order {
      *
      * @param restaurants the array of restaurants used to validate the order.
      */
-    public void validateOrder(Restaurant[] restaurants) {
+    public void validateOrder(Restaurant[] restaurants, String date) {
         if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
             // The orderNo must be an 8 digit hexadecimal number.
             this.outcome = OrderOutcome.Invalid;
@@ -62,7 +62,7 @@ public class Order {
         } else if (!validCardNumber()) {
             // Check if the credit card number is valid.
             this.outcome = OrderOutcome.InvalidCardNumber;
-        } else if (!validCardExpiry()) {
+        } else if (!validCardExpiry(date)) {
             // Check if the credit card expiry date is valid.
             this.outcome = OrderOutcome.InvalidExpiryDate;
         } else if (!validCVV()) {
@@ -163,9 +163,19 @@ public class Order {
     /**
      * Validates the credit card expiration date of an order.
      *
+     * @param commandLineDate - The date that was entered in the command line. This should match the orderDate.
      * @return True if the credit card expiration date is valid (format MM/YY and before order date). False otherwise.
      */
-    private boolean validCardExpiry() {
+    private boolean validCardExpiry(String commandLineDate) {
+
+        // Check the orderDate is in YYYY-MM-DD format.
+        if (!this.orderDate.matches("\\d{4}-\\d{2}-\\d{2}")) return false;
+
+        // Check the date given for the order is the same as the date given in the command line.
+        if (!this.orderDate.equals(commandLineDate)) return false;
+
+        LocalDate date = LocalDate.parse(this.orderDate);
+
         // Since credit cards only measure the year in the last two digits, we need to add 2000 to the year.
         final int CENTURY = 2000;
 
@@ -176,7 +186,7 @@ public class Order {
         int month = Integer.parseInt(this.creditCardExpiry.substring(0, 2));
         int year = CENTURY + Integer.parseInt(this.creditCardExpiry.substring(3, 5));
 
-        return (year > this.orderDate.getYear()) || (year == this.orderDate.getYear() && month >= this.orderDate.getMonthValue());
+        return (year > date.getYear()) || (year == date.getYear() && month >= date.getMonthValue());
     }
 
     /**

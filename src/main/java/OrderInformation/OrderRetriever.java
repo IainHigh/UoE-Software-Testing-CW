@@ -37,7 +37,6 @@ public final class OrderRetriever {
     public static Order[] getOrders(URL url) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(url, Order[].class);
         } catch (IOException e) {
