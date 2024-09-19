@@ -157,7 +157,7 @@ public class PizzaDrone {
      * Which means that we will be able to deliver more orders.
      *
      * @param restaurants The array of all restaurants that are accessed from the server.
-     * @param date        - The command line argument for the date. Used to validate that the order is for the correct date.
+     * @param date        The command line argument for the date. Used to validate that the order is for the correct date.
      * @return The sorted list of valid orders.
      */
     private static ArrayList<Order> validateAndSortOrders(Restaurant[] restaurants, String date) {
@@ -204,7 +204,7 @@ public class PizzaDrone {
 
             currentDirectionsFollowed = new ArrayList<>();
 
-            // Move to the restaurant.
+            // Move to the restaurant to pick up the order.
             CompassDirection[] route = currentLocation.routeTo(new LngLat(order.getRestaurant().getLongitude(),
                     order.getRestaurant().getLatitude()), Constants.APPLETON_TOWER);
             currentLocation = followRoute(currentLocation, route, order.getOrderNo());
@@ -212,13 +212,15 @@ public class PizzaDrone {
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
 
-            // Move to appleton tower to pick up the next order.
+            // Move to appleton tower to deliver the order.
             route = currentLocation.routeTo(Constants.APPLETON_TOWER, nextLocation);
             currentLocation = followRoute(currentLocation, route, order.getOrderNo());
 
             // If making this journey would result in the drone running out of battery, then don't make the journey.
             if (remainingMoves < 0) break;
 
+            // If we still have battery, add the directions followed to the list of all directions followed.
+            // And set the order as delivered.
             allDirectionsFollowed.addAll(currentDirectionsFollowed);
             order.setValidOrderToDelivered();
         }
@@ -257,7 +259,7 @@ public class PizzaDrone {
     /**
      * This method uses the FileWriter class to write to all the required files.
      *
-     * @param date The date of the orders - used to name the files.
+     * @param date The date of the orders which is used to name the files.
      */
     private static void writeToOutputFiles(String date) {
         // Write the results to the JSON and GEOJSON files.

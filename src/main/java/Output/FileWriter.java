@@ -19,7 +19,7 @@ public class FileWriter {
     /**
      * Constructor for the FileWriter class.
      *
-     * @param date The date of the orders.
+     * @param date The date of the orders, as given by the command line.
      */
     public FileWriter(String date) {
         this.date = date;
@@ -52,7 +52,7 @@ public class FileWriter {
     /**
      * Write the list of drone coordinates to the drone file as a LineString to view the path the drone took.
      *
-     * @param flight The flightpath - used to get the coordinates to write.
+     * @param flight The list of flightpath points which is used to get the coordinates to write.
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = flight.get(0).getStartingCoordinates();
@@ -83,7 +83,7 @@ public class FileWriter {
     /**
      * Write the full flightpath of the drone to the flightpath output file.
      *
-     * @param flight The flightpath to write to the file.
+     * @param flight The list of flightpath points to write to the file.
      */
     public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
         String fileName = outputDirectory + "flightpath-" + date + ".json";

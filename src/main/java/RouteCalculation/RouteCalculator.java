@@ -10,11 +10,11 @@ public class RouteCalculator {
     /**
      * Use the A* algorithm to find the shortest route from the start to the end.
      *
-     * @param start      the start node.
-     * @param end        the end node.
-     * @param nextTarget after the drone has arrived at the end node, this is its next destination. Used to find the
-     *                   best move to make when the drone is near the end node.
-     * @return the shortest route from the start to the end.
+     * @param start      The LngLat point which is the starting position.
+     * @param end        The LngLat point which is where we want to be close to.
+     * @param nextTarget After the drone has arrived close to the end position, this is its next destination. Used to
+     *                   find the best move to make when the drone is near the end node.
+     * @return The shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
         System.out.println("Calculating route from " + start.getLat() + ", " + start.getLng() + " to " + end.getLat() + ", " + end.getLng());
@@ -79,6 +79,11 @@ public class RouteCalculator {
      * Checks if there is multiple possible moves which result in being close to the destination
      * If this is the case, then it will find the number of moves from each one to the next target
      * and return the one with the least number of moves.
+     *
+     * @param currentNode A node which has at least one child which is close to the destination.
+     * @param end         The LngLat point which is where we want to be close to.
+     * @param nextTarget  The point which we want to be closest to after we have reached the end point.
+     * @return The node which is close to the end point and has the least number of moves to the next target.
      */
     private static Node findBestMoveInCloseRadius(Node currentNode, LngLat end, LngLat nextTarget) {
 
@@ -120,8 +125,8 @@ public class RouteCalculator {
      * To do this we simply go from child to parent until we reach the start node.
      * The directions are recorded in reverse order, so we reverse the list before returning.
      *
-     * @param currentNode the node that is the end of the path.
-     * @return the directions that were taken to get to this end node.
+     * @param currentNode The final node which the path will end at.
+     * @return An array of CompassDirections that were taken to get from the start to this end node.
      */
     private static CompassDirection[] reconstructPath(Node currentNode) {
         List<CompassDirection> route = new ArrayList<>();

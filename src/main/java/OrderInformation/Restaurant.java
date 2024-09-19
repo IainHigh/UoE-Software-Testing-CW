@@ -45,7 +45,7 @@ public class Restaurant {
     /**
      * Accessor method for the menu.
      *
-     * @return the array of menu records for this restaurant.
+     * @return The array of menu records for this restaurant.
      */
     public Menu[] getMenu() {
         return menu;
@@ -54,7 +54,7 @@ public class Restaurant {
     /**
      * Accessor method for the longitude.
      *
-     * @return the longitude of the restaurant.
+     * @return The longitude of the restaurant.
      */
     public double getLongitude() {
         return this.location.getLongitude();
@@ -63,7 +63,7 @@ public class Restaurant {
     /**
      * Accessor method for the latitude.
      *
-     * @return the latitude of the restaurant.
+     * @return The latitude of the restaurant.
      */
     public double getLatitude() {
         return this.location.getLatitude();
@@ -81,7 +81,7 @@ public class Restaurant {
     /**
      * Mutator method for the number of moves from Appleton Tower.
      *
-     * @param noOfMoves the number of moves from Appleton Tower.
+     * @param noOfMoves The number of moves from Appleton Tower.
      */
     public void setNumberOfMovesFromAppleton(int noOfMoves) {
         if (noOfMoves > 0) {
@@ -94,7 +94,7 @@ public class Restaurant {
     /**
      * Accessor method for the number of moves from Appleton Tower.
      *
-     * @return the number of moves from Appleton Tower.
+     * @return The number of moves from Appleton Tower.
      */
     public int getNumberOfMovesFromAppletonTower() {
         return this.numberOfMovesFromAppletonTower;

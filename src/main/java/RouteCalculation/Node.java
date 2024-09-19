@@ -18,8 +18,8 @@ class Node {
      * Create a new node with no parents.
      * This constructor is intended for the start node.
      *
-     * @param point the LngLat coordinate of the node.
-     * @param end   the LngLat coordinates of the destination.
+     * @param point The LngLat coordinate of the node.
+     * @param end   The LngLat coordinates of the destination.
      */
     public Node(LngLat point, LngLat end) {
         this.point = point;
@@ -32,10 +32,10 @@ class Node {
     /**
      * Create a new node with a parent. This constructor is intended for all other nodes.
      *
-     * @param point               the LngLat coordinate of the node.
-     * @param end                 the LngLat coordinates of the destination.
-     * @param parent              the parent node.
-     * @param directionFromParent the compass direction from the parent node to this node. Used to reconstruct the path.
+     * @param point               The LngLat coordinate of the node.
+     * @param end                 The LngLat coordinates of the destination.
+     * @param parent              The parent node.
+     * @param directionFromParent The compass direction from the parent node to this node. Used to reconstruct the path.
      */
     public Node(LngLat point, LngLat end, Node parent, CompassDirection directionFromParent) {
         this.point = point;
@@ -48,8 +48,8 @@ class Node {
     /**
      * Calculate the heuristic cost of the path from this node to the goal node.
      *
-     * @param end the LngLat coordinates of the destination.
-     * @return the heuristic cost of the path from this node to the goal node.
+     * @param end The LngLat coordinates of the destination.
+     * @return The heuristic cost of the path from this node to the goal node.
      */
     private double calculateHeuristic(LngLat end) {
         Line2D.Double line = new Line2D.Double(this.point.getLng(), this.point.getLat(), end.getLng(), end.getLat());
@@ -84,7 +84,7 @@ class Node {
      * Calculate the f value of the node.
      * The f value is influenced by the greedyFactor, balancing between g and h.
      *
-     * @return the f value of the node.
+     * @return The f value of the node.
      */
     public double getFScore() {
         return (1 - GREEDY_FACTOR) * this.g + GREEDY_FACTOR * this.h;
