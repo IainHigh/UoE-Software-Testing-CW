@@ -13,13 +13,14 @@
   <build>
     <plugins>
 
-      <!--Compiler Plugin-->
+      <!-- Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <release>18</release>
+          <source>1.8</source> <!-- Changed from 18 to 1.8 -->
+          <target>1.8</target> <!-- Changed from 18 to 1.8 -->
           <showWarnings>true</showWarnings>
           <compilerArgs>
             <arg>-Xlint:all,-classfile</arg>
@@ -27,7 +28,7 @@
         </configuration>
       </plugin>
 
-      <!--Jar Plugin-->
+      <!-- Jar Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -42,7 +43,7 @@
         </configuration>
       </plugin>
 
-      <!--Shade Plugin-->
+      <!-- Shade Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -64,21 +65,20 @@
   <properties>
     <jackson.version>2.10.0</jackson.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>18</maven.compiler.source>
-    <maven.compiler.target>18</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source> <!-- Changed from 18 to 1.8 -->
+    <maven.compiler.target>1.8</maven.compiler.target> <!-- Changed from 18 to 1.8 -->
   </properties>
-
 
   <dependencies>
 
-    <!--jackson is used for reading json files.-->
+    <!-- jackson is used for reading json files. -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.14.0</version>
     </dependency>
 
-    <!--junit is used for the testing.-->
+    <!-- junit is used for the testing. -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

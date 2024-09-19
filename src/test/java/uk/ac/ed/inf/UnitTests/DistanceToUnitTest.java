@@ -13,8 +13,8 @@ public class DistanceToUnitTest {
             Random random = new Random();
             double radius = random.nextDouble();
             double angle = random.nextDouble() * 2 * Math.PI;
-            double lng2 = p1.lng() + radius * Math.cos(angle);
-            double lat2 = p1.lat() + radius * Math.sin(angle);
+            double lng2 = p1.getLng() + radius * Math.cos(angle);
+            double lat2 = p1.getLat() + radius * Math.sin(angle);
             LngLat p2 = new LngLat(lng2, lat2);
             assert(p1.distanceTo(p2) == p2.distanceTo(p1));
             assert((p1.distanceTo(p2) - radius) < 10e-12);

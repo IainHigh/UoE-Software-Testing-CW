@@ -5,14 +5,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.awt.geom.Line2D;
 
 /**
- * Record to represent a (Lng, Lat) coordinate pair.
- *
- * @param lng The longitude.
- * @param lat The latitude.
+ * Class to represent a (Lng, Lat) coordinate pair.
  */
-public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
+public class LngLat {
+    private final double lng;
+    private final double lat;
+
     final static double DISTANCE_TOLERANCE = 0.00015;
     final static double LENGTH_OF_MOVE = 0.00015;
+
+    /**
+     * Constructor to create a LngLat object.
+     *
+     * @param lng The longitude.
+     * @param lat The latitude.
+     */
+    public LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latitude") double lat) {
+        this.lng = lng;
+        this.lat = lat;
+    }
+
+    // Getters
+    public double getLng() {
+        return lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
 
     /**
      * Uses the ray-casting algorithm to determine if a point is inside the zone.
@@ -34,17 +54,18 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             LngLat p1 = zoneCoordinates[i];
             LngLat p2 = zoneCoordinates[(i + 1) % zoneCoordinates.length];
 
-            double gradient = (p2.lng() - p1.lng()) / (p2.lat() - p1.lat());
-            double latDiff = this.lat - p1.lat();
+            double gradient = (p2.getLng() - p1.getLng()) / (p2.getLat() - p1.getLat());
+            double latDiff = this.lat - p1.getLat();
 
             // Determine if the line intersects with the border.
             // If it's above the lower point and below the upper point and lies to the left of the line between
             // border points then it will intersect.
-            if (this.lat > Math.min(p1.lat(), p2.lat()) && this.lat < Math.max(p1.lat(), p2.lat()) && this.lng < (latDiff * gradient) + p1.lng()) {
+            if (this.lat > Math.min(p1.getLat(), p2.getLat()) && this.lat < Math.max(p1.getLat(), p2.getLat()) 
+                && this.lng < (latDiff * gradient) + p1.getLng()) {
                 inside = !inside;
             }
         }
-        return (inside);
+        return inside;
     }
 
     /**
@@ -68,7 +89,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             System.err.println("inNoFlyZone called with null previousPoint.");
             return false;
         }
-        Line2D.Double l = new Line2D.Double(this.lng(), this.lat(), previousPoint.lng(), previousPoint.lat());
+        Line2D.Double l = new Line2D.Double(this.lng, this.lat, previousPoint.getLng(), previousPoint.getLat());
         for (LngLat[] noFlyZone : AreaSingleton.getInstance().getNoFlyZones()) {
 
             // If the current point is in the no-fly zone, return true.
@@ -83,7 +104,7 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
 
                 // If the line between the two points intersects with the line between the border points, then the line
                 // enters the no-fly zone.
-                if (l.intersectsLine(p1.lng(), p1.lat(), p2.lng(), p2.lat())) {
+                if (l.intersectsLine(p1.getLng(), p1.getLat(), p2.getLng(), p2.getLat())) {
                     return true;
                 }
             }
@@ -92,10 +113,10 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     }
 
     /**
-     * Calculates the pythagorean distance between two points.
+     * Calculates the Pythagorean distance between two points.
      *
      * @param source the point we are measuring to.
-     * @return the pythagorean distance between the two points.
+     * @return the Pythagorean distance between the two points.
      */
     public double distanceTo(LngLat source) {
         if (source == null) {
@@ -103,8 +124,8 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
             System.err.println("distanceTo called with null source.");
             return Double.POSITIVE_INFINITY;
         }
-        // Calculates the pythagorean distance between two points.
-        return Math.sqrt(Math.pow(source.lat - this.lat, 2) + Math.pow(source.lng - this.lng, 2));
+        // Calculates the Pythagorean distance between two points.
+        return Math.sqrt(Math.pow(source.getLat() - this.lat, 2) + Math.pow(source.getLng() - this.lng, 2));
     }
 
     /**
@@ -124,10 +145,10 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
     }
 
     /**
-     * Given a compass direction, calculates the drones next position using trigonometry.
+     * Given a compass direction, calculates the drone's next position using trigonometry.
      *
      * @param direction the direction the drone is moving in.
-     * @return a LngLat record which represents the new position of the drone.
+     * @return a LngLat object which represents the new position of the drone.
      */
     public LngLat nextPosition(CompassDirection direction) {
         if (direction == null || direction == CompassDirection.HOVER) {
@@ -141,7 +162,6 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
         return new LngLat(newLng, newLat);
     }
 
-
     /**
      * Uses the RouteCalculator to calculate the shortest route from this point to the destination.
      *
@@ -150,7 +170,11 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
      */
     public CompassDirection[] routeTo(LngLat destination, LngLat nextTarget) {
         // Calculate the route to the destination.
+        System.out.println("Calculating route from " + this.getLat() + ", " + this.getLng() + " to " + destination.getLat() + ", " + destination.getLng());
+        System.out.println(destination.getLat());
+        System.out.println(destination.getLng());
         return RouteCalculator.calculateRoute(this, destination, nextTarget);
+        
     }
 
     /**
@@ -170,5 +194,4 @@ public record LngLat(@JsonProperty("longitude") double lng, @JsonProperty("latit
         }
         return route.length;
     }
-
 }

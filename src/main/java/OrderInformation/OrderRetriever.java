@@ -18,6 +18,7 @@ public final class OrderRetriever {
      * @return An array of Restaurant objects.
      */
     public static Restaurant[] getRestaurants(URL url) {
+        System.out.println(url);
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

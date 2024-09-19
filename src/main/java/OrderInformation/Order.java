@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Character.isDigit;
 
 /**
- * Record to represent an order.
+ * Class to represent an order.
  * Contains methods to validate the order and assign the order outcome.
  */
 public class Order {
@@ -21,20 +21,14 @@ public class Order {
     @JsonProperty("orderDate")
     private String orderDate;
 
-    @JsonProperty("creditCardNumber")
-    private String creditCardNumber;
-
-    @JsonProperty("creditCardExpiry")
-    private String creditCardExpiry;
-
-    @JsonProperty("cvv")
-    private String cvv;
+    @JsonProperty("creditCardInformation")
+    private CreditCardInformation creditCardInformation;
 
     @JsonProperty("priceTotalInPence")
     private int priceTotalInPence;
 
-    @JsonProperty("orderItems")
-    private String[] orderItems;
+    @JsonProperty("pizzasInOrder")
+    private Pizza[] pizzasInOrder;
 
     @JsonProperty("restaurantOrderedFrom")
     private Restaurant restaurantOrderedFrom;
@@ -50,8 +44,8 @@ public class Order {
         if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
             // The orderNo must be an 8 digit hexadecimal number.
             this.outcome = OrderOutcome.Invalid;
-        } else if (restaurants == null || this.orderItems == null) {
-            // There must be restaurants and orderItems.
+        } else if (restaurants == null || this.pizzasInOrder == null) {
+            // There must be restaurants and pizzasInOrder.
             this.outcome = OrderOutcome.Invalid;
         } else if (containsInvalidPizza(restaurants)) {
             // Check if the order contains any pizzas which aren't sold by any restaurant.
@@ -68,7 +62,7 @@ public class Order {
         } else if (!validCVV()) {
             // Check if the cvv is valid.
             this.outcome = OrderOutcome.InvalidCvv;
-        } else if (this.orderItems.length == 0 || this.orderItems.length > 4) {
+        } else if (this.pizzasInOrder.length == 0 || this.pizzasInOrder.length > 4) {
             // Check if the order contains between 1 and 4 pizzas.
             this.outcome = OrderOutcome.InvalidPizzaCount;
         } else if (!validatePriceTotal()) {
@@ -90,11 +84,12 @@ public class Order {
         // Generate a list of all valid pizzas from all restaurants.
         List<String> validPizzas = Arrays.stream(participatingRestaurants)
                 .flatMap(restaurant -> Arrays.stream(restaurant.getMenu()))
-                .map(Menu::name)
-                .toList();
+                .map(Menu::getName)
+                .collect(Collectors.toList());
 
         // Check if any of the pizzas ordered are not in the list of valid pizzas.
-        return Arrays.stream(this.orderItems)
+        return Arrays.stream(this.pizzasInOrder)
+                .map(Pizza::getName)
                 .anyMatch(pizza -> !validPizzas.contains(pizza));
     }
 
@@ -108,7 +103,8 @@ public class Order {
     private boolean pizzaOrderedFromMultipleRestaurants(Restaurant[] participatingRestaurants) {
         // Get the restaurant that the first pizza is ordered from.
         Restaurant restaurant = Arrays.stream(participatingRestaurants)
-                .filter(r -> Arrays.stream(r.getMenu()).anyMatch(menu -> menu.name().equals(this.orderItems[0])))
+                .filter(r -> Arrays.stream(r.getMenu())
+                        .anyMatch(menu -> menu.getName().equals(this.pizzasInOrder[0].getName())))
                 .findFirst()
                 .orElse(null);
 
@@ -116,8 +112,10 @@ public class Order {
         restaurantOrderedFrom = restaurant;
 
         // Check if any of the pizzas ordered are not from the same restaurant.
-        return Arrays.stream(this.orderItems)
-                .anyMatch(pizza -> Arrays.stream(restaurant.getMenu()).noneMatch(menu -> menu.name().equals(pizza)));
+        return Arrays.stream(this.pizzasInOrder)
+                .map(Pizza::getName)
+                .anyMatch(pizza -> Arrays.stream(restaurant.getMenu())
+                        .noneMatch(menu -> menu.getName().equals(pizza)));
     }
 
     /**
@@ -132,7 +130,8 @@ public class Order {
         final String MASTER_CARD_REGEX = "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1" +
                 "][0-9]{13}|720[0-9]{12}))$";
 
-        if (this.creditCardNumber.matches(VISA_REGEX) || this.creditCardNumber.matches(MASTER_CARD_REGEX)) {
+        if (this.creditCardInformation.getCreditCardNumber().matches(VISA_REGEX) || 
+            this.creditCardInformation.getCreditCardNumber().matches(MASTER_CARD_REGEX)) {
             // Check if the credit card number is a valid visa or mastercard number.
             return luhnCheck();
         }
@@ -147,8 +146,9 @@ public class Order {
      */
     private boolean luhnCheck() {
         int sum = 0;
-        for (int i = this.creditCardNumber.length() - 1; i >= 0; i--) {
-            int n = Integer.parseInt(this.creditCardNumber.substring(i, i + 1));
+        String cardNumber = this.creditCardInformation.getCreditCardNumber();
+        for (int i = cardNumber.length() - 1; i >= 0; i--) {
+            int n = Integer.parseInt(cardNumber.substring(i, i + 1));
             if (i % 2 == 0) {
                 n *= 2;
                 if (n > 9) {
@@ -180,11 +180,12 @@ public class Order {
         final int CENTURY = 2000;
 
         // Check that the card expiry is in the format MM/YY
-        if (!this.creditCardExpiry.matches("\\d{2}/\\d{2}")) return false;
+        String expiry = this.creditCardInformation.getCreditCardExpiry();
+        if (!expiry.matches("\\d{2}/\\d{2}")) return false;
 
         // Check that the card expiry is after the order date.
-        int month = Integer.parseInt(this.creditCardExpiry.substring(0, 2));
-        int year = CENTURY + Integer.parseInt(this.creditCardExpiry.substring(3, 5));
+        int month = Integer.parseInt(expiry.substring(0, 2));
+        int year = CENTURY + Integer.parseInt(expiry.substring(3, 5));
 
         return (year > date.getYear()) || (year == date.getYear() && month >= date.getMonthValue());
     }
@@ -195,8 +196,9 @@ public class Order {
      * @return True if the CVV is valid (3 digits, all numbers), false otherwise.
      */
     private boolean validCVV() {
-        if (this.cvv.length() != 3) return false;
-        return this.cvv.chars().allMatch(Character::isDigit);
+        String cvv = this.creditCardInformation.getCvv();
+        if (cvv.length() != 3) return false;
+        return cvv.chars().allMatch(Character::isDigit);
     }
 
     /**
@@ -210,8 +212,10 @@ public class Order {
         // For every restaurant menu, check if the menu item is in the pizzas ordered.
         // We've already validated that the pizzas are ordered from the same restaurant and all pizzas are valid.
         for (Menu menu : this.restaurantOrderedFrom.getMenu()) {
-            int numberOfMenuOrder = Collections.frequency(Arrays.asList(this.orderItems), menu.name());
-            totalCost += numberOfMenuOrder * menu.priceInPence();
+            int numberOfMenuOrder = (int) Arrays.stream(this.pizzasInOrder)
+                    .filter(pizza -> menu.getName().equals(pizza.getName()))
+                    .count();
+            totalCost += numberOfMenuOrder * menu.getPriceInPence();
         }
         return (totalCost + FIXED_ORDER_CHARGE == this.priceTotalInPence);
     }

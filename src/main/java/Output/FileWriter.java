@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class for writing the output to the required files.
@@ -12,8 +13,8 @@ import java.util.List;
  * Writes the visited coordinates to drone-YYYY-MM-DD.geojson.
  */
 public class FileWriter {
-    private final String DATE;
-    private final String OUTPUT_DIRECTORY = "resultfiles/";
+    private final String date;
+    private final String outputDirectory = "resultfiles/";
 
     /**
      * Constructor for the FileWriter class.
@@ -21,7 +22,7 @@ public class FileWriter {
      * @param date The date of the orders.
      */
     public FileWriter(String date) {
-        this.DATE = date;
+        this.date = date;
     }
 
     /**
@@ -30,7 +31,7 @@ public class FileWriter {
      * @param orderJson The String representation of the order in JSON format.
      */
     public void writeToDeliveriesJSON(String[] orderJson) {
-        String fileName = OUTPUT_DIRECTORY + "deliveries-" + DATE + ".json";
+        String fileName = outputDirectory + "deliveries-" + date + ".json";
         prepareFile(fileName);
 
         try {
@@ -55,9 +56,11 @@ public class FileWriter {
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = flight.get(0).getStartingCoordinates();
-        List<double[]> droneCoordinates = flight.stream().map(FlightPathPoint::getDestinationCoordinates).toList();
+        List<double[]> droneCoordinates = flight.stream()
+                                                .map(FlightPathPoint::getDestinationCoordinates)
+                                                .collect(Collectors.toList());
 
-        String fileName = OUTPUT_DIRECTORY + "drone-" + DATE + ".geojson";
+        String fileName = outputDirectory + "drone-" + date + ".geojson";
         prepareFile(fileName);
 
         try {
@@ -83,7 +86,7 @@ public class FileWriter {
      * @param flight The flightpath to write to the file.
      */
     public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
-        String fileName = OUTPUT_DIRECTORY + "flightpath-" + DATE + ".json";
+        String fileName = outputDirectory + "flightpath-" + date + ".json";
         prepareFile(fileName);
 
         try {

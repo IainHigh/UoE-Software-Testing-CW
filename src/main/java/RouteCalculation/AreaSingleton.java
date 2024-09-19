@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Singleton used to access and store the no-fly zones and central area border.
@@ -52,18 +53,17 @@ public class AreaSingleton {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return mapper.readValue(url, LngLat[].class);
+
+            // Deserialize into the wrapper class
+            CentralArea centralArea = mapper.readValue(url, CentralArea.class);
+
+            // Extract the vertices list and convert it to an array
+            List<LngLat> vertices = centralArea.getVertices();
+            return vertices.toArray(new LngLat[0]);
         } catch (IOException e) {
             System.err.println("Error retrieving central area from REST API.");
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Internal class used to deserialize the NoFlyZones JSON file.
-     */
-    private static class NoFlyZone {
-        public double[][] coordinates;
     }
 
     /**
@@ -79,22 +79,23 @@ public class AreaSingleton {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    
+            // Deserialize into an array of NoFlyZone objects
             noFlyZoneObjectArray = mapper.readValue(url, NoFlyZone[].class);
         } catch (IOException e) {
             System.err.println("Error retrieving no-fly zones from REST API.");
             throw new RuntimeException(e);
         }
-
-        // Convert the Array of NoFlyZones to a 2d array of LngLat
+    
+        // Convert the Array of NoFlyZones to a 2D array of LngLat
         LngLat[][] noFlyZoneArray = new LngLat[noFlyZoneObjectArray.length][];
         for (int i = 0; i < noFlyZoneObjectArray.length; i++) {
-            noFlyZoneArray[i] = new LngLat[noFlyZoneObjectArray[i].coordinates.length];
-            for (int j = 0; j < noFlyZoneObjectArray[i].coordinates.length; j++) {
-                noFlyZoneArray[i][j] = new LngLat(noFlyZoneObjectArray[i].coordinates[j][0], noFlyZoneObjectArray[i].coordinates[j][1]);
-            }
+            List<LngLat> vertices = noFlyZoneObjectArray[i].getVertices();
+            noFlyZoneArray[i] = vertices.toArray(new LngLat[0]);
         }
         return noFlyZoneArray;
     }
+    
 
     /**
      * Accessor method for the central area border.

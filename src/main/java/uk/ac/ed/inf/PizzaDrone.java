@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,13 +66,12 @@ public class PizzaDrone {
         // Retrieve the restaurants and orders.
         Restaurant[] restaurants = OrderRetriever.getRestaurants(restaurantsURL);
         orders = OrderRetriever.getOrders(ordersURL);
-
         if (orders.length == 0) {
             System.err.println("No orders found for the given date.");
             return;
         }
 
-        // determine the outcome for invalid orders and sort the valid orders by the distance from Appleton Tower.
+        // Determine the outcome for invalid orders and sort the valid orders by the distance from Appleton Tower.
         ArrayList<Order> validOrders = validateAndSortOrders(restaurants, date);
 
         // Calculate the full path around all the valid orders and back to Appleton Tower.
@@ -110,9 +108,29 @@ public class PizzaDrone {
         int year = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);
         int day = Integer.parseInt(dateParts[2]);
-        if (year != 2023 || month < 1 || month > 5 || day < 1 || day > 31
-                || (month == 2 && day > 28) || (month == 4 && day > 30)) {
-            System.err.println("Expected first argument to be a date in the range 2023-01-01 to 2023-05-31, got " + args[0]);
+        
+        // if (year != 2023 || month < 1 || month > 5 || day < 1 || day > 31
+        //         || (month == 2 && day > 28) || (month == 4 && day > 30)) {
+        //     System.err.println("Expected first argument to be a date in the range 2023-01-01 to 2023-05-31, got " + args[0]);
+        //     return false;
+        // }
+        // Change the year to be between 2023-09-01 and 2024-01-28
+        if (year == 2023){
+            if (month < 9 || month > 12 || day < 1 || day > 31
+                    || (month == 9 && day >30) || (month == 1 && day > 30)){
+                // September, April, June, November have 30 days (4, 6, 9, 11)
+                System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
+                return false;
+            }
+        }
+        else if (year == 2024){
+            if (month != 1 || day < 1 || day > 28){
+                System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
+                return false;
+            }
+        }
+        else {
+            System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
             return false;
         }
 
@@ -171,7 +189,7 @@ public class PizzaDrone {
      * @param validOrders The sorted list of valid orders.
      */
     private static void calculatePath(ArrayList<Order> validOrders) {
-        startTime = Clock.systemDefaultZone().instant();
+        startTime = Instant.now(); // Using Instant.now() instead of Clock.systemDefaultZone().instant()
 
         // Starting at appleton tower, deliver the orders starting with those with the fewest moves from appleton tower.
         LngLat currentLocation = Constants.APPLETON_TOWER;
@@ -219,16 +237,16 @@ public class PizzaDrone {
         remainingMoves -= route.length;
 
         for (CompassDirection direction : route) {
-            currentTime = Clock.systemDefaultZone().instant();
+            currentTime = Instant.now(); // Using Instant.now() instead of Clock.systemDefaultZone().instant()
             LngLat nextLocation = currentLocation.nextPosition(direction);
 
             currentDirectionsFollowed.add(new FlightPathPoint(
                     orderNo,
-                    currentLocation.lng(),
-                    currentLocation.lat(),
+                    currentLocation.getLng(),
+                    currentLocation.getLat(),
                     direction.getAngle(),
-                    nextLocation.lng(),
-                    nextLocation.lat(),
+                    nextLocation.getLng(),
+                    nextLocation.getLat(),
                     (int) (currentTime.toEpochMilli() - startTime.toEpochMilli())));
 
             currentLocation = nextLocation;

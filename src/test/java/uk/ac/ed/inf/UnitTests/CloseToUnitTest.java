@@ -42,8 +42,8 @@ public class CloseToUnitTest {
         Random random = new Random();
         double radius = 0.00015 * random.nextDouble();
         double angle = random.nextDouble() * 2 * Math.PI;
-        double lng2 = p1.lng() + radius * Math.cos(angle);
-        double lat2 = p1.lat() + radius * Math.sin(angle);
+        double lng2 = p1.getLng() + radius * Math.cos(angle);
+        double lat2 = p1.getLat() + radius * Math.sin(angle);
         return new LngLat(lng2, lat2);
     }
 
@@ -52,8 +52,8 @@ public class CloseToUnitTest {
         Random random = new Random();
         double radius = 0.00015 * random.nextDouble() + 0.00015;
         double angle = random.nextDouble() * 2 * Math.PI;
-        double lng2 = p1.lng() + radius * Math.cos(angle);
-        double lat2 = p1.lat() + radius * Math.sin(angle);
+        double lng2 = p1.getLng() + radius * Math.cos(angle);
+        double lat2 = p1.getLat() + radius * Math.sin(angle);
         return new LngLat(lng2, lat2);
     }
 }

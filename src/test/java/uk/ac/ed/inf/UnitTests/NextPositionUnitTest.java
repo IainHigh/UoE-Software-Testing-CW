@@ -34,12 +34,13 @@ public class NextPositionUnitTest {
             double lng = rand.nextDouble() * 360 - 180;
             LngLat point = new LngLat(lng, lat);
             LngLat hoverPoint = point.nextPosition(null);
-            assert(hoverPoint.lat() == point.lat());
+            assert(hoverPoint.getLat() == point.getLat());
+            assert(hoverPoint.getLng() == point.getLng());
         }
     }
 
     private double calculateAngle(LngLat p1, LngLat p2) {
-        double angle = Math.atan2(p2.lat() - p1.lat(), p2.lng() - p1.lng());
+        double angle = Math.atan2(p2.getLat() - p1.getLat(), p2.getLng() - p1.getLng());
         if (angle < 0) {
             angle += 2 * Math.PI;
         }

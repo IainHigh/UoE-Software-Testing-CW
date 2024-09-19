@@ -17,6 +17,7 @@ public class RouteCalculator {
      * @return the shortest route from the start to the end.
      */
     public static CompassDirection[] calculateRoute(LngLat start, LngLat end, LngLat nextTarget) {
+        System.out.println("Calculating route from " + start.getLat() + ", " + start.getLng() + " to " + end.getLat() + ", " + end.getLng());
         if (start == null || end == null) {
             System.err.println("calculateRoute was called with a null start or end point.");
             return null;

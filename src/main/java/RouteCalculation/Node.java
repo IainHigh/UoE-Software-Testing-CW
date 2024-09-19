@@ -2,17 +2,18 @@ package RouteCalculation;
 
 import java.awt.geom.Line2D;
 import java.util.Arrays;
+import java.util.OptionalDouble;
 
 /**
  * A class to represent a node in the A* search algorithm.
  */
 class Node {
-    private final LngLat POINT; // The LngLat point represented by the node.
+    private final LngLat point; // The LngLat point represented by the node.
     private final double g; // The cost of the path from the start node to this node.
     private final double h; // The heuristic cost of the path from this node to the goal node.
-    private final Node PARENT; // The parent node of this node.
-    private final CompassDirection DIRECTION_FROM_PARENT; // The direction from the parent node to this node.
-
+    private final Node parent; // The parent node of this node.
+    private final CompassDirection directionFromParent; // The direction from the parent node to this node.
+    private final double GREEDY_FACTOR = 1;
     /**
      * Create a new node with no parents.
      * This constructor is intended for the start node.
@@ -21,9 +22,9 @@ class Node {
      * @param end   the LngLat coordinates of the destination.
      */
     public Node(LngLat point, LngLat end) {
-        this.POINT = point;
-        this.PARENT = null;
-        this.DIRECTION_FROM_PARENT = null;
+        this.point = point;
+        this.parent = null;
+        this.directionFromParent = null;
         this.h = calculateHeuristic(end);
         this.g = 0;
     }
@@ -37,9 +38,9 @@ class Node {
      * @param directionFromParent the compass direction from the parent node to this node. Used to reconstruct the path.
      */
     public Node(LngLat point, LngLat end, Node parent, CompassDirection directionFromParent) {
-        this.POINT = point;
-        this.PARENT = parent;
-        this.DIRECTION_FROM_PARENT = directionFromParent;
+        this.point = point;
+        this.parent = parent;
+        this.directionFromParent = directionFromParent;
         this.h = calculateHeuristic(end);
         this.g = parent.g + LngLat.LENGTH_OF_MOVE;
     }
@@ -51,7 +52,7 @@ class Node {
      * @return the heuristic cost of the path from this node to the goal node.
      */
     private double calculateHeuristic(LngLat end) {
-        Line2D.Double line = new Line2D.Double(this.POINT.lng(), this.POINT.lat(), end.lng(), end.lat());
+        Line2D.Double line = new Line2D.Double(this.point.getLng(), this.point.getLat(), end.getLng(), end.getLat());
 
         // If the straight line goes through a no-fly zone, calculate the closest point on the border of the
         // no-fly zone and then calculate the distance to that point and then the distance from that point to
@@ -63,53 +64,42 @@ class Node {
 
                 // If the line between the two points intersects with the line between the border points, then the line
                 // intersects with the no-fly zone.
-                if (line.intersectsLine(p1.lng(), p1.lat(), p2.lng(), p2.lat())) {
-                    // Calculate the border point p which minimises the distance from start to p and then from p to end.
-                    return Arrays.stream(zone).mapToDouble(p -> this.POINT.distanceTo(p) + p.distanceTo(end)).min().getAsDouble();
+                if (line.intersectsLine(p1.getLng(), p1.getLat(), p2.getLng(), p2.getLat())) {
+                    // Calculate the border point p which minimizes the distance from start to p and then from p to end.
+                    OptionalDouble minDistance = Arrays.stream(zone)
+                        .mapToDouble(p -> this.point.distanceTo(p) + p.distanceTo(end))
+                        .min();
+                    if (minDistance.isPresent()) {
+                        return minDistance.getAsDouble();
+                    }
                 }
             }
         }
 
-        // If the straight line does not go through a no-fly zone, then use the straight line distance.
-        return this.POINT.distanceTo(end);
+        // If the straight line does not go through a no-fly zone, then use the straight-line distance.
+        return this.point.distanceTo(end);
     }
 
     /**
      * Calculate the f value of the node.
-     * The f value is the sum of the g and h values.
-     * That is to say the cost of the path from the start node to this node plus the heuristic cost of the path from
-     * this node to the goal node.
+     * The f value is influenced by the greedyFactor, balancing between g and h.
      *
      * @return the f value of the node.
      */
     public double getFScore() {
-        return this.g + this.h;
+        return (1 - GREEDY_FACTOR) * this.g + GREEDY_FACTOR * this.h;
     }
 
-    /**
-     * Accessor method for the parent node.
-     *
-     * @return the parent node.
-     */
+    // Accessor methods
     public Node getParent() {
-        return this.PARENT;
+        return this.parent;
     }
 
-    /**
-     * Accessor method for the direction from parent node.
-     *
-     * @return the direction the drone took to get from the parent node to the current node.
-     */
     public CompassDirection getDirectionFromParent() {
-        return this.DIRECTION_FROM_PARENT;
+        return this.directionFromParent;
     }
 
-    /**
-     * Accessor method for the current point.
-     *
-     * @return the LngLat coordinate of the current node.
-     */
     public LngLat getPoint() {
-        return this.POINT;
+        return this.point;
     }
 }
