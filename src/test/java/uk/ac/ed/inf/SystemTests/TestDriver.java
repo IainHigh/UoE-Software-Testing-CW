@@ -8,7 +8,7 @@ import java.util.List;
 import java.time.Instant;
 import java.time.Duration;
 
-public class Driver {
+public class TestDriver {
     public static void main(String[] args) {
 
         String[] dates = generateAllDates();
