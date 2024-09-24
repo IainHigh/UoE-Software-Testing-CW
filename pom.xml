@@ -13,7 +13,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source> <!-- Java 8 for source -->
     <maven.compiler.target>1.8</maven.compiler.target> <!-- Java 8 for target -->
-    <jackson.version>2.14.0</jackson.version> <!-- Updated Jackson version -->
+    <jackson.version>2.14.0</jackson.version> <!-- Ensure consistency with Jackson -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -67,6 +67,13 @@
   </build>
 
   <dependencies>
+    <!-- Jackson Core -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
     <!-- Jackson Databind for ObjectMapper -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -81,13 +88,6 @@
       <version>${jackson.version}</version>
     </dependency>
 
-    <!-- jackson-core for core Jackson functionality -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-
     <!-- JUnit is used for the testing -->
     <dependency>
       <groupId>junit</groupId>
@@ -95,6 +95,5 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>
