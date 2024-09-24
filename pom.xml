@@ -80,5 +80,3 @@
   </properties>
 
   <dependencies>
-
-    <!-- jackson is used for reading json files
