@@ -8,19 +8,27 @@
   <packaging>jar</packaging>
 
   <name>PizzaDronz</name>
-  <url>http://maven.apache.org</url>
+
+  <!-- Ensure that Java 8 is used for compilation in all phases -->
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source> <!-- Java 8 for source -->
+    <maven.compiler.target>1.8</maven.compiler.target> <!-- Java 8 for target -->
+    <maven.compiler.release>8</maven.compiler.release> <!-- Force Java 8 compliance -->
+    <jackson.version>2.10.0</jackson.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
     <plugins>
-
       <!-- Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>1.8</source> <!-- Changed from 18 to 1.8 -->
-          <target>1.8</target> <!-- Changed from 18 to 1.8 -->
+          <source>1.8</source>
+          <target>1.8</target>
+          <release>8</release>
           <showWarnings>true</showWarnings>
           <compilerArgs>
             <arg>-Xlint:all,-classfile</arg>
@@ -57,20 +65,10 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
 
-  <!-- Properties section -->
-  <properties>
-    <jackson.version>2.10.0</jackson.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source> <!-- Changed from 18 to 1.8 -->
-    <maven.compiler.target>1.8</maven.compiler.target> <!-- Changed from 18 to 1.8 -->
-  </properties>
-
   <dependencies>
-
     <!-- jackson is used for reading json files. -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
