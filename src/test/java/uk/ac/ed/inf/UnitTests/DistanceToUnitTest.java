@@ -32,4 +32,9 @@ public class DistanceToUnitTest {
         LngLat p1 = new LngLat(0, 0);
         assert(p1.distanceTo(null) == Double.POSITIVE_INFINITY);
     }
+
+    @Test
+    public void assertFalse() {
+        assert(false);
+    }
 }
