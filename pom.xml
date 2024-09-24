@@ -13,7 +13,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source> <!-- Java 8 for source -->
     <maven.compiler.target>1.8</maven.compiler.target> <!-- Java 8 for target -->
-    <jackson.version>2.10.0</jackson.version>
+    <jackson.version>2.14.0</jackson.version> <!-- Updated Jackson version -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -23,7 +23,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version> <!-- Ensure you're using the latest version -->
+        <version>3.8.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -67,14 +67,28 @@
   </build>
 
   <dependencies>
-    <!-- jackson is used for reading json files. -->
+    <!-- Jackson Databind for ObjectMapper -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.14.0</version>
+      <version>${jackson.version}</version>
     </dependency>
 
-    <!-- junit is used for the testing. -->
+    <!-- Jackson Annotations for @JsonProperty and other annotations -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- jackson-core for core Jackson functionality -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- JUnit is used for the testing -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
