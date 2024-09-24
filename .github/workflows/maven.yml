@@ -1,5 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-
 name: Java CI with Maven
 
 on:
@@ -19,16 +17,29 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '8'
-        distribution: 'temurin' # Temurin is the distribution you are using
+        distribution: 'temurin'
         cache: maven
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Run Tests
-      run: |
-        mvn test
+    - name: Run Unit Tests
+      run: mvn test
+
+    - name: Upload Unit Test Results
+      if: always() # This ensures the results are uploaded even if tests fail
+      uses: actions/upload-artifact@v3
+      with:
+        name: Unit-Test-Results
+        path: target/surefire-reports/*.xml # This is where the JUnit results are stored
 
     - name: Run System Tests
       run: |
         java -cp target/PizzaDronz-1.0-SNAPSHOT.jar uk.ac.ed.inf.SystemTests.Driver
+
+    - name: Upload System Test Results
+      if: always() # Ensure test results are uploaded even if tests fail
+      uses: actions/upload-artifact@v3
+      with:
+        name: System-Test-Results
+        path: target/system-tests-reports/*.xml # Adjust this path if system tests generate reports elsewhere
