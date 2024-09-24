@@ -11,6 +11,7 @@ import java.time.Instant;
 
 import java.time.Duration;
 
+// TODO: Probably seperate each date into it's own test case, so if one fails, the others can still run. And we can see the results.
 
 public class SystemTest {
 

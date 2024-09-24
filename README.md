@@ -1,3 +1,6 @@
+# CI Pipeline
+![Java CI with Maven](https://github.com/IainHigh/ilpCoursework/actions/workflows/maven.yml/badge.svg)
+
 # Run Tests:
 c:; cd 'c:\Program Files (x86)\Eclipse Adoptium\jre\bin\java.exe' '-cp' 'C:\Users\s2062378\AppData\Local\Temp\cp_dd71q3mef251e578wag1yrjsj.jar' 'uk.ac.ed.inf.SystemTests.Driver'
 
