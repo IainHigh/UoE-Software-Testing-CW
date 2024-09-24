@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>uk.ac.ed.inf</groupId>
@@ -58,6 +58,16 @@
         </executions>
       </plugin>
 
+      <!-- Surefire Plugin for Test Reports -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version> <!-- Ensure you're using a recent version -->
+        <configuration>
+          <reportsDirectory>target/surefire-reports</reportsDirectory> <!-- Default location for JUnit reports -->
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -71,32 +81,4 @@
 
   <dependencies>
 
-    <!-- jackson is used for reading json files. -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.14.0</version>
-    </dependency>
-
-    <!-- junit is used for the testing. -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
-
-  </dependencies>
-</project>
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>3.0.0-M5</version> <!-- Ensure you're using a recent version -->
-      <configuration>
-        <reportsDirectory>target/surefire-reports</reportsDirectory> <!-- Default location for JUnit reports -->
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+    <!-- jackson is used for reading json files
