@@ -15,7 +15,7 @@ import java.time.Duration;
 public class SystemTest {
 
     @Test
-    public static void main(String[] args) {
+    public void testAllDates() {
         // This test runs the program with all possible dates. If an exception is thrown, there is a bug.
 
         String[] dates = generateAllDates();
