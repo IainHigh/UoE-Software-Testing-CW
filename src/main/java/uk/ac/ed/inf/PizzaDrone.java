@@ -45,7 +45,7 @@ public class PizzaDrone {
             restAPIUrl = args[1];
         } else {
             System.err.println("Invalid input. Unable to continue.");
-            return;
+            throw new IllegalArgumentException("Invalid input. Unable to continue.");
         }
 
         URL noFlyURL, centralAreaURL, restaurantsURL, ordersURL;

@@ -5,18 +5,35 @@ import uk.ac.ed.inf.PizzaDrone;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import java.time.Instant;
+
 import java.time.Duration;
 
-public class TestDriver {
+
+public class SystemTest {
+
+    @Test
     public static void main(String[] args) {
+        // This test runs the program with all possible dates. If an exception is thrown, there is a bug.
 
         String[] dates = generateAllDates();
         for (String date : dates) {
             System.out.println("Testing date: " + date);
             Instant start = Instant.now();
-            PizzaDrone.main(new String[]{date, "https://ilp-rest.azurewebsites.net/"});
+
+            try{
+                PizzaDrone.main(new String[]{date, "https://ilp-rest.azurewebsites.net/"});
+                // Try running the program with the given date. If an exception is thrown, there is a bug.
+            }
+            catch (Exception e){
+                System.out.println("An exception was thrown: " + e.getMessage());
+                assert(false);
+            }
+
             System.out.println("\tTime taken: " + Duration.between(start, Instant.now()).toMillis() + "ms");
+            
         }
     }
 
