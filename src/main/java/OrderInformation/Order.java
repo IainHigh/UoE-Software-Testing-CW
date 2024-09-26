@@ -236,7 +236,7 @@ public class Order {
         if (this.outcome == OrderOutcome.ValidButNotDelivered) {
             this.outcome = OrderOutcome.Delivered;
         } else {
-            System.err.println("Order is not valid or has already been delivered, cannot be set to delivered.");
+            throw new IllegalStateException("Order is not valid or has already been delivered, cannot be set to delivered.");
         }
     }
 

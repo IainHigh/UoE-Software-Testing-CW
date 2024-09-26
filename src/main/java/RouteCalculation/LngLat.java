@@ -170,9 +170,6 @@ public class LngLat {
      */
     public CompassDirection[] routeTo(LngLat destination, LngLat nextTarget) {
         // Calculate the route to the destination.
-        System.out.println("Calculating route from " + this.getLat() + ", " + this.getLng() + " to " + destination.getLat() + ", " + destination.getLng());
-        System.out.println(destination.getLat());
-        System.out.println(destination.getLng());
         return RouteCalculator.calculateRoute(this, destination, nextTarget);
         
     }

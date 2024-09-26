@@ -37,12 +37,12 @@ public class SystemTest {
             PizzaDrone.main(new String[]{date, "https://ilp-rest.azurewebsites.net/"});
         }
         catch (Exception e){
-            System.out.println("An exception was thrown: " + e.getMessage());
+            System.err.println("An exception was thrown: " + e.getMessage());
             assert(false);
         }
 
         // Assert the time taken in seconds is less than 60
-        assert(Duration.between(start, Instant.now()).getSeconds() < 60);
+        assert(Duration.between(start, Instant.now()).getSeconds() < 60) : "Exception: Time taken exceeded 60 seconds";
     }
 
     private static List<String> generateAllDates(){

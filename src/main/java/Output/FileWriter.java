@@ -45,7 +45,7 @@ public class FileWriter {
             fileWriter.close();
         } catch (IOException e) {
             System.err.println("Error writing to deliveries json");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -76,7 +76,7 @@ public class FileWriter {
             fileWriter.close();
         } catch (IOException e) {
             System.err.println("Error writing to drone geojson");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -100,7 +100,7 @@ public class FileWriter {
             fileWriter.close();
         } catch (IOException e) {
             System.err.println("Error writing to flightpath json");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -115,7 +115,7 @@ public class FileWriter {
             file.createNewFile();
         } catch (IOException e) {
             System.err.println("Error creating file" + fileName);
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

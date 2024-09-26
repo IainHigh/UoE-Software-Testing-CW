@@ -88,6 +88,7 @@ public class Restaurant {
             this.numberOfMovesFromAppletonTower = noOfMoves;
         } else {
             System.err.println("Number of moves must be greater than zero.");
+            throw new IllegalArgumentException();
         }
     }
 
