@@ -10,3 +10,8 @@ c:; cd 'c:\Users\s2062378\OneDrive - University of Edinburgh\Teaching\Year 1\Sof
 (Change arguments as required.)
 
 Alternatively in VSCode under the file explorer tab, go to "Java Projects", Right click on "PizzaDronz" and click run.
+
+# Todo - Parts to test:
+- Test date verification
+- Test credit card verification
+- Test 

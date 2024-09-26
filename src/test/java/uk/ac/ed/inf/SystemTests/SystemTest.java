@@ -47,12 +47,17 @@ public class SystemTest {
 
     private static List<String> generateAllDates(){
         List<String> dates = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 9; i <= 12; i++) {
             for (int j = 1; j <= 31; j++) {
-                if ((i == 2 && j > 28) || (i == 4 && j > 30)) {
-                    break;
+                if ((i == 9 && j < 1) || (i == 11 && j > 30)) {
+                    continue;
                 }
-                dates.add("2023-" + String.format("%02d", i) + "-" +String.format("%02d", j));
+                dates.add("2023-" + String.format("%02d", i) + "-" + String.format("%02d", j));
+            }
+        }
+        for (int i = 1; i <= 1; i++) {
+            for (int j = 1; j <= 28; j++) {
+                dates.add("2024-" + String.format("%02d", i) + "-" + String.format("%02d", j));
             }
         }
         return dates;
