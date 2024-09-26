@@ -49,7 +49,7 @@ public class SystemTest {
         List<String> dates = new ArrayList<>();
         for (int i = 9; i <= 12; i++) {
             for (int j = 1; j <= 31; j++) {
-                if ((i == 9 && j < 1) || (i == 11 && j > 30)) {
+                if ((i == 9 && j < 1) || (i == 11 && j > 30) || (i == 9 && j > 30)) {
                     continue;
                 }
                 dates.add("2023-" + String.format("%02d", i) + "-" + String.format("%02d", j));

@@ -15,3 +15,10 @@ Alternatively in VSCode under the file explorer tab, go to "Java Projects", Righ
 - Test date verification
 - Test credit card verification
 - Test 
+
+
+# Types of Tests:
+- Unit
+- Integration
+- Performance
+- End-to-End

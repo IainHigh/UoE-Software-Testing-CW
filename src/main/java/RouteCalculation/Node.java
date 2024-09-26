@@ -13,7 +13,6 @@ class Node {
     private final double h; // The heuristic cost of the path from this node to the goal node.
     private final Node parent; // The parent node of this node.
     private final CompassDirection directionFromParent; // The direction from the parent node to this node.
-    private final double GREEDY_FACTOR = 1;
     /**
      * Create a new node with no parents.
      * This constructor is intended for the start node.
@@ -87,7 +86,7 @@ class Node {
      * @return The f value of the node.
      */
     public double getFScore() {
-        return (1 - GREEDY_FACTOR) * this.g + GREEDY_FACTOR * this.h;
+        return this.g + this.h;
     }
 
     // Accessor methods
