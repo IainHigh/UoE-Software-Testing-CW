@@ -1,4 +1,4 @@
-# System-Level Requirements for PizzaDronz Service
+# Section 1: System-Level Requirements for PizzaDronz Service
 
 ## Functional Requirements
 1. **Order Management**
@@ -76,7 +76,7 @@
    - Provide diagnostic logs for debugging, but ensure these are concise and non-intrusive.
 
 
-# Level of Requirements: System, Integration, and Unit Tests
+# Section 2: Level of Requirements - System, Integration, and Unit Tests
 
 | **Attribute**            | **Test Used** | **Notes**                                                                                              | **Test Approach**                                                                                    |
 |--------------------------|---------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
@@ -95,6 +95,7 @@
 | A* Algorithm Integrity   | System        | Validate the route calculated by the A* algorithm adheres to no-fly zone and central area constraints. | Perform pathfinding verification tests against predefined scenarios with expected outputs.           |
 | **Integration Tests**    |               |                                                                                                        |                                                                                                      |
 | REST API Response        | Integration   | Test REST API interactions with valid and invalid data (e.g., 404 errors).                             | Use mock APIs and tools like Postman to test API behavior under various scenarios.                   |
+| No REST API Response       | Integration   | Test REST API interactions when we are unable to connect to the server - no internet                             | Test the project without internet connection.                   |
 | Data Handling            | Integration   | Ensure proper deserialization of order, restaurant, and no-fly zone data.                              | Perform deserialization tests with JSON samples to verify data parsing accuracy.                     |
 | No-Fly Zone Avoidance    | Integration   | Validate integration between `AreaSingleton` and path calculation modules.                             | Simulate routes near no-fly zones and validate compliance through log analysis.                      |
 | Credit Card Validation   | Integration   | Confirm validation logic integrates with the `Order` class for card data.                              | Use parameterized tests to validate card details across various valid and invalid input cases.       |
@@ -125,3 +126,9 @@
 | Node Heuristic Accuracy  | Unit          | Confirm A* `Node` heuristic correctly accounts for no-fly zones and central area restrictions.         | Validate heuristic calculations with predefined scenarios in unit tests.                             |
 | Route Reconstruction     | Unit          | Test `RouteCalculator.reconstructPath` for accurate path rebuilding from A* nodes.                     | Simulate path reconstruction with known inputs and verify against expected results.                  |
 | Hover Handling           | Unit          | Ensure hover action (`CompassDirection.HOVER`) correctly preserves drone's location.                   | Write unit tests to validate hover behavior without position changes.                                |
+
+
+# Section 3: Appropriateness of Chosen Test Approach
+The chosen testing approaches comprehensively address the requirements of the PizzaDronz project but also have identifiable limitations. System-level tests, such as load testing and runtime performance benchmarking, are appropriate for assessing high-level functionality and efficiency under stress conditions. However, they may overlook intermittent edge cases that could arise in rare operational scenarios. Integration tests ensure seamless communication between modules, including validation of REST API interactions and proper deserialization of external data. While effective, these tests assume correct implementation of external services and may not account for unexpected behaviors from those sources. Unit tests, including mutation testing for robustness, provide precise validation of core functionalities like geographic calculations and order validations but may lack the ability to detect larger systemic issues arising from module interactions.
+
+Despite these potential deficiencies, the overall approach aligns well with project requirements. For example, fuzz testing in system-level tests mitigates risks of malformed inputs, and mock testing in integration tests addresses API reliability concerns. However, additional exploratory testing, such as chaos testing to simulate unexpected failures, could enhance robustness further. The test plan provides a solid foundation for quality assurance, detailed fully in the table above.
