@@ -78,50 +78,50 @@
 
 # Level of Requirements: System, Integration, and Unit Tests
 
-| **Attribute**           | **Test Used**              | **Notes**                                                                                     |
-|--------------------------|----------------------------|-----------------------------------------------------------------------------------------------|
-| **System-Level Tests**   |                            |                                                                                               |
-| Runtime Statistic        | Performance               | Ensure total execution time for daily deliveries does not exceed 60 seconds.                 |
-| Load Test                | Performance               | Simulate high load with 200 concurrent orders to ensure no performance degradation.           |
-| Normal Test Data         | System                    | Verify no errors occur during normal operation with valid input.                             |
-| Extreme Test Data        | System                    | Test with maximum values (e.g., order count, no-fly zones) to ensure stability.               |
-| Exceptional Test Data    | System                    | Verify expected errors are thrown for invalid inputs like malformed JSON or invalid coordinates. |
-| No-Fly Zone Compliance   | System                    | Ensure the drone avoids all specified no-fly zones, even with dynamic updates.                |
-| Path Optimization        | System                    | Verify the shortest path is calculated for deliveries under valid constraints.                |
-| Invalid Order Handling   | System                    | Confirm system rejects invalid orders based on various criteria (e.g., card number, format).  |
-| Battery Conservation     | System                    | Validate drone returns to Appleton Tower before battery depletion.                           |
-| GeoJSON Output           | System                    | Verify correct generation of GeoJSON files for drone path visualization.                     |
-| Valid Compass Directions | System                    | Ensure the drone only follows valid compass directions (16 directions + hover).              |
-| A* Algorithm Integrity   | System                    | Validate the route calculated by the A* algorithm adheres to no-fly zone and central area constraints. |
-| **Integration Tests**    |                            |                                                                                               |
-| REST API Response        | Integration               | Test REST API interactions with valid and invalid data (e.g., 404 errors).                   |
-| Data Handling            | Integration               | Ensure proper deserialization of order, restaurant, and no-fly zone data.                    |
-| No-Fly Zone Avoidance    | Integration               | Validate integration between `AreaSingleton` and path calculation modules.                   |
-| Credit Card Validation   | Integration               | Confirm validation logic integrates with the `Order` class for card data.                    |
-| GeoJSON Format           | Integration               | Test JSON serialization of drone paths using `FileWriter`.                                   |
-| Restaurant Validation    | Integration               | Ensure orders are matched correctly to participating restaurants.                            |
-| FlightPathPoint Mapping  | Integration               | Verify drone movements are correctly represented in GeoJSON outputs.                         |
-| Route Calculation        | Integration               | Test integration between `RouteCalculator`, `LngLat`, and `CompassDirection` for route generation. |
-| Central Area Validation  | Integration               | Validate that `AreaSingleton` correctly loads and applies central area boundary constraints.  |
-| **Unit Tests**           |                            |                                                                                               |
-| Credit Card Validation   | Unit                      | Test regex and Luhn algorithm in `CreditCardInformation` for valid/invalid numbers.          |
-| Expiry Date Parsing      | Unit                      | Validate correct parsing and comparison of expiry dates in `Order`.                          |
-| CVV Validation           | Unit                      | Ensure CVV is exactly three numeric digits.                                                  |
-| Menu Parsing             | Unit                      | Test correct deserialization of menu data in `Menu`.                                         |
-| Pizza Validation         | Unit                      | Confirm `containsInvalidPizza` correctly identifies invalid pizzas in `Order`.               |
-| Restaurant Location      | Unit                      | Validate longitude and latitude accuracy in `Restaurant.Location`.                           |
-| Order Outcome Assignment | Unit                      | Ensure `Order` assigns the correct `OrderOutcome` based on validation rules.                 |
-| FileWriter Outputs       | Unit                      | Test JSON and GeoJSON output generation for correctness.                                      |
-| Singleton Behavior       | Unit                      | Verify singleton behavior of `AreaSingleton` for consistent data access.                     |
-| Path Angle Calculation   | Unit                      | Test angle calculations in `FlightPathPoint` for accuracy.                                   |
-| Order Parsing            | Unit                      | Confirm deserialization of `Order` JSON into valid objects.                                  |
-| Central Area Border      | Unit                      | Validate correct loading of central area data from the REST API.                             |
-| Drone Coordinate Mapping | Unit                      | Test `FlightPathPoint` for correct mapping of start and end coordinates.                     |
-| Invalid Input Handling   | Unit                      | Verify exceptions are correctly thrown for invalid data in `OrderRetriever`.                 |
-| Price Validation         | Unit                      | Confirm `validatePriceTotal` in `Order` checks totals against menu prices accurately.         |
-| Direction Handling       | Unit                      | Validate `CompassDirection` enum for accurate direction-to-angle mapping.                    |
-| Distance Tolerance       | Unit                      | Test `LngLat.closeTo` for correct distance threshold application.                            |
-| No-Fly Zone Check        | Unit                      | Verify `LngLat.inNoFlyZone` detects entry and intersection with no-fly zones accurately.     |
-| Node Heuristic Accuracy  | Unit                      | Confirm A* `Node` heuristic correctly accounts for no-fly zones and central area restrictions. |
-| Route Reconstruction     | Unit                      | Test `RouteCalculator.reconstructPath` for accurate path rebuilding from A* nodes.           |
-| Hover Handling           | Unit                      | Ensure hover action (`CompassDirection.HOVER`) correctly preserves drone's location.         |
+| **Attribute**            | **Test Used** | **Notes**                                                                                              | **Test Approach**                                                                                    |
+|--------------------------|---------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **System-Level Tests**   |               |                                                                                                        |                                                                                                      |
+| Runtime Statistic        | Performance   | Ensure total execution time for daily deliveries does not exceed 60 seconds.                           | Use automated performance benchmarking tools to measure execution time under various scenarios.      |
+| Load Test                | Performance   | Simulate high load with 200 concurrent orders to ensure no performance degradation.                    | Conduct stress tests with synthetic load using tools like JMeter or custom load generators.          |
+| Normal Test Data         | System        | Verify no errors occur during normal operation with valid input.                                       | Execute end-to-end tests with realistic test data to verify functionality under normal conditions.   |
+| Extreme Test Data        | System        | Test with maximum values (e.g., order count, no-fly zones) to ensure stability.                        | Use boundary value analysis to generate extreme test cases for input limits.                         |
+| Exceptional Test Data    | System        | Verify expected errors are thrown for invalid inputs like malformed JSON or invalid coordinates.       | Perform fuzz testing to introduce malformed and invalid input data.                                  |
+| No-Fly Zone Compliance   | System        | Ensure the drone avoids all specified no-fly zones, even with dynamic updates.                         | Use simulated environments with varying no-fly zone configurations and monitor drone behavior.       |
+| Path Optimization        | System        | Verify the shortest path is calculated for deliveries under valid constraints.                         | Perform regression tests with predefined paths to ensure optimization remains consistent.            |
+| Invalid Order Handling   | System        | Confirm system rejects invalid orders based on various criteria (e.g., card number, format).           | Use equivalence partitioning to test invalid and valid order combinations.                           |
+| Battery Conservation     | System        | Validate drone returns to Appleton Tower before battery depletion.                                     | Simulate delivery routes near battery limits and validate return functionality.                      |
+| GeoJSON Output           | System        | Verify correct generation of GeoJSON files for drone path visualization.                               | Use automated file comparison tools to validate GeoJSON output structure and accuracy.               |
+| Valid Compass Directions | System        | Ensure the drone only follows valid compass directions (16 directions + hover).                        | Generate test cases for all compass directions and verify drone behavior aligns with specifications. |
+| A* Algorithm Integrity   | System        | Validate the route calculated by the A* algorithm adheres to no-fly zone and central area constraints. | Perform pathfinding verification tests against predefined scenarios with expected outputs.           |
+| **Integration Tests**    |               |                                                                                                        |                                                                                                      |
+| REST API Response        | Integration   | Test REST API interactions with valid and invalid data (e.g., 404 errors).                             | Use mock APIs and tools like Postman to test API behavior under various scenarios.                   |
+| Data Handling            | Integration   | Ensure proper deserialization of order, restaurant, and no-fly zone data.                              | Perform deserialization tests with JSON samples to verify data parsing accuracy.                     |
+| No-Fly Zone Avoidance    | Integration   | Validate integration between `AreaSingleton` and path calculation modules.                             | Simulate routes near no-fly zones and validate compliance through log analysis.                      |
+| Credit Card Validation   | Integration   | Confirm validation logic integrates with the `Order` class for card data.                              | Use parameterized tests to validate card details across various valid and invalid input cases.       |
+| GeoJSON Format           | Integration   | Test JSON serialization of drone paths using `FileWriter`.                                             | Validate output format with schema validation tools for GeoJSON compliance.                          |
+| Restaurant Validation    | Integration   | Ensure orders are matched correctly to participating restaurants.                                      | Test restaurant assignment with edge cases involving overlapping and ambiguous data.                 |
+| FlightPathPoint Mapping  | Integration   | Verify drone movements are correctly represented in GeoJSON outputs.                                   | Visual inspection of generated paths combined with automated coordinate validation.                  |
+| Route Calculation        | Integration   | Test integration between `RouteCalculator`, `LngLat`, and `CompassDirection` for route generation.     | Simulate various start and end points to validate accurate route generation.                         |
+| Central Area Validation  | Integration   | Validate that `AreaSingleton` correctly loads and applies central area boundary constraints.           | Use boundary tests with varying central area configurations to ensure proper functionality.          |
+| **Unit Tests**           |               |                                                                                                        |                                                                                                      |
+| Credit Card Validation   | Unit          | Test regex and Luhn algorithm in `CreditCardInformation` for valid/invalid numbers.                    | Write unit tests using boundary and invalid input cases for regex and algorithm validation.          |
+| Expiry Date Parsing      | Unit          | Validate correct parsing and comparison of expiry dates in `Order`.                                    | Perform unit tests with edge cases for valid and invalid expiry dates.                               |
+| CVV Validation           | Unit          | Ensure CVV is exactly three numeric digits.                                                            | Use parameterized unit tests to validate numeric and non-numeric inputs.                             |
+| Menu Parsing             | Unit          | Test correct deserialization of menu data in `Menu`.                                                   | Write unit tests with predefined JSON samples for menu deserialization.                              |
+| Pizza Validation         | Unit          | Confirm `containsInvalidPizza` correctly identifies invalid pizzas in `Order`.                         | Use mock restaurant menus to test invalid and valid pizza combinations.                              |
+| Restaurant Location      | Unit          | Validate longitude and latitude accuracy in `Restaurant.Location`.                                     | Perform unit tests with edge cases for out-of-range geographic coordinates.                          |
+| Order Outcome Assignment | Unit          | Ensure `Order` assigns the correct `OrderOutcome` based on validation rules.                           | Write unit tests for all possible outcomes using equivalence partitioning.                           |
+| FileWriter Outputs       | Unit          | Test JSON and GeoJSON output generation for correctness.                                               | Use snapshot testing to validate generated files against expected outputs.                           |
+| Singleton Behavior       | Unit          | Verify singleton behavior of `AreaSingleton` for consistent data access.                               | Use concurrency tests to validate thread safety of the singleton implementation.                     |
+| Path Angle Calculation   | Unit          | Test angle calculations in `FlightPathPoint` for accuracy.                                             | Write unit tests for all compass directions to validate angle conversions.                           |
+| Order Parsing            | Unit          | Confirm deserialization of `Order` JSON into valid objects.                                            | Perform unit tests with various valid and malformed JSON samples.                                    |
+| Central Area Border      | Unit          | Validate correct loading of central area data from the REST API.                                       | Write unit tests to verify parsing and storage of central area borders.                              |
+| Drone Coordinate Mapping | Unit          | Test `FlightPathPoint` for correct mapping of start and end coordinates.                               | Validate coordinate calculations through unit tests for sample flight paths.                         |
+| Invalid Input Handling   | Unit          | Verify exceptions are correctly thrown for invalid data in `OrderRetriever`.                           | Use mock API responses with invalid data formats to validate exception handling.                     |
+| Price Validation         | Unit          | Confirm `validatePriceTotal` in `Order` checks totals against menu prices accurately.                  | Write unit tests with both undercharged and overcharged totals to validate logic.                    |
+| Direction Handling       | Unit          | Validate `CompassDirection` enum for accurate direction-to-angle mapping.                              | Use parameterized tests for all compass directions to validate accuracy.                             |
+| Distance Tolerance       | Unit          | Test `LngLat.closeTo` for correct distance threshold application.                                      | Write unit tests with edge cases to validate distance threshold behavior.                            |
+| No-Fly Zone Check        | Unit          | Verify `LngLat.inNoFlyZone` detects entry and intersection with no-fly zones accurately.               | Use mock no-fly zones to validate detection logic with various paths.                                |
+| Node Heuristic Accuracy  | Unit          | Confirm A* `Node` heuristic correctly accounts for no-fly zones and central area restrictions.         | Validate heuristic calculations with predefined scenarios in unit tests.                             |
+| Route Reconstruction     | Unit          | Test `RouteCalculator.reconstructPath` for accurate path rebuilding from A* nodes.                     | Simulate path reconstruction with known inputs and verify against expected results.                  |
+| Hover Handling           | Unit          | Ensure hover action (`CompassDirection.HOVER`) correctly preserves drone's location.                   | Write unit tests to validate hover behavior without position changes.                                |
