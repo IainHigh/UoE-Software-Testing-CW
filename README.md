@@ -4,6 +4,8 @@
 # Run Tests:
 c:; cd 'c:\Program Files (x86)\Eclipse Adoptium\jre\bin\java.exe' '-cp' 'C:\Users\s2062378\AppData\Local\Temp\cp_dd71q3mef251e578wag1yrjsj.jar' 'uk.ac.ed.inf.SystemTests.Driver'
 
+To run with test coverage right click on the test folder and select "Run Tests with Coverage" (5th option from bottom.)
+
 # Run Program:
 c:; cd 'c:\Users\s2062378\OneDrive - University of Edinburgh\Teaching\Year 1\Software Testing\ilpCoursework'; & 'C:\Program Files (x86)\Eclipse Adoptium\jre\bin\java.exe' '-cp' 'C:\Users\s2062378\AppData\Local\Temp\cp_5r4w3m0cdtejue7e5xv79b3hl.jar' 'uk.ac.ed.inf.PizzaDrone' '2024-12-19' 'https://ilp-rest-2024.azurewebsites.net/'
 

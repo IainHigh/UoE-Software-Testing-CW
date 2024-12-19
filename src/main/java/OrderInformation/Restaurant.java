@@ -70,15 +70,6 @@ public class Restaurant {
     }
 
     /**
-     * Accessor method for the opening days.
-     *
-     * @return the array of opening days for this restaurant.
-     */
-    public String[] getOpeningDays() {
-        return openingDays;
-    }
-
-    /**
      * Mutator method for the number of moves from Appleton Tower.
      *
      * @param noOfMoves The number of moves from Appleton Tower.
