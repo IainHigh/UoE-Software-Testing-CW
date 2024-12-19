@@ -53,7 +53,7 @@ public class PizzaDrone {
             noFlyURL = new URL(restAPIUrl + Constants.NO_FLY_ZONES_URL_SLUG);
             centralAreaURL = new URL(restAPIUrl + Constants.CENTRAL_AREA_URL_SLUG);
             restaurantsURL = new URL(restAPIUrl + Constants.RESTAURANTS_URL_SLUG);
-            ordersURL = new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG + date);
+            ordersURL = new URL(restAPIUrl + Constants.ORDERS_WITH_DATE_URL_SLUG);
         } catch (MalformedURLException e) {
             System.err.println("Can't create URL from given string.");
             e.printStackTrace();
@@ -65,7 +65,8 @@ public class PizzaDrone {
 
         // Retrieve the restaurants and orders.
         Restaurant[] restaurants = OrderRetriever.getRestaurants(restaurantsURL);
-        orders = OrderRetriever.getOrders(ordersURL);
+        Order[] allOrders = OrderRetriever.getAllOrders(ordersURL);
+        orders = OrderRetriever.getOrdersOnDate(allOrders, date);
         if (orders.length == 0) {
             System.err.println("No orders found for the given date.");
             return;
@@ -103,34 +104,15 @@ public class PizzaDrone {
             return false;
         }
 
-        // Check if the input date is in the range of between 2023-01-01 and 2023-05-31
+        // Check if the input date is in the range of between 2024-12-19 and 2025-01-17
         String[] dateParts = args[0].split("-");
         int year = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);
         int day = Integer.parseInt(dateParts[2]);
         
-        // if (year != 2023 || month < 1 || month > 5 || day < 1 || day > 31
-        //         || (month == 2 && day > 28) || (month == 4 && day > 30)) {
-        //     System.err.println("Expected first argument to be a date in the range 2023-01-01 to 2023-05-31, got " + args[0]);
-        //     return false;
-        // }
-        // Change the year to be between 2023-09-01 and 2024-01-28
-        if (year == 2023){
-            if (month < 9 || month > 12 || day < 1 || day > 31
-                    || (month == 9 && day >30) || (month == 1 && day > 30)){
-                // September, April, June, November have 30 days (4, 6, 9, 11)
-                System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
-                return false;
-            }
-        }
-        else if (year == 2024){
-            if (month != 1 || day < 1 || day > 28){
-                System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
-                return false;
-            }
-        }
-        else {
-            System.err.println("Expected first argument to be a date in the range 2023-09-01 to 2024-01-28, got " + args[0]);
+        // Validate if the date is within the range 2024-12-19 to 2025-01-17
+        if (!((year == 2024 && month == 12 && day >= 19 && day <= 31) || (year == 2025 && month == 1 && day >= 1 && day <= 17))) {
+            System.err.println("Expected first argument to be a date in the range 2024-12-19 to 2025-01-17, got " + args[0]);
             return false;
         }
 

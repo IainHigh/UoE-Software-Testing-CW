@@ -1,0 +1,166 @@
+[
+	{
+		"name": "Civerinos Slice",
+		"location": {
+			"lng": -3.1912869215011597,
+			"lat": 55.945535152517735
+		},
+		"openingDays": [
+			"MONDAY",
+			"TUESDAY",
+			"FRIDAY",
+			"SATURDAY",
+			"SUNDAY"
+		],
+		"menu": [
+			{
+				"name": "R1: Margarita",
+				"priceInPence": 1000
+			},
+			{
+				"name": "R1: Calzone",
+				"priceInPence": 1400
+			}
+		]
+	},
+	{
+		"name": "Sora Lella Vegan Restaurant",
+		"location": {
+			"lng": -3.202541470527649,
+			"lat": 55.943284737579376
+		},
+		"openingDays": [
+			"MONDAY",
+			"TUESDAY",
+			"WEDNESDAY",
+			"THURSDAY",
+			"FRIDAY"
+		],
+		"menu": [
+			{
+				"name": "R2: Meat Lover",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R2: Vegan Delight",
+				"priceInPence": 1100
+			}
+		]
+	},
+	{
+		"name": "Domino's Pizza - Edinburgh - Southside",
+		"location": {
+			"lng": -3.1838572025299072,
+			"lat": 55.94449876875712
+		},
+		"openingDays": [
+			"WEDNESDAY",
+			"THURSDAY",
+			"FRIDAY",
+			"SATURDAY",
+			"SUNDAY"
+		],
+		"menu": [
+			{
+				"name": "R3: Super Cheese",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R3: All Shrooms",
+				"priceInPence": 900
+			}
+		]
+	},
+	{
+		"name": "Sodeberg Pavillion",
+		"location": {
+			"lng": -3.1940174102783203,
+			"lat": 55.94390696616939
+		},
+		"openingDays": [
+			"TUESDAY",
+			"WEDNESDAY",
+			"SATURDAY",
+			"SUNDAY"
+		],
+		"menu": [
+			{
+				"name": "R4: Proper Pizza",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R4: Pineapple & Ham & Cheese",
+				"priceInPence": 900
+			}
+		]
+	},
+	{
+		"name": "La Trattoria",
+		"location": {
+			"lng": -3.1810810679852035,
+			"lat": 55.938910643735845
+		},
+		"openingDays": [
+			"MONDAY",
+			"THURSDAY",
+			"SATURDAY",
+			"SUNDAY"
+		],
+		"menu": [
+			{
+				"name": "R5: Pizza Dream",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R5: My kind of pizza",
+				"priceInPence": 900
+			}
+		]
+	},
+	{
+		"name": "Halal Pizza",
+		"location": {
+			"lng": -3.185428203143916,
+			"lat": 55.945846113595
+		},
+		"openingDays": [
+			"MONDAY",
+			"TUESDAY",
+			"WEDNESDAY",
+			"SATURDAY",
+			"SUNDAY"
+		],
+		"menu": [
+			{
+				"name": "R6: Sucuk delight",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R6: Dreams of Syria",
+				"priceInPence": 900
+			}
+		]
+	},
+	{
+		"name": "World of Pizza",
+		"location": {
+			"lng": -3.179798972064253,
+			"lat": 55.939884084483
+		},
+		"openingDays": [
+			"THURSDAY",
+			"FRIDAY",
+			"TUESDAY"
+		],
+		"menu": [
+			{
+				"name": "R7: Hot, hotter, the hottest",
+				"priceInPence": 1400
+			},
+			{
+				"name": "R7: All you ever wanted",
+				"priceInPence": 900
+			}
+		]
+	}
+]

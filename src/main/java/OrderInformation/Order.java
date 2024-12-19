@@ -48,7 +48,7 @@ public class Order {
         } else if (!orderNo.chars().allMatch(c -> isDigit(c) || (c >= 'A' && c <= 'F')) || orderNo.length() != 8) {
             // The orderNo must be an 8 digit hexadecimal number.
             this.outcome = OrderOutcome.Invalid;
-        } else if (restaurants == null || this.pizzasInOrder == null) {
+        } else if (restaurants == null || this.pizzasInOrder == null || this.pizzasInOrder.length == 0) {
             // There must be restaurants and pizzasInOrder.
             this.outcome = OrderOutcome.Invalid;
         } else if (containsInvalidPizza(restaurants)) {
@@ -265,5 +265,14 @@ public class Order {
      */
     public Restaurant getRestaurant() {
         return this.restaurantOrderedFrom;
+    }
+
+    /**
+     * Accessor method for the order date.
+     *
+     * @return The date of the order.
+     */
+    public String getDate() {
+        return this.orderDate;
     }
 }

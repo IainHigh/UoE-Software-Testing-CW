@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Civerinos Slice",
+        "marker-color": "#0000ff",
+        "marker-symbol": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.1912869215011597,
+          55.945535152517735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sodeberg Pavillion",
+        "marker-color": "#0000ff",
+        "marker-symbol": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.1940174102783203,
+          55.94390696616939
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sora Lella Vegan Restaurant",
+        "marker-color": "#0000ff",
+        "marker-symbol": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.202541470527649,
+          55.943284737579376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Domino's Pizza - Edinburgh - Southside",
+        "marker-color": "#0000ff",
+        "marker-symbol": "building"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.1838572025299072,
+          55.94449876875712
+        ]
+      }
+    }
+  ]
+}

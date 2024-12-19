@@ -112,7 +112,7 @@
     <configuration name="PizzaDrone" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.PizzaDrone" />
       <module name="ilp" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;2023-01-01&quot; &quot;https://ilp-rest.azurewebsites.net/&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;2023-01-01&quot; &quot;https://ilp-rest-2024.azurewebsites.net/&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="RouteCalculation.*" />

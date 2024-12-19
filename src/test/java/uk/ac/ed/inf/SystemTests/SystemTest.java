@@ -34,7 +34,7 @@ public class SystemTest {
         Instant start = Instant.now();
 
         try{
-            PizzaDrone.main(new String[]{date, "https://ilp-rest.azurewebsites.net/"});
+            PizzaDrone.main(new String[]{date, "https://ilp-rest-2024.azurewebsites.net/"});
         }
         catch (Exception e){
             System.err.println("An exception was thrown: " + e.getMessage());
@@ -45,21 +45,15 @@ public class SystemTest {
         assert(Duration.between(start, Instant.now()).getSeconds() < 60) : "Exception: Time taken exceeded 60 seconds";
     }
 
-    private static List<String> generateAllDates(){
+    private static List<String> generateAllDates() {
         List<String> dates = new ArrayList<>();
-        for (int i = 9; i <= 12; i++) {
-            for (int j = 1; j <= 31; j++) {
-                if ((i == 9 && j < 1) || (i == 11 && j > 30) || (i == 9 && j > 30)) {
-                    continue;
-                }
-                dates.add("2023-" + String.format("%02d", i) + "-" + String.format("%02d", j));
-            }
+        for (int j = 19; j <= 31; j++) {
+            dates.add("2024-12-" + String.format("%02d", j));
         }
-        for (int i = 1; i <= 1; i++) {
-            for (int j = 1; j <= 28; j++) {
-                dates.add("2024-" + String.format("%02d", i) + "-" + String.format("%02d", j));
-            }
+        for (int j = 1; j <= 17; j++) {
+            dates.add("2025-01-" + String.format("%02d", j));
         }
         return dates;
     }
+    
 }
