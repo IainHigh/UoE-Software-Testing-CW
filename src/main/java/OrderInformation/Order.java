@@ -57,13 +57,13 @@ public class Order {
         } else if (pizzaOrderedFromMultipleRestaurants(restaurants)) {
             // Check if the order contains pizzas from multiple different restaurants.
             this.outcome = OrderOutcome.InvalidPizzaCombinationMultipleSuppliers;
-        } else if (!validCardNumber()) {
+        } else if (!this.creditCardInformation.validCardNumber()) {
             // Check if the credit card number is valid.
             this.outcome = OrderOutcome.InvalidCardNumber;
-        } else if (!validCardExpiry()) {
-            // Check if the credit card expiry date is valid.
+        } else if (!this.creditCardInformation.validExpiryDate() || !orderBeforeCardExpiration()) {
+            // Check if the credit card expiry date is valid and the order is placed before the card expires.
             this.outcome = OrderOutcome.InvalidExpiryDate;
-        } else if (!validCVV()) {
+        } else if (!this.creditCardInformation.validCVV()) {
             // Check if the cvv is valid.
             this.outcome = OrderOutcome.InvalidCvv;
         } else if (this.pizzasInOrder.length == 0 || this.pizzasInOrder.length > 4) {
@@ -122,54 +122,12 @@ public class Order {
                         .noneMatch(menu -> menu.getName().equals(pizza)));
     }
 
-    /**
-     * Validates the credit card number of an order.
-     * The regex used is provided by stackoverflow users "quinlo" and "ajithparamban".
-     * <a href="https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests">...</a>
-     *
-     * @return True if the credit card number is valid. False otherwise.
-     */
-    private boolean validCardNumber() {
-        final String VISA_REGEX = "^4[0-9]{12}(?:[0-9]{3})?$";
-        final String MASTER_CARD_REGEX = "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1" +
-                "][0-9]{13}|720[0-9]{12}))$";
-
-        if (this.creditCardInformation.getCreditCardNumber().matches(VISA_REGEX) || 
-            this.creditCardInformation.getCreditCardNumber().matches(MASTER_CARD_REGEX)) {
-            // Check if the credit card number is a valid visa or mastercard number.
-            return luhnCheck();
-        }
-        return false;
-    }
-
-    /**
-     * Uses the luhn algorithm to check if the card number is valid.
-     * <a href="https://en.wikipedia.org/wiki/Luhn_algorithm">...</a>
-     *
-     * @return True if the credit card number passes the luhn check. False otherwise.
-     */
-    private boolean luhnCheck() {
-        int sum = 0;
-        String cardNumber = this.creditCardInformation.getCreditCardNumber();
-        for (int i = cardNumber.length() - 1; i >= 0; i--) {
-            int n = Integer.parseInt(cardNumber.substring(i, i + 1));
-            if (i % 2 == 0) {
-                n *= 2;
-                if (n > 9) {
-                    n = (n % 10) + 1;
-                }
-            }
-            sum += n;
-        }
-        return (sum % 10 == 0);
-    }
-
-    /**
+        /**
      * Validates the credit card expiration date of an order.
      *
      * @return True if the credit card expiration date is valid (format MM/YY and before order date). False otherwise.
      */
-    private boolean validCardExpiry() {
+    private boolean orderBeforeCardExpiration() {
 
         LocalDate date = LocalDate.parse(this.orderDate);
 
@@ -185,17 +143,6 @@ public class Order {
         int year = CENTURY + Integer.parseInt(expiry.substring(3, 5));
 
         return (year > date.getYear()) || (year == date.getYear() && month >= date.getMonthValue());
-    }
-
-    /**
-     * Validates the CVV of an order.
-     *
-     * @return True if the CVV is valid (3 digits, all numbers), false otherwise.
-     */
-    private boolean validCVV() {
-        String cvv = this.creditCardInformation.getCvv();
-        if (cvv.length() != 3) return false;
-        return cvv.chars().allMatch(Character::isDigit);
     }
 
     /**
