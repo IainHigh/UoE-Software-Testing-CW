@@ -54,6 +54,5 @@ public class SystemTest {
             dates.add("2025-01-" + String.format("%02d", j));
         }
         return dates;
-    }
-    
+    }    
 }

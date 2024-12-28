@@ -2,18 +2,13 @@ package OrderInformation;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Class to represent credit card information in an order.
  */
 public class CreditCardInformation {
-
-    public CreditCardInformation(String creditCardNumber, String creditCardExpiry, String cvv) {
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardExpiry = creditCardExpiry;
-        this.cvv = cvv;
-    }
 
     @JsonProperty("creditCardNumber")
     private String creditCardNumber;
@@ -23,6 +18,17 @@ public class CreditCardInformation {
 
     @JsonProperty("cvv")
     private String cvv;
+
+    @JsonCreator
+    public CreditCardInformation(
+        @JsonProperty("creditCardNumber") String creditCardNumber,
+        @JsonProperty("creditCardExpiry") String creditCardExpiry,
+        @JsonProperty("cvv") String cvv
+    ) {
+        this.creditCardNumber = creditCardNumber;
+        this.creditCardExpiry = creditCardExpiry;
+        this.cvv = cvv;
+    }
 
     // Getters
     public String getCreditCardNumber() {
