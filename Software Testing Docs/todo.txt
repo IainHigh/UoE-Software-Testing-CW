@@ -1,0 +1,4 @@
+Things to include in this documentation:
+    - Screen recorded video of CI pipeline on github.
+    - Screenshot of code coverage + Raw code coverage results.
+    
