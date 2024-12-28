@@ -54,40 +54,21 @@ public class LngLat {
             System.err.println("inZone called with invalid zone coordinates.");
             return false;
         }
-    
-        // Ensure polygon is closed
-        if (!zoneCoordinates[0].equals(zoneCoordinates[zoneCoordinates.length - 1])) {
-            throw new IllegalArgumentException("Polygon is not closed");
-        }
-    
         boolean inside = false;
-    
-        for (int i = 0; i < zoneCoordinates.length - 1; i++) {
+        // Loop through the border points (in anti-clockwise pairs)
+        for (int i = 0; i < zoneCoordinates.length; i++) {
             LngLat p1 = zoneCoordinates[i];
-            LngLat p2 = zoneCoordinates[i + 1];
-    
-            // Skip horizontal edges
-            if (p1.getLat() == p2.getLat()) {
-                continue;
-            }
-    
-            // Check if point is on an edge
-            if ((this.lat == p1.getLat() && this.lng == p1.getLng()) ||
-                (this.lat == p2.getLat() && this.lng == p2.getLng()) ||
-                (this.lat > Math.min(p1.getLat(), p2.getLat()) &&
-                 this.lat < Math.max(p1.getLat(), p2.getLat()) &&
-                 this.lng == (this.lat - p1.getLat()) * (p2.getLng() - p1.getLng()) / (p2.getLat() - p1.getLat()) + p1.getLng())) {
-                return true; // Point is on an edge
-            }
-    
-            // Ray-casting logic
-            if (this.lat > Math.min(p1.getLat(), p2.getLat()) &&
-                this.lat <= Math.max(p1.getLat(), p2.getLat()) &&
-                this.lng < (this.lat - p1.getLat()) * (p2.getLng() - p1.getLng()) / (p2.getLat() - p1.getLat()) + p1.getLng()) {
+            LngLat p2 = zoneCoordinates[(i + 1) % zoneCoordinates.length];
+            double gradient = (p2.getLng() - p1.getLng()) / (p2.getLat() - p1.getLat());
+            double latDiff = this.lat - p1.getLat();
+            // Determine if the line intersects with the border.
+            // If it's above the lower point and below the upper point and lies to the left of the line between
+            // border points then it will intersect.
+            if (this.lat > Math.min(p1.getLat(), p2.getLat()) && this.lat < Math.max(p1.getLat(), p2.getLat()) 
+                && this.lng < (latDiff * gradient) + p1.getLng()) {
                 inside = !inside;
             }
         }
-    
         return inside;
     }
     
