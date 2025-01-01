@@ -24,6 +24,9 @@
         <configuration>
           <includes>
             <include>**/UnitTests/*.java</include> <!-- Focus on Unit Tests -->
+            <include>**/UnitTests/OrderInformation/*.java</include>
+            <include>**/UnitTests/Output/*.java</include>
+            <include>**/UnitTests/RouteCalculation/*.java</include>
           </includes>
         </configuration>
       </plugin>
