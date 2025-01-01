@@ -42,15 +42,6 @@ public class RestaurantUnitTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructorInvalidOpeningDaysWrongOrder() {
-        Restaurant.Location location = new Restaurant.Location(-3.186874, 55.944494);
-        String[] invalidOpeningDays = { "FRIDAY", "WEDNESDAY", "MONDAY" };
-        Menu[] menu = { new Menu("Pizza Margherita", 850) };
-
-        new Restaurant("Pizzaiolo", location, invalidOpeningDays, menu);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testConstructorEmptyName() {
         Restaurant.Location location = new Restaurant.Location(-3.186874, 55.944494);
         String[] validOpeningDays = { "MONDAY", "TUESDAY", "FRIDAY" };

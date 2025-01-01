@@ -1,17 +1,19 @@
 package OrderInformation;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Class to represent a restaurant.
- * Stores the location, menu, and number of moves required to return to appleton tower.
+ * Stores the location, menu, and number of moves required to return to appleton
+ * tower.
  */
 public class Restaurant {
-    
+
     @JsonProperty("name")
     private String name;
 
@@ -37,7 +39,9 @@ public class Restaurant {
             throw new IllegalArgumentException("Location cannot be null");
         }
 
-        // Opening days can only be a list consisting of the strings "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" each at most once.
+        // Opening days can only be a list consisting of the strings "MONDAY",
+        // "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" each at
+        // most once.
         if (!validOpenDays(openingDays)) {
             throw new IllegalArgumentException("Invalid opening days");
         }
@@ -46,7 +50,7 @@ public class Restaurant {
         if (menu == null) {
             throw new IllegalArgumentException("Menu cannot be null");
         }
-        
+
         this.name = name;
         this.location = location;
         this.openingDays = openingDays;
@@ -54,22 +58,19 @@ public class Restaurant {
     }
 
     private boolean validOpenDays(String[] openingDays) {
-        // Define the valid days in order
-        List<String> validDays = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", 
-                                            "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
+        // Define the valid days
+        Set<String> validDays = new HashSet<>(Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY",
+                "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
 
-        int lastIndex = -1; // Track the last valid index
+        Set<String> seenDays = new HashSet<>();
         for (String day : openingDays) {
-            int currentIndex = validDays.indexOf(day);
-            if (currentIndex == -1 || currentIndex <= lastIndex) {
-                // Day is invalid or out of order
+            if (!validDays.contains(day) || !seenDays.add(day)) {
+                // Day is invalid or already seen
                 return false;
             }
-            lastIndex = currentIndex;
         }
         return true;
     }
-
 
     private int numberOfMovesFromAppletonTower;
 

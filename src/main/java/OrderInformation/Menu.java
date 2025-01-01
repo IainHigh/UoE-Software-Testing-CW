@@ -16,7 +16,7 @@ public class Menu {
      * @param priceInPence the price of the menu item in pence.
      */
     public Menu(@JsonProperty("name") String name,
-                @JsonProperty("priceInPence") int priceInPence) {
+            @JsonProperty("priceInPence") int priceInPence) {
         // Price in pense must be greater than 0
         if (priceInPence <= 0) {
             throw new IllegalArgumentException("Price in pence must be greater than 0");

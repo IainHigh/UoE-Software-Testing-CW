@@ -12,7 +12,7 @@ public class Pizza {
 
     @JsonProperty("priceInPence")
     private int priceInPence;
-    
+
     @JsonCreator
     public Pizza(@JsonProperty("name") String name, @JsonProperty("priceInPence") int priceInPence) {
         if (name == null || name.isEmpty()) {

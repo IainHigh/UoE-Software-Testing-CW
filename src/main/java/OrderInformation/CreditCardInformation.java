@@ -1,4 +1,5 @@
 package OrderInformation;
+
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
@@ -21,10 +22,9 @@ public class CreditCardInformation {
 
     @JsonCreator
     public CreditCardInformation(
-        @JsonProperty("creditCardNumber") String creditCardNumber,
-        @JsonProperty("creditCardExpiry") String creditCardExpiry,
-        @JsonProperty("cvv") String cvv
-    ) {
+            @JsonProperty("creditCardNumber") String creditCardNumber,
+            @JsonProperty("creditCardExpiry") String creditCardExpiry,
+            @JsonProperty("cvv") String cvv) {
         this.creditCardNumber = creditCardNumber;
         this.creditCardExpiry = creditCardExpiry;
         this.cvv = cvv;
@@ -43,21 +43,24 @@ public class CreditCardInformation {
         return cvv;
     }
 
-        /**
+    /**
      * Validates the credit card number.
-     * The regex used is provided by stackoverflow users "quinlo" and "ajithparamban".
-     * <a href="https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests">...</a>
+     * The regex used is provided by stackoverflow users "quinlo" and
+     * "ajithparamban".
+     * <a href=
+     * "https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests">...</a>
      *
      * @return True if the credit card number is valid. False otherwise.
      */
     public boolean validCardNumber() {
-        if (this.creditCardNumber == null) return false;
+        if (this.creditCardNumber == null)
+            return false;
         final String VISA_REGEX = "^4[0-9]{12}(?:[0-9]{3})?$";
         final String MASTER_CARD_REGEX = "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1" +
                 "][0-9]{13}|720[0-9]{12}))$";
 
-        if (this.getCreditCardNumber().matches(VISA_REGEX) || 
-            this.getCreditCardNumber().matches(MASTER_CARD_REGEX)) {
+        if (this.getCreditCardNumber().matches(VISA_REGEX) ||
+                this.getCreditCardNumber().matches(MASTER_CARD_REGEX)) {
             // Check if the credit card number is a valid visa or mastercard number.
             return luhnCheck();
         }
@@ -68,7 +71,8 @@ public class CreditCardInformation {
      * Uses the luhn algorithm to check if the card number is valid.
      * <a href="https://en.wikipedia.org/wiki/Luhn_algorithm">...</a>
      *
-     * @return True if the credit card number passes the luhn check. False otherwise.
+     * @return True if the credit card number passes the luhn check. False
+     *         otherwise.
      */
     public boolean luhnCheck() {
         int sum = 0;
@@ -93,7 +97,8 @@ public class CreditCardInformation {
      */
     public boolean validCVV() {
         String cvv = this.getCvv();
-        if (cvv.length() != 3) return false;
+        if (cvv.length() != 3)
+            return false;
         return cvv.chars().allMatch(Character::isDigit);
     }
 

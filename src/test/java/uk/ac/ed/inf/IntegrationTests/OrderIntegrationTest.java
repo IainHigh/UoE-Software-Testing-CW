@@ -7,5 +7,5 @@ package uk.ac.ed.inf.IntegrationTests;
  */
 
 public class OrderIntegrationTest {
-    
+
 }

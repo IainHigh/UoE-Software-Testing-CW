@@ -2,10 +2,12 @@ package RouteCalculation;
 
 /**
  * An enum for storing the 16 compass directions and hover.
- * Each compass direction has a corresponding angle in degrees. Starting at east (0 degrees) and going anti-clockwise.
+ * Each compass direction has a corresponding angle in degrees. Starting at east
+ * (0 degrees) and going anti-clockwise.
  */
 public enum CompassDirection {
-    HOVER(null), // Although hover could be implemented just as a null direction, I find it more readable.
+    HOVER(null), // Although hover could be implemented just as a null direction, I find it more
+                 // readable.
     E(0.0),
     ENE(22.5),
     NE(45.0),
@@ -42,6 +44,6 @@ public enum CompassDirection {
      * @return The list of compass directions, excluding hover.
      */
     public static CompassDirection[] valuesNoHover() {
-        return new CompassDirection[]{E, ENE, NE, NNE, N, NNW, NW, WNW, W, WSW, SW, SSW, S, SSE, SE, ESE};
+        return new CompassDirection[] { E, ENE, NE, NNE, N, NNW, NW, WNW, W, WSW, SW, SSW, S, SSE, SE, ESE };
     }
 }

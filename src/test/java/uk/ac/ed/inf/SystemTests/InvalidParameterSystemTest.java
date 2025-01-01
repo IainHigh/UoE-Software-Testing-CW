@@ -7,22 +7,25 @@ import org.junit.Test;
 import uk.ac.ed.inf.PizzaDrone;
 
 public class InvalidParameterSystemTest {
-    
+
     @Test
     // Rejects invalid date
     public void app_main_rejectsInvalidDate() {
-        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class, () -> PizzaDrone.main(new String[]{"ThisAintADateLol", "https://ilp-rest-2024.azurewebsites.net/"}));
+        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class,
+                () -> PizzaDrone.main(new String[] { "ThisAintADateLol", "https://ilp-rest-2024.azurewebsites.net/" }));
     }
 
     @Test
     // Rejects invalid URL
     public void app_main_rejectsInvalidUrl() {
-        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class, () -> PizzaDrone.main(new String[]{"2023-05-16", "InvalidURL"}));
+        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class,
+                () -> PizzaDrone.main(new String[] { "2023-05-16", "InvalidURL" }));
     }
 
     @Test
     // Rejects no arguments
     public void app_main_rejectsNoArguments() {
-        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class, () -> PizzaDrone.main(new String[]{}) );
+        assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class,
+                () -> PizzaDrone.main(new String[] {}));
     }
 }

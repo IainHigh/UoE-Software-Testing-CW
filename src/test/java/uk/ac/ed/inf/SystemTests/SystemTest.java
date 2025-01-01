@@ -33,16 +33,15 @@ public class SystemTest {
         System.out.println("Testing date: " + date);
         Instant start = Instant.now();
 
-        try{
-            PizzaDrone.main(new String[]{date, "https://ilp-rest-2024.azurewebsites.net/"});
-        }
-        catch (Exception e){
+        try {
+            PizzaDrone.main(new String[] { date, "https://ilp-rest-2024.azurewebsites.net/" });
+        } catch (Exception e) {
             System.err.println("An exception was thrown: " + e.getMessage());
-            assert(false);
+            assert (false);
         }
 
         // Assert the time taken in seconds is less than 60
-        assert(Duration.between(start, Instant.now()).getSeconds() < 60) : "Exception: Time taken exceeded 60 seconds";
+        assert (Duration.between(start, Instant.now()).getSeconds() < 60) : "Exception: Time taken exceeded 60 seconds";
     }
 
     private static List<String> generateAllDates() {
@@ -54,5 +53,5 @@ public class SystemTest {
             dates.add("2025-01-" + String.format("%02d", j));
         }
         return dates;
-    }    
+    }
 }

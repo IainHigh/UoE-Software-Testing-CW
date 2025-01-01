@@ -1,7 +1,8 @@
 package Output;
 
 /**
- * This class is used to represent a single point on the flight path of the drone.
+ * This class is used to represent a single point on the flight path of the
+ * drone.
  */
 public class FlightPathPoint {
 
@@ -16,23 +17,24 @@ public class FlightPathPoint {
     /**
      * Create a new FlightPathPoint.
      *
-     * @param orderNumber   The eight-character order number for the pizza order which the drone is currently
+     * @param orderNumber   The eight-character order number for the pizza order
+     *                      which the drone is currently
      *                      collecting or delivering.
      * @param fromLongitude The longitude of the drone at the start of this move.
      * @param fromLatitude  The latitude of the drone at the start of this move.
      * @param angle         The angle of travel of the drone in this move.
      * @param toLongitude   The longitude of the drone at the end of this move.
      * @param toLatitude    The latitude of the drone at the end of this move.
-     * @param ticks         The elapsed ticks since the computation started for the day.
+     * @param ticks         The elapsed ticks since the computation started for the
+     *                      day.
      */
     public FlightPathPoint(String orderNumber,
-                           double fromLongitude,
-                           double fromLatitude,
-                           Double angle,
-                           double toLongitude,
-                           double toLatitude,
-                           int ticks
-    ) {
+            double fromLongitude,
+            double fromLatitude,
+            Double angle,
+            double toLongitude,
+            double toLatitude,
+            int ticks) {
         this.ORDER_NUMBER = orderNumber;
         this.FROM_LONGITUDE = fromLongitude;
         this.FROM_LATITUDE = fromLatitude;
@@ -48,7 +50,7 @@ public class FlightPathPoint {
      * @return a 2-element array containing the from_longitude and from_latitude.
      */
     public double[] getStartingCoordinates() {
-        return new double[]{FROM_LONGITUDE, FROM_LATITUDE};
+        return new double[] { FROM_LONGITUDE, FROM_LATITUDE };
     }
 
     /**
@@ -57,7 +59,7 @@ public class FlightPathPoint {
      * @return a 2-element array containing the to_longitude and to_latitude.
      */
     public double[] getDestinationCoordinates() {
-        return new double[]{TO_LONGITUDE, TO_LATITUDE};
+        return new double[] { TO_LONGITUDE, TO_LATITUDE };
     }
 
     /**

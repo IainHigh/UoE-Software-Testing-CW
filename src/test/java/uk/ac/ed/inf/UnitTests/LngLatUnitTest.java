@@ -16,7 +16,7 @@ public class LngLatUnitTest {
     private static final double ACCEPTANCE_THRESHOLD = 0.0000000000001;
 
     // -----------------------------------------------------------------------------------------------
-    //                                           CONSTRUCTOR
+    // CONSTRUCTOR
     // -----------------------------------------------------------------------------------------------
 
     @Test
@@ -68,7 +68,7 @@ public class LngLatUnitTest {
     }
 
     // -----------------------------------------------------------------------------------------------
-    //                                           DISTANCE TO
+    // DISTANCE TO
     // -----------------------------------------------------------------------------------------------
 
     @Test
@@ -76,7 +76,8 @@ public class LngLatUnitTest {
     public void distanceTo_appletonAndForrest() {
         double actualDistance = APPLETON.distanceTo(FORREST);
         double expectedDistance = 0.005862842484665912; // manually computed
-        assertEquals("Distance between Appleton and Forrest is incorrect", expectedDistance, actualDistance, ACCEPTANCE_THRESHOLD);
+        assertEquals("Distance between Appleton and Forrest is incorrect", expectedDistance, actualDistance,
+                ACCEPTANCE_THRESHOLD);
     }
 
     @Test
@@ -90,11 +91,12 @@ public class LngLatUnitTest {
     // Distance to null point is infinity
     public void distanceTo_nullPoint() {
         double POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
-        assertEquals("Distance between null point is infinite", POSITIVE_INFINITY, APPLETON.distanceTo(null), ACCEPTANCE_THRESHOLD);
+        assertEquals("Distance between null point is infinite", POSITIVE_INFINITY, APPLETON.distanceTo(null),
+                ACCEPTANCE_THRESHOLD);
     }
 
     // -----------------------------------------------------------------------------------------------
-    //                                           CLOSE TO
+    // CLOSE TO
     // -----------------------------------------------------------------------------------------------
 
     @Test
@@ -119,43 +121,51 @@ public class LngLatUnitTest {
     // Point exactly 0.00015 degrees away should not be classed as close
     public void closeTo_pointExactlyThresholdAway() {
         LngLat thresholdAway = new LngLat(APPLETON.getLng() + 0.00015, APPLETON.getLat());
-        assertFalse( "Point is close to point exactly 0.00015 degrees away", APPLETON.closeTo(thresholdAway));
+        assertFalse("Point is close to point exactly 0.00015 degrees away", APPLETON.closeTo(thresholdAway));
     }
 
     // -----------------------------------------------------------------------------------------------
-    //                                           NEXT MOVE
+    // NEXT MOVE
     // -----------------------------------------------------------------------------------------------
 
     @Test
     // Moving at degree 0 (E) only displaces lng
     public void nextMove_correctEastDisplacement() {
         LngLat newPosition = APPLETON.nextPosition(CompassDirection.E);
-        assertEquals("Moving at degree 0 (E) should only displace lng", APPLETON.getLng() + 0.00015, newPosition.getLng(), ACCEPTANCE_THRESHOLD);
-        assertEquals("Moving at degree 0 (E) should only displace lat", APPLETON.getLat(), newPosition.getLat(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 0 (E) should only displace lng", APPLETON.getLng() + 0.00015,
+                newPosition.getLng(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 0 (E) should only displace lat", APPLETON.getLat(), newPosition.getLat(),
+                ACCEPTANCE_THRESHOLD);
     }
 
     @Test
     // Moving at degree 180 (W) only displaces lng
     public void nextMove_correctWestDisplacement() {
         LngLat newPosition = FORREST.nextPosition(CompassDirection.W);
-        assertEquals("Moving at degree 180 (W) should only displace lng", FORREST.getLng() - 0.00015, newPosition.getLng(), ACCEPTANCE_THRESHOLD);
-        assertEquals("Moving at degree 180 (W) should only displace lat", FORREST.getLat(), newPosition.getLat(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 180 (W) should only displace lng", FORREST.getLng() - 0.00015,
+                newPosition.getLng(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 180 (W) should only displace lat", FORREST.getLat(), newPosition.getLat(),
+                ACCEPTANCE_THRESHOLD);
     }
 
     @Test
     // Moving at degree 90 (N) only displaces lat
     public void nextMove_correctNorthDisplacement() {
         LngLat newPosition = BUCCLEUCH_BUS.nextPosition(CompassDirection.N);
-        assertEquals("Moving at degree 90 (N) should only displace lat", BUCCLEUCH_BUS.getLat() + 0.00015, newPosition.getLat(),
+        assertEquals("Moving at degree 90 (N) should only displace lat", BUCCLEUCH_BUS.getLat() + 0.00015,
+                newPosition.getLat(),
                 ACCEPTANCE_THRESHOLD);
-        assertEquals("Moving at degree 90 (N) should only displace lng", BUCCLEUCH_BUS.getLng(), newPosition.getLng(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 90 (N) should only displace lng", BUCCLEUCH_BUS.getLng(), newPosition.getLng(),
+                ACCEPTANCE_THRESHOLD);
     }
 
     @Test
     // Moving at degree 270 (S) only displaces lat
     public void nextMove_correctSouthDisplacement() {
         LngLat newPosition = APPLETON.nextPosition(CompassDirection.S);
-        assertEquals("Moving at degree 270 (S) should only displace lat", APPLETON.getLat() - 0.00015, newPosition.getLat(), ACCEPTANCE_THRESHOLD);
-        assertEquals("Moving at degree 270 (S) should only displace lng", APPLETON.getLng(), newPosition.getLng(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 270 (S) should only displace lat", APPLETON.getLat() - 0.00015,
+                newPosition.getLat(), ACCEPTANCE_THRESHOLD);
+        assertEquals("Moving at degree 270 (S) should only displace lng", APPLETON.getLng(), newPosition.getLng(),
+                ACCEPTANCE_THRESHOLD);
     }
 }

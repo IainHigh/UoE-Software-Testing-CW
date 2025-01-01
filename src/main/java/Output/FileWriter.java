@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 /**
  * A class for writing the output to the required files.
- * Writes the orderNo, outcome and costInPence for every order to deliveries-YYYY-MM-DD.json
+ * Writes the orderNo, outcome and costInPence for every order to
+ * deliveries-YYYY-MM-DD.json
  * Writes the flight path information to flightpath-YYYY-MM-DD.json
  * Writes the visited coordinates to drone-YYYY-MM-DD.geojson.
  */
@@ -26,7 +27,8 @@ public class FileWriter {
     }
 
     /**
-     * Writes the orderNo, outcome and costInPence for every order to deliveries-YYYY-MM-DD.json.
+     * Writes the orderNo, outcome and costInPence for every order to
+     * deliveries-YYYY-MM-DD.json.
      *
      * @param orderJson The String representation of the order in JSON format.
      */
@@ -39,7 +41,8 @@ public class FileWriter {
             fileWriter.write("[");
             for (int i = 0; i < orderJson.length; i++) {
                 fileWriter.write(orderJson[i]);
-                if (i != orderJson.length - 1) fileWriter.write(",");
+                if (i != orderJson.length - 1)
+                    fileWriter.write(",");
             }
             fileWriter.write("]");
             fileWriter.close();
@@ -50,27 +53,31 @@ public class FileWriter {
     }
 
     /**
-     * Write the list of drone coordinates to the drone file as a LineString to view the path the drone took.
+     * Write the list of drone coordinates to the drone file as a LineString to view
+     * the path the drone took.
      *
-     * @param flight The list of flightpath points which is used to get the coordinates to write.
+     * @param flight The list of flightpath points which is used to get the
+     *               coordinates to write.
      */
     public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = flight.get(0).getStartingCoordinates();
         List<double[]> droneCoordinates = flight.stream()
-                                                .map(FlightPathPoint::getDestinationCoordinates)
-                                                .collect(Collectors.toList());
+                .map(FlightPathPoint::getDestinationCoordinates)
+                .collect(Collectors.toList());
 
         String fileName = outputDirectory + "drone-" + date + ".geojson";
         prepareFile(fileName);
 
         try {
             java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
-            fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\"," + " " + "\"coordinates\": [");
+            fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\","
+                    + " " + "\"coordinates\": [");
             fileWriter.write(Arrays.toString(startingCoordinates));
             fileWriter.write(",");
             for (int i = 0; i < droneCoordinates.size(); i++) {
                 fileWriter.write(Arrays.toString(droneCoordinates.get(i)));
-                if (i != droneCoordinates.size() - 1) fileWriter.write(",");
+                if (i != droneCoordinates.size() - 1)
+                    fileWriter.write(",");
             }
             fileWriter.write("]}}");
             fileWriter.close();
@@ -94,7 +101,8 @@ public class FileWriter {
             fileWriter.write("[");
             for (int i = 0; i < flight.size(); i++) {
                 fileWriter.write(flight.get(i).toJson());
-                if (i != flight.size() - 1) fileWriter.write(",");
+                if (i != flight.size() - 1)
+                    fileWriter.write(",");
             }
             fileWriter.write("]");
             fileWriter.close();

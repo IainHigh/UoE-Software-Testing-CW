@@ -13,7 +13,7 @@ import OrderInformation.Restaurant;
 import java.net.URL;
 
 public class OrderRetrieverUnitTest {
-    
+
     @Test
     public void testGetRestaurantsValidURL() throws MalformedURLException {
         URL url = new URL("https://ilp-rest-2024.azurewebsites.net/restaurants");

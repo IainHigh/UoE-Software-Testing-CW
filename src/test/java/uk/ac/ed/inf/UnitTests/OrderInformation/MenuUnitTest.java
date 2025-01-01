@@ -9,7 +9,7 @@ import OrderInformation.Menu;
 
 public class MenuUnitTest {
 
-     @Test
+    @Test
     public void testConstructorValidInputs() {
         Menu menuItem = new Menu("Pizza Margherita", 850);
         assertNotNull("Menu item should be created successfully", menuItem);
@@ -47,5 +47,5 @@ public class MenuUnitTest {
     public void testConstructorNegativePrice() {
         new Menu("Pizza Pepperoni", -200);
     }
-    
+
 }

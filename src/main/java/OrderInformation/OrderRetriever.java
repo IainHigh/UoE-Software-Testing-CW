@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Class to retrieve and deserialize the restaurants and orders from the REST API.
+ * Class to retrieve and deserialize the restaurants and orders from the REST
+ * API.
  */
 public final class OrderRetriever {
 
@@ -46,7 +47,8 @@ public final class OrderRetriever {
     }
 
     public static Order[] getOrdersOnDate(Order[] orders, String date) {
-        // Go through the list of orders, and only keep the ones that are on the specified date.
+        // Go through the list of orders, and only keep the ones that are on the
+        // specified date.
         return java.util.Arrays.stream(orders).filter(order -> order.getDate().equals(date)).toArray(Order[]::new);
     }
 }

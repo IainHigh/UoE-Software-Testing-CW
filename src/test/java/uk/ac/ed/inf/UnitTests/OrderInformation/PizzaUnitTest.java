@@ -42,5 +42,5 @@ public class PizzaUnitTest {
         assertEquals("getName accessor failed", "Funghi", pizza.getName());
         assertEquals("getPriceInPence accessor failed", 950, pizza.getPriceInPence());
     }
-    
+
 }
