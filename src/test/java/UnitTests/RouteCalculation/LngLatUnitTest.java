@@ -181,9 +181,9 @@ public class LngLatUnitTest {
     @Test
     public void testInZone_PointInsideZone() {
         LngLat[] zone = {
-            new LngLat(-3.187, 55.944),
-            new LngLat(-3.185, 55.944),
-            new LngLat(-3.186, 55.945)
+                new LngLat(-3.187, 55.944),
+                new LngLat(-3.185, 55.944),
+                new LngLat(-3.186, 55.945)
         };
         LngLat point = new LngLat(-3.1865, 55.9445);
         assertTrue("Point should be inside the zone", point.inZone(zone));
@@ -192,9 +192,9 @@ public class LngLatUnitTest {
     @Test
     public void testInZone_PointOnBorder() {
         LngLat[] zone = {
-            new LngLat(-3.187, 55.944),
-            new LngLat(-3.185, 55.944),
-            new LngLat(-3.186, 55.945)
+                new LngLat(-3.187, 55.944),
+                new LngLat(-3.185, 55.944),
+                new LngLat(-3.186, 55.945)
         };
         LngLat point = new LngLat(-3.187, 55.944); // On border
         assertFalse("Point on border should not be inside the zone", point.inZone(zone));
@@ -205,12 +205,12 @@ public class LngLatUnitTest {
         LngLat start = new LngLat(-3.187, 55.944);
         LngLat end = new LngLat(-3.185, 55.945);
         AreaSingleton mockSingleton = mock(AreaSingleton.class);
-        when(mockSingleton.getNoFlyZones()).thenReturn(new LngLat[][]{
-            {
-                new LngLat(-3.186, 55.944),
-                new LngLat(-3.185, 55.944),
-                new LngLat(-3.1855, 55.945)
-            }
+        when(mockSingleton.getNoFlyZones()).thenReturn(new LngLat[][] {
+                {
+                        new LngLat(-3.186, 55.944),
+                        new LngLat(-3.185, 55.944),
+                        new LngLat(-3.1855, 55.945)
+                }
         });
 
         AreaSingleton.setInstance(mockSingleton);
@@ -218,11 +218,9 @@ public class LngLatUnitTest {
         assertTrue("Line should intersect the no-fly zone", start.inNoFlyZone(end));
     }
 
-
     // -----------------------------------------------------------------------------------------------
     // MISCILANEOUS TESTS
     // -----------------------------------------------------------------------------------------------
-
 
     @Test
     public void testMove() {

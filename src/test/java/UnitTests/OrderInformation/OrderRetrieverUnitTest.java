@@ -36,6 +36,15 @@ public class OrderRetrieverUnitTest {
         assertTrue("Orders array should not be empty", orders.length > 0);
     }
 
+    @Test
+    public void getOrdersOnDate() throws MalformedURLException {
+        URL url = new URL("https://ilp-rest-2024.azurewebsites.net/orders");
+        Order[] orders = OrderRetriever.getAllOrders(url);
+        Order[] orders_on_date = OrderRetriever.getOrdersOnDate(orders, "2025-01-30");
+        assertNotNull("Orders should not be null", orders_on_date);
+        assertTrue("Orders array should not be empty", orders_on_date.length > 0);
+    }
+
     @Test(expected = RuntimeException.class)
     public void testGetAllOrdersInvalidURL() throws MalformedURLException {
         URL invalidUrl = new URL("https://invalid-url.com/orders");

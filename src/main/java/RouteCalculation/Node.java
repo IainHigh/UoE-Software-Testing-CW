@@ -7,7 +7,7 @@ import java.util.OptionalDouble;
 /**
  * A class to represent a node in the A* search algorithm.
  */
-class Node {
+public class Node {
     private final LngLat point; // The LngLat point represented by the node.
     private final double g; // The cost of the path from the start node to this node.
     private final double h; // The heuristic cost of the path from this node to the goal node.
@@ -95,6 +95,24 @@ class Node {
      */
     public double getFScore() {
         return this.g + this.h;
+    }
+
+    /**
+     * Accessor method for the g value of the node. Mainly used for testing.
+     * 
+     * @return The g value of the node.
+     */
+    public double getGScore() {
+        return this.g;
+    }
+
+    /**
+     * Accessor method for the h value of the node. Mainly used for testing.
+     * 
+     * @return The h value of the node.
+     */
+    public double getHScore() {
+        return this.h;
     }
 
     // Accessor methods

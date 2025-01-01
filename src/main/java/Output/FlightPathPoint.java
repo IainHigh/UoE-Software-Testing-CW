@@ -29,22 +29,22 @@ public class FlightPathPoint {
      *                      day.
      */
     public FlightPathPoint(String orderNumber,
-    double fromLongitude,
-    double fromLatitude,
-    Double angle,
-    double toLongitude,
-    double toLatitude,
-    int ticks) {
+            double fromLongitude,
+            double fromLatitude,
+            Double angle,
+            double toLongitude,
+            double toLatitude,
+            int ticks) {
 
         // Validate non-null fields
         if (orderNumber == null) {
-        throw new IllegalArgumentException("orderNumber cannot be null");
+            throw new IllegalArgumentException("orderNumber cannot be null");
         }
 
         // Longitude and latitude must be within the valid range
         if (fromLongitude < -180 || fromLongitude > 180 || fromLatitude < -90 || fromLatitude > 90 ||
-        toLongitude < -180 || toLongitude > 180 || toLatitude < -90 || toLatitude > 90) {
-        throw new IllegalArgumentException("Longitude and latitude must be within the valid range");
+                toLongitude < -180 || toLongitude > 180 || toLatitude < -90 || toLatitude > 90) {
+            throw new IllegalArgumentException("Longitude and latitude must be within the valid range");
         }
 
         // Handle hover (angle is null)

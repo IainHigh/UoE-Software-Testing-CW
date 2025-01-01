@@ -8,17 +8,16 @@ import org.junit.Test;
 import Output.FlightPathPoint;
 
 public class FlightPathPointUnitTest {
-        @Test
+    @Test
     public void testConstructorAndGetters() {
         FlightPathPoint point = new FlightPathPoint(
-            "ORD12345",
-            -3.186874,
-            55.944494,
-            45.0,
-            -3.185874,
-            55.945494,
-            120
-        );
+                "ORD12345",
+                -3.186874,
+                55.944494,
+                45.0,
+                -3.185874,
+                55.945494,
+                120);
 
         // Check starting coordinates
         double[] startCoords = point.getStartingCoordinates();
@@ -34,14 +33,13 @@ public class FlightPathPointUnitTest {
     @Test
     public void testHoverPoint() {
         FlightPathPoint point = new FlightPathPoint(
-            "ORD12345",
-            -3.186874,
-            55.944494,
-            null,
-            -3.186874,
-            55.944494,
-            120
-        );
+                "ORD12345",
+                -3.186874,
+                55.944494,
+                null,
+                -3.186874,
+                55.944494,
+                120);
 
         // Check starting and destination coordinates are the same
         double[] startCoords = point.getStartingCoordinates();
@@ -58,6 +56,11 @@ public class FlightPathPointUnitTest {
                 " \"toLatitude\": 55.944494," +
                 " \"ticksSinceStartOfCalculation\": 120}";
         assertEquals("Hover point JSON mismatch", expectedJson, point.toJson());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullOrderNumber() {
+        new FlightPathPoint(null, -3.186874, 55.944494, 45.0, -3.185874, 55.945494, 120);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -88,14 +91,13 @@ public class FlightPathPointUnitTest {
     @Test
     public void testToJson() {
         FlightPathPoint point = new FlightPathPoint(
-            "ORD12345",
-            -3.186874,
-            55.944494,
-            90.0,
-            -3.186874,
-            56.944494,
-            150
-        );
+                "ORD12345",
+                -3.186874,
+                55.944494,
+                90.0,
+                -3.186874,
+                56.944494,
+                150);
 
         String expectedJson = "{" +
                 "\"orderNumber\": \"ORD12345\"," +
@@ -107,5 +109,5 @@ public class FlightPathPointUnitTest {
                 " \"ticksSinceStartOfCalculation\": 150}";
         assertEquals("JSON output mismatch", expectedJson, point.toJson());
     }
-    
+
 }

@@ -13,11 +13,6 @@ public class CentralArea {
     @JsonProperty("vertices")
     private List<LngLat> vertices;
 
-    // Getters
-    public String getName() {
-        return name;
-    }
-
     public List<LngLat> getVertices() {
         return vertices;
     }

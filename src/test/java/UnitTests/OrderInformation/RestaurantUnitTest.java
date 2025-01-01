@@ -92,4 +92,24 @@ public class RestaurantUnitTest {
         assertEquals("Longitude mismatch", -3.186874, restaurant.getLongitude(), 0.0001);
     }
 
+    @Test
+    public void testSetNumberOfMovesFromAppleton() {
+        Restaurant.Location location = new Restaurant.Location(-3.186874, 55.944494);
+        String[] validOpeningDays = { "MONDAY", "TUESDAY", "FRIDAY" };
+        Menu[] menu = { new Menu("Pizza Margherita", 850) };
+
+        Restaurant restaurant = new Restaurant("Pizzaiolo", location, validOpeningDays, menu);
+        restaurant.setNumberOfMovesFromAppleton(5);
+        assertEquals("Number of moves mismatch", 5, restaurant.getNumberOfMovesFromAppletonTower());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetNumberOfMovesFromAppletonInvalid() {
+        Restaurant.Location location = new Restaurant.Location(-3.186874, 55.944494);
+        String[] validOpeningDays = { "MONDAY", "TUESDAY", "FRIDAY" };
+        Menu[] menu = { new Menu("Pizza Margherita", 850) };
+
+        Restaurant restaurant = new Restaurant("Pizzaiolo", location, validOpeningDays, menu);
+        restaurant.setNumberOfMovesFromAppleton(-5);
+    }
 }

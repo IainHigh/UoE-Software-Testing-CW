@@ -82,7 +82,12 @@ public class PizzaDrone {
         calculatePath(validOrders);
 
         // Write the output to the required files.
-        writeToOutputFiles(date);
+        try {
+            writeToOutputFiles(date);
+        } catch (Exception e) {
+            System.err.println("Error writing to output files.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -265,7 +270,7 @@ public class PizzaDrone {
      *
      * @param date The date of the orders which is used to name the files.
      */
-    private static void writeToOutputFiles(String date) {
+    private static void writeToOutputFiles(String date) throws Exception {
         // Write the results to the JSON and GEOJSON files.
         FileWriter fileWriter = new FileWriter(date);
         fileWriter.writeToDroneGEOJSON(allDirectionsFollowed);

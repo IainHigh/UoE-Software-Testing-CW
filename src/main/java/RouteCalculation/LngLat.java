@@ -209,4 +209,13 @@ public class LngLat {
         }
         return route.length;
     }
+
+    /**
+     * Accessor for the LENGHT_OF_MOVE constant.
+     * 
+     * @return The length of a move.
+     */
+    public static double getLengthOfMove() {
+        return LENGTH_OF_MOVE;
+    }
 }

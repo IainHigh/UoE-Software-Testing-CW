@@ -1,4 +1,8 @@
+1) Write Unit Test for RouteCalculator.java
+2) Write Integration Tests (Should be targetting LngLat.java & Order.java)
+3) Measure Code Coverage on Unit Tests, Integration Tests, System Tests + Total Code Coverage. Adjust tests based on results.
+4) Start writing documentation for coursework.
+
 Things to include in this documentation:
     - Screen recorded video of CI pipeline on github.
     - Screenshot of code coverage + Raw code coverage results.
-    

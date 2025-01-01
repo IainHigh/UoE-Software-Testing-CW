@@ -1,6 +1,8 @@
 package UnitTests.OrderInformation;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -48,6 +50,7 @@ public class CreditCardUnitTest {
         String cardNumber = "4242424242424242";
         CreditCardInformation creditCard = new CreditCardInformation(cardNumber, "12/25", "123");
         assertTrue(creditCard.validCardNumber());
+        assertEquals(cardNumber, creditCard.getCreditCardNumber());
     }
 
     // Expiry Date Tests
@@ -90,5 +93,29 @@ public class CreditCardUnitTest {
     public void creditCard_validExpiryDate_rejectsNullDate() {
         CreditCardInformation creditCard = new CreditCardInformation("4242424242424242", null, "123");
         assertFalse(creditCard.validExpiryDate());
+    }
+
+    @Test
+    public void creditCard_validExpiryDate_acceptsValidDate() {
+        String cardNumber = "4242424242424242";
+        CreditCardInformation creditCard = new CreditCardInformation(cardNumber, "06/25", "123");
+        assertTrue(creditCard.validExpiryDate());
+        assertEquals("06/25", creditCard.getCreditCardExpiry());
+    }
+
+    // CVV Tests
+
+    @Test
+    public void creditCard_validCVV_rejectsCVVTooLong() {
+        String cardNumber = "4242424242424242";
+        CreditCardInformation creditCard = new CreditCardInformation(cardNumber, "12/25", "1234");
+        assertFalse(creditCard.validCVV());
+    }
+
+    @Test
+    public void creditCard_validCVV_rejectsLetters() {
+        String cardNumber = "4242424242424242";
+        CreditCardInformation creditCard = new CreditCardInformation(cardNumber, "12/25", "12A");
+        assertFalse(creditCard.validCVV());
     }
 }

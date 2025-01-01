@@ -13,15 +13,15 @@ import Output.FileWriter;
 import Output.FlightPathPoint;
 
 public class FileWriterUnitTest {
-        private final String date = "2025-01-01";
+    private final String date = "2025-01-01";
     private final String outputDirectory = "resultfiles/";
 
     @Test
     public void testWriteToDeliveriesJSON() throws IOException {
         FileWriter fileWriter = new FileWriter(date);
         String[] orderJson = {
-            "{\"orderNumber\":\"ORD12345\",\"outcome\":\"DELIVERED\",\"costInPence\":1000}",
-            "{\"orderNumber\":\"ORD67890\",\"outcome\":\"FAILED\",\"costInPence\":0}"
+                "{\"orderNumber\":\"ORD12345\",\"outcome\":\"DELIVERED\",\"costInPence\":1000}",
+                "{\"orderNumber\":\"ORD67890\",\"outcome\":\"FAILED\",\"costInPence\":0}"
         };
 
         fileWriter.writeToDeliveriesJSON(orderJson);
@@ -40,32 +40,29 @@ public class FileWriterUnitTest {
     public void testWriteToDroneGEOJSON() throws IOException {
         FileWriter fileWriter = new FileWriter(date);
         List<FlightPathPoint> flight = Arrays.asList(
-            new FlightPathPoint("ORD12345", -3.186874, 55.944494, 45.0, -3.186000, 55.945000, 120),
-            new FlightPathPoint("ORD67890", -3.186000, 55.945000, 90.0, -3.185000, 55.946000, 240)
-        );
-    
+                new FlightPathPoint("ORD12345", -3.186874, 55.944494, 45.0, -3.186000, 55.945000, 120),
+                new FlightPathPoint("ORD67890", -3.186000, 55.945000, 90.0, -3.185000, 55.946000, 240));
+
         fileWriter.writeToDroneGEOJSON(flight);
-    
+
         String filePath = outputDirectory + "drone-" + date + ".geojson";
         assertTrue("Drone GEOJSON file should exist", Files.exists(Paths.get(filePath)));
-    
+
         String content = new String(Files.readAllBytes(Paths.get(filePath)));
         System.out.println(content);
         assertTrue("Drone GEOJSON content should contain coordinates",
-                   content.contains("[[-3.186874,55.944494],[-3.186,55.945],[-3.185,55.946]]"));
-    //"coordinates": [[-3.186874,55.944494],[-3.186,55.945],[-3.185,55.946]
+                content.contains("[[-3.186874,55.944494],[-3.186,55.945],[-3.185,55.946]]"));
+        // "coordinates": [[-3.186874,55.944494],[-3.186,55.945],[-3.185,55.946]
         // Cleanup
-        //Files.delete(Paths.get(filePath));
+        // Files.delete(Paths.get(filePath));
     }
-    
 
     @Test
     public void testWriteToFlightpathJSON() throws IOException {
         FileWriter fileWriter = new FileWriter(date);
         List<FlightPathPoint> flight = Arrays.asList(
-            new FlightPathPoint("ORD12345", -3.186874, 55.944494, 45.0, -3.186000, 55.945000, 120),
-            new FlightPathPoint("ORD67890", -3.186000, 55.945000, 90.0, -3.185000, 55.946000, 240)
-        );
+                new FlightPathPoint("ORD12345", -3.186874, 55.944494, 45.0, -3.186000, 55.945000, 120),
+                new FlightPathPoint("ORD67890", -3.186000, 55.945000, 90.0, -3.185000, 55.946000, 240));
 
         fileWriter.writeToFlightpathJSON(flight);
 
@@ -78,5 +75,5 @@ public class FileWriterUnitTest {
 
         // Cleanup
         Files.delete(Paths.get(filePath));
-    }    
+    }
 }
