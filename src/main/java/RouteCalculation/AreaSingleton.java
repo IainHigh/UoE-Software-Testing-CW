@@ -17,6 +17,12 @@ public class AreaSingleton {
     private LngLat[] centralAreaBorder;
     private LngLat[][] noFlyZones;
 
+
+    public static void setInstance(AreaSingleton instance) {
+
+        AreaSingleton.instance = instance;
+
+    }
     /**
      * Public method for getting the instance of the singleton.
      * Synchronised to ensure that only one instance is created.

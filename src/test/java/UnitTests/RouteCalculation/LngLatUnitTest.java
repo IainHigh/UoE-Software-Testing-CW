@@ -1,11 +1,17 @@
-package UnitTests;
+package UnitTests.RouteCalculation;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThrows;
 
+import java.util.Random;
+
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import RouteCalculation.AreaSingleton;
 import RouteCalculation.CompassDirection;
 import RouteCalculation.LngLat;
 
@@ -167,5 +173,99 @@ public class LngLatUnitTest {
                 newPosition.getLat(), ACCEPTANCE_THRESHOLD);
         assertEquals("Moving at degree 270 (S) should only displace lng", APPLETON.getLng(), newPosition.getLng(),
                 ACCEPTANCE_THRESHOLD);
+    }
+
+    // -----------------------------------------------------------------------------------------------
+    // IN-ZONE TESTS
+    // -----------------------------------------------------------------------------------------------
+    @Test
+    public void testInZone_PointInsideZone() {
+        LngLat[] zone = {
+            new LngLat(-3.187, 55.944),
+            new LngLat(-3.185, 55.944),
+            new LngLat(-3.186, 55.945)
+        };
+        LngLat point = new LngLat(-3.1865, 55.9445);
+        assertTrue("Point should be inside the zone", point.inZone(zone));
+    }
+
+    @Test
+    public void testInZone_PointOnBorder() {
+        LngLat[] zone = {
+            new LngLat(-3.187, 55.944),
+            new LngLat(-3.185, 55.944),
+            new LngLat(-3.186, 55.945)
+        };
+        LngLat point = new LngLat(-3.187, 55.944); // On border
+        assertFalse("Point on border should not be inside the zone", point.inZone(zone));
+    }
+
+    @Test
+    public void testInNoFlyZone_LineIntersectsZone() {
+        LngLat start = new LngLat(-3.187, 55.944);
+        LngLat end = new LngLat(-3.185, 55.945);
+        AreaSingleton mockSingleton = mock(AreaSingleton.class);
+        when(mockSingleton.getNoFlyZones()).thenReturn(new LngLat[][]{
+            {
+                new LngLat(-3.186, 55.944),
+                new LngLat(-3.185, 55.944),
+                new LngLat(-3.1855, 55.945)
+            }
+        });
+
+        AreaSingleton.setInstance(mockSingleton);
+
+        assertTrue("Line should intersect the no-fly zone", start.inNoFlyZone(end));
+    }
+
+
+    // -----------------------------------------------------------------------------------------------
+    // MISCILANEOUS TESTS
+    // -----------------------------------------------------------------------------------------------
+
+
+    @Test
+    public void testMove() {
+        // Generate a random LngLat point.
+        Random rand = new Random();
+        double lat = rand.nextDouble() * 180 - 90;
+        double lng = rand.nextDouble() * 360 - 180;
+        LngLat point = new LngLat(lng, lat);
+
+        // Go through all the possible directions and check that the distance and angle
+        // are correct.
+        for (CompassDirection dir : CompassDirection.valuesNoHover()) {
+            if (dir == CompassDirection.HOVER)
+                continue;
+            LngLat nextPoint = point.nextPosition(dir);
+            assert (calculateAngle(point, nextPoint) == dir.getAngle());
+            assert (calculateDistance(point, nextPoint) > 0.00015 - 10e-12);
+            assert (calculateDistance(point, nextPoint) < 0.00015 + 10e-12);
+        }
+    }
+
+    @Test
+    public void testHover() {
+        Random rand = new Random();
+        for (int i = 0; i < 100; i++) {
+            double lat = rand.nextDouble() * 180 - 90;
+            double lng = rand.nextDouble() * 360 - 180;
+            LngLat point = new LngLat(lng, lat);
+            LngLat hoverPoint = point.nextPosition(null);
+            assert (hoverPoint.getLat() == point.getLat());
+            assert (hoverPoint.getLng() == point.getLng());
+        }
+    }
+
+    private double calculateAngle(LngLat p1, LngLat p2) {
+        double angle = Math.atan2(p2.getLat() - p1.getLat(), p2.getLng() - p1.getLng());
+        if (angle < 0) {
+            angle += 2 * Math.PI;
+        }
+        return Math.round(((angle * 180) / Math.PI) * 10000) / 10000.0;
+    }
+
+    private double calculateDistance(LngLat p1, LngLat p2) {
+        return p1.distanceTo(p2);
     }
 }

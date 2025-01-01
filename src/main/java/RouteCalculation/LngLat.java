@@ -51,7 +51,7 @@ public class LngLat {
      *
      * @return True if the point is inside the zone, false otherwise.
      */
-    private boolean inZone(LngLat[] zoneCoordinates) {
+    public boolean inZone(LngLat[] zoneCoordinates) {
         if (zoneCoordinates == null || zoneCoordinates.length < 3) {
             System.err.println("inZone called with invalid zone coordinates.");
             return false;
