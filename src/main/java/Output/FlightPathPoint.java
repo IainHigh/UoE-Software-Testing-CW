@@ -57,13 +57,6 @@ public class FlightPathPoint {
             if (angle < 0 || angle > 360) {
                 throw new IllegalArgumentException("Angle must be within the valid range");
             }
-
-            // Validate destination coordinates based on angle
-            double expectedToLongitude = fromLongitude + Math.sin(Math.toRadians(angle));
-            double expectedToLatitude = fromLatitude + Math.cos(Math.toRadians(angle));
-            if (Math.abs(toLongitude - expectedToLongitude) > 0.0001 || Math.abs(toLatitude - expectedToLatitude) > 0.0001) {
-                throw new IllegalArgumentException("To longitude and to latitude must match the calculated values based on angle");
-            }
         }
 
         // Ticks must be non-negative
