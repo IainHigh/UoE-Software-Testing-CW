@@ -29,12 +29,48 @@ public class FlightPathPoint {
      *                      day.
      */
     public FlightPathPoint(String orderNumber,
-            double fromLongitude,
-            double fromLatitude,
-            Double angle,
-            double toLongitude,
-            double toLatitude,
-            int ticks) {
+    double fromLongitude,
+    double fromLatitude,
+    Double angle,
+    double toLongitude,
+    double toLatitude,
+    int ticks) {
+
+        // Validate non-null fields
+        if (orderNumber == null) {
+        throw new IllegalArgumentException("orderNumber cannot be null");
+        }
+
+        // Longitude and latitude must be within the valid range
+        if (fromLongitude < -180 || fromLongitude > 180 || fromLatitude < -90 || fromLatitude > 90 ||
+        toLongitude < -180 || toLongitude > 180 || toLatitude < -90 || toLatitude > 90) {
+        throw new IllegalArgumentException("Longitude and latitude must be within the valid range");
+        }
+
+        // Handle hover (angle is null)
+        if (angle == null) {
+            if (Math.abs(fromLongitude - toLongitude) > 0.0001 || Math.abs(fromLatitude - toLatitude) > 0.0001) {
+                throw new IllegalArgumentException("For hover, from and to coordinates must be the same");
+            }
+        } else {
+            // Angle must be within the valid range
+            if (angle < 0 || angle > 360) {
+                throw new IllegalArgumentException("Angle must be within the valid range");
+            }
+
+            // Validate destination coordinates based on angle
+            double expectedToLongitude = fromLongitude + Math.sin(Math.toRadians(angle));
+            double expectedToLatitude = fromLatitude + Math.cos(Math.toRadians(angle));
+            if (Math.abs(toLongitude - expectedToLongitude) > 0.0001 || Math.abs(toLatitude - expectedToLatitude) > 0.0001) {
+                throw new IllegalArgumentException("To longitude and to latitude must match the calculated values based on angle");
+            }
+        }
+
+        // Ticks must be non-negative
+        if (ticks < 0) {
+            throw new IllegalArgumentException("Ticks must be non-negative");
+        }
+
         this.ORDER_NUMBER = orderNumber;
         this.FROM_LONGITUDE = fromLongitude;
         this.FROM_LATITUDE = fromLatitude;
