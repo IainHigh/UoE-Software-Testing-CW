@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.UnitTests;
+package uk.ac.ed.inf.UnitTests.OrderInformation;
 
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;

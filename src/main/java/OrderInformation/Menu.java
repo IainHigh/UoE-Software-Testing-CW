@@ -17,6 +17,14 @@ public class Menu {
      */
     public Menu(@JsonProperty("name") String name,
                 @JsonProperty("priceInPence") int priceInPence) {
+        // Price in pense must be greater than 0
+        if (priceInPence <= 0) {
+            throw new IllegalArgumentException("Price in pence must be greater than 0");
+        }
+        // Name must not be null or empty
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name must not be null or empty");
+        }
         this.name = name;
         this.priceInPence = priceInPence;
     }
