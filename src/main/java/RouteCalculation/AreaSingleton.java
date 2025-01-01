@@ -36,6 +36,10 @@ public class AreaSingleton {
         return instance;
     }
 
+    public static synchronized void resetInstance() {
+        instance = null;
+    }
+
     /**
      * Pass in the URLs of the central area border and the no-fly zones.
      * Once URLs are passed in the data is retrieved from the REST API.

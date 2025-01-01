@@ -31,20 +31,24 @@ public class FileWriter {
      *
      * @param orderJson The String representation of the order in JSON format.
      */
-    public void writeToDeliveriesJSON(String[] orderJson) throws IOException {
+    public void writeToDeliveriesJSON(String[] orderJson) {
         String fileName = outputDirectory + "deliveries-" + date + ".json";
         prepareFile(fileName);
 
-        java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
-        fileWriter.write("[");
-        for (int i = 0; i < orderJson.length; i++) {
-            fileWriter.write(orderJson[i]);
-            if (i != orderJson.length - 1)
-                fileWriter.write(",");
+        try {
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
+            fileWriter.write("[");
+            for (int i = 0; i < orderJson.length; i++) {
+                fileWriter.write(orderJson[i]);
+                if (i != orderJson.length - 1)
+                    fileWriter.write(",");
+            }
+            fileWriter.write("]");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.err.println("Error writing to deliveries json");
+            throw new RuntimeException(e);
         }
-        fileWriter.write("]");
-        fileWriter.close();
-
     }
 
     /**
@@ -54,49 +58,60 @@ public class FileWriter {
      * @param flight The list of flightpath points which is used to get the
      *               coordinates to write.
      */
-    public void writeToDroneGEOJSON(List<FlightPathPoint> flight) throws IOException {
+    public void writeToDroneGEOJSON(List<FlightPathPoint> flight) {
         double[] startingCoordinates = flight.get(0).getStartingCoordinates();
         List<double[]> droneCoordinates = flight.stream()
                 .map(FlightPathPoint::getDestinationCoordinates)
                 .collect(Collectors.toList());
-
+    
         String fileName = outputDirectory + "drone-" + date + ".geojson";
         prepareFile(fileName);
-
-        java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
-        fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\","
-                + " \"coordinates\": [");
-
-        // Write starting coordinates
-        fileWriter.write("[" + startingCoordinates[0] + "," + startingCoordinates[1] + "]");
-
-        // Write drone coordinates
-        for (double[] coord : droneCoordinates) {
-            fileWriter.write(",[" + coord[0] + "," + coord[1] + "]");
+    
+        try {
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
+            fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\","
+                    + " \"coordinates\": [");
+    
+            // Write starting coordinates
+            fileWriter.write("[" + startingCoordinates[0] + "," + startingCoordinates[1] + "]");
+    
+            // Write drone coordinates
+            for (double[] coord : droneCoordinates) {
+                fileWriter.write(",[" + coord[0] + "," + coord[1] + "]");
+            }
+    
+            fileWriter.write("]}}");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.err.println("Error writing to drone geojson");
+            throw new RuntimeException(e);
         }
-
-        fileWriter.write("]}}");
-        fileWriter.close();
     }
+    
 
     /**
      * Write the full flightpath of the drone to the flightpath output file.
      *
      * @param flight The list of flightpath points to write to the file.
      */
-    public void writeToFlightpathJSON(List<FlightPathPoint> flight) throws IOException {
+    public void writeToFlightpathJSON(List<FlightPathPoint> flight) {
         String fileName = outputDirectory + "flightpath-" + date + ".json";
         prepareFile(fileName);
 
-        java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
-        fileWriter.write("[");
-        for (int i = 0; i < flight.size(); i++) {
-            fileWriter.write(flight.get(i).toJson());
-            if (i != flight.size() - 1)
-                fileWriter.write(",");
+        try {
+            java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
+            fileWriter.write("[");
+            for (int i = 0; i < flight.size(); i++) {
+                fileWriter.write(flight.get(i).toJson());
+                if (i != flight.size() - 1)
+                    fileWriter.write(",");
+            }
+            fileWriter.write("]");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.err.println("Error writing to flightpath json");
+            throw new RuntimeException(e);
         }
-        fileWriter.write("]");
-        fileWriter.close();
     }
 
     /**
@@ -104,9 +119,13 @@ public class FileWriter {
      *
      * @param fileName The name of the file to prepare.
      */
-    private void prepareFile(String fileName) throws IOException {
+    private void prepareFile(String fileName) {
         File file = new File(fileName);
-        file.createNewFile();
-
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            System.err.println("Error creating file" + fileName);
+            throw new RuntimeException(e);
+        }
     }
 }

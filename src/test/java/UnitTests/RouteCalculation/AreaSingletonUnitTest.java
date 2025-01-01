@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,13 @@ public class AreaSingletonUnitTest {
 
     @Before
     public void setUp() {
+        AreaSingleton.resetInstance(); // Ensure a clean state before each test
         areaSingleton = AreaSingleton.getInstance();
+    }
+
+    @After
+    public void tearDown() {
+        AreaSingleton.resetInstance(); // Clean up after each test
     }
 
     @Test
@@ -85,5 +92,4 @@ public class AreaSingletonUnitTest {
         AreaSingleton.setInstance(mockInstance);
         assertSame("setInstance should replace the singleton instance", mockInstance, AreaSingleton.getInstance());
     }
-
 }
