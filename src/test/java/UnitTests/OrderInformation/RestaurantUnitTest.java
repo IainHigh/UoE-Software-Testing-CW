@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.UnitTests.OrderInformation;
+package UnitTests.OrderInformation;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

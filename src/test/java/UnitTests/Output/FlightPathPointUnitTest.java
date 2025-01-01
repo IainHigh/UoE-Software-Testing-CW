@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.UnitTests.Output;
+package UnitTests.Output;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.UnitTests.Output;
+package UnitTests.Output;
 
 import org.junit.Test;
 import java.io.IOException;

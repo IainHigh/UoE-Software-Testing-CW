@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.SystemTests;
+package SystemTests;
 
 import static org.junit.Assert.assertThrows;
 

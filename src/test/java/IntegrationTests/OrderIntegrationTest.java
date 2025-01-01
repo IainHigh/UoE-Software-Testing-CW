@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.IntegrationTests;
+package IntegrationTests;
 
 /*
  * Integration test to validate the OrderInformation package through the entry class "Order.java". This requires the following classes to work:

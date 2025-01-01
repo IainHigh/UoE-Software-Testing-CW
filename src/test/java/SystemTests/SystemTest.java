@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.SystemTests;
+package SystemTests;
 
 import uk.ac.ed.inf.PizzaDrone;
 

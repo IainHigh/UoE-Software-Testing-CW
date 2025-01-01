@@ -1,4 +1,4 @@
-package uk.ac.ed.inf.UnitTests;
+package UnitTests;
 
 import org.junit.Test;
 import RouteCalculation.CompassDirection;
