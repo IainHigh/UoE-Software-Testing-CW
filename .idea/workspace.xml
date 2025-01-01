@@ -91,17 +91,17 @@
       <recent name="$PROJECT_DIR$/src/test/java/uk/ac/ed/inf/SystemTests" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="uk.ac.ed.inf" />
+      <recent name="PizzaDronz" />
       <recent name="RouteCalculation" />
     </key>
   </component>
   <component name="RunManager" selected="Application.PizzaDrone">
     <configuration name="Driver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.Driver" />
+      <option name="MAIN_CLASS_NAME" value="PizzaDronz.SystemTests.Driver" />
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.UnitTests.*" />
+          <option name="PATTERN" value="PizzaDronz.UnitTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -110,7 +110,7 @@
       </method>
     </configuration>
     <configuration name="PizzaDrone" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.PizzaDrone" />
+      <option name="MAIN_CLASS_NAME" value="PizzaDronz.PizzaDrone" />
       <module name="ilp" />
       <option name="PROGRAM_PARAMETERS" value="&quot;2023-01-01&quot; &quot;https://ilp-rest-2024.azurewebsites.net/&quot;" />
       <extension name="coverage">
@@ -127,12 +127,12 @@
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.SystemTests.*" />
+          <option name="PATTERN" value="PizzaDronz.SystemTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.SystemTests" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.OutputChecks" />
+      <option name="PACKAGE_NAME" value="PizzaDronz.SystemTests" />
+      <option name="MAIN_CLASS_NAME" value="PizzaDronz.SystemTests.OutputChecks" />
       <option name="METHOD_NAME" value="getVisitedCoordinates" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -143,26 +143,26 @@
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.SystemTests.*" />
+          <option name="PATTERN" value="PizzaDronz.SystemTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.SystemTests" />
-      <option name="MAIN_CLASS_NAME" value="uk.ac.ed.inf.SystemTests.OutputTest" />
+      <option name="PACKAGE_NAME" value="PizzaDronz.SystemTests" />
+      <option name="MAIN_CLASS_NAME" value="PizzaDronz.SystemTests.OutputTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="uk.ac.ed.inf.UnitTests in ilp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PizzaDronz.UnitTests in ilp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ilp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="uk.ac.ed.inf.UnitTests.*" />
+          <option name="PATTERN" value="PizzaDronz.UnitTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="uk.ac.ed.inf.UnitTests" />
+      <option name="PACKAGE_NAME" value="PizzaDronz.UnitTests" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -171,7 +171,7 @@
     <list>
       <item itemvalue="Application.PizzaDrone" />
       <item itemvalue="Application.Driver" />
-      <item itemvalue="JUnit.uk.ac.ed.inf.UnitTests in ilp" />
+      <item itemvalue="JUnit.PizzaDronz.UnitTests in ilp" />
       <item itemvalue="JUnit.OutputChecks.getVisitedCoordinates" />
       <item itemvalue="JUnit.OutputTest" />
     </list>
@@ -179,7 +179,7 @@
       <list>
         <item itemvalue="Application.Driver" />
         <item itemvalue="Application.PizzaDrone" />
-        <item itemvalue="JUnit.uk.ac.ed.inf.UnitTests in ilp" />
+        <item itemvalue="JUnit.PizzaDronz.UnitTests in ilp" />
         <item itemvalue="JUnit.OutputTest" />
         <item itemvalue="JUnit.OutputChecks.getVisitedCoordinates" />
       </list>
@@ -575,8 +575,8 @@
     <SUITE FILE_PATH="coverage/ilpCoursework$JSONRetriever.ic" NAME="JSONRetriever Coverage Results" MODIFIED="1663686620159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>REST.Server.Accesser.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="uk.ac.ed.inf in ilpCoursework Coverage Results" MODIFIED="1665590255093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>uk.ac.ed.inf.*</FILTER>
+    <SUITE FILE_PATH="coverage/ilpCoursework$uk_ac_ed_inf_in_ilpCoursework.ic" NAME="PizzaDronz in ilpCoursework Coverage Results" MODIFIED="1665590255093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>PizzaDronz.*</FILTER>
     </SUITE>
   </component>
 </project>

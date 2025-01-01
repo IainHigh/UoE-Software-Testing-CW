@@ -1,7 +1,5 @@
 package SystemTests;
 
-import uk.ac.ed.inf.PizzaDrone;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -10,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+
+import PizzaDronz.PizzaDrone;
 
 import java.time.Instant;
 import java.time.Duration;
