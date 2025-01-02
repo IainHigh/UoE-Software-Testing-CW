@@ -63,23 +63,23 @@ public class FileWriter {
         List<double[]> droneCoordinates = flight.stream()
                 .map(FlightPathPoint::getDestinationCoordinates)
                 .collect(Collectors.toList());
-    
+
         String fileName = outputDirectory + "drone-" + date + ".geojson";
         prepareFile(fileName);
-    
+
         try {
             java.io.FileWriter fileWriter = new java.io.FileWriter(fileName);
             fileWriter.write("{\"type\": \"Feature\",\"properties\": {}, \"geometry\": { \"type\": \"LineString\","
                     + " \"coordinates\": [");
-    
+
             // Write starting coordinates
             fileWriter.write("[" + startingCoordinates[0] + "," + startingCoordinates[1] + "]");
-    
+
             // Write drone coordinates
             for (double[] coord : droneCoordinates) {
                 fileWriter.write(",[" + coord[0] + "," + coord[1] + "]");
             }
-    
+
             fileWriter.write("]}}");
             fileWriter.close();
         } catch (IOException e) {
@@ -87,7 +87,6 @@ public class FileWriter {
             throw new RuntimeException(e);
         }
     }
-    
 
     /**
      * Write the full flightpath of the drone to the flightpath output file.

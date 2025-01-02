@@ -12,7 +12,7 @@ public class InvalidParameterSystemTest {
     // Rejects invalid date
     public void app_main_rejectsInvalidDate() {
         assertThrows("Invalid input. Unable to continue.", IllegalArgumentException.class,
-                () -> PizzaDrone.main(new String[] { "ThisAintADateLol", "https://ilp-rest-2024.azurewebsites.net/" }));
+                () -> PizzaDrone.main(new String[] { "InvalidDate", "https://ilp-rest-2024.azurewebsites.net/" }));
     }
 
     @Test

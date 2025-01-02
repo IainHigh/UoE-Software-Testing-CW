@@ -30,6 +30,9 @@ public class SystemTest {
 
     @Test
     public void testDate() {
+        // Suggest garbage collection
+        System.gc();
+        
         System.out.println("Testing date: " + date);
         Instant start = Instant.now();
 

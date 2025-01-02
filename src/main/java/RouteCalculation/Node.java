@@ -89,12 +89,14 @@ public class Node {
 
     /**
      * Calculate the f value of the node.
-     * The f value is influenced by the greedyFactor, balancing between g and h.
      *
      * @return The f value of the node.
      */
     public double getFScore() {
         return this.g + this.h;
+
+        // Weighted for higher performance - USE THIS ON LOW PERFORMANCE DEVICES.
+        // return this.g + 1.5 * this.h;
     }
 
     /**

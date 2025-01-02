@@ -1,5 +1,6 @@
 package OrderInformation;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
@@ -34,6 +35,20 @@ public class Order {
     private Restaurant restaurantOrderedFrom;
 
     private OrderOutcome outcome;
+
+    @JsonCreator
+    public Order(
+            @JsonProperty("orderNo") String orderNo,
+            @JsonProperty("orderDate") String orderDate,
+            @JsonProperty("creditCardInformation") CreditCardInformation creditCardInformation,
+            @JsonProperty("priceTotalInPence") int priceTotalInPence,
+            @JsonProperty("pizzasInOrder") Pizza[] pizzasInOrder) {
+        this.orderNo = orderNo;
+        this.orderDate = orderDate;
+        this.creditCardInformation = creditCardInformation;
+        this.priceTotalInPence = priceTotalInPence;
+        this.pizzasInOrder = pizzasInOrder;
+    }
 
     /**
      * Validates the order and assigns the order outcome.
@@ -236,5 +251,23 @@ public class Order {
      */
     public String getDate() {
         return this.orderDate;
+    }
+
+    /**
+     * Accessor method for the order outcome.
+     *
+     * @return The outcome of the order.
+     */
+    public OrderOutcome getOrderOutcome() {
+        return this.outcome;
+    }
+
+    /**
+     * Accessor method for the credit card information.
+     *
+     * @return The credit card information.
+     */
+    public CreditCardInformation getCreditCardInformation() {
+        return this.creditCardInformation;
     }
 }
