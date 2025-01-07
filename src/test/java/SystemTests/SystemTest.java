@@ -12,6 +12,8 @@ import org.junit.runners.Parameterized.Parameters;
 import PizzaDronz.PizzaDrone;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
 @RunWith(Parameterized.class)
@@ -49,11 +51,13 @@ public class SystemTest {
 
     private static List<String> generateAllDates() {
         List<String> dates = new ArrayList<>();
-        for (int j = 19; j <= 31; j++) {
-            dates.add("2024-12-" + String.format("%02d", j));
-        }
-        for (int j = 1; j <= 17; j++) {
-            dates.add("2025-01-" + String.format("%02d", j));
+        LocalDate today = LocalDate.now(); // Get current date
+        LocalDate endDate = today.plusMonths(1); // Calculate end date
+
+        // Add all dates from today to endDate (inclusive)
+        while (!today.isAfter(endDate)) {
+            dates.add(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            today = today.plusDays(1); // Increment by 1 day
         }
         return dates;
     }

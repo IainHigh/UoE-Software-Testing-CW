@@ -13,6 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -108,17 +111,7 @@ public class PizzaDrone {
             return false;
         }
 
-        // Check if the input date is in the range of between 2024-12-19 and 2025-01-17
-        String[] dateParts = args[0].split("-");
-        int year = Integer.parseInt(dateParts[0]);
-        int month = Integer.parseInt(dateParts[1]);
-        int day = Integer.parseInt(dateParts[2]);
-
-        // Validate if the date is within the range 2024-12-19 to 2025-01-17
-        if (!((year == 2024 && month == 12 && day >= 19 && day <= 31)
-                || (year == 2025 && month == 1 && day >= 1 && day <= 17))) {
-            System.err.println(
-                    "Expected first argument to be a date in the range 2024-12-19 to 2025-01-17, got " + args[0]);
+        if (!validateDateRange(args[0])) {
             return false;
         }
 
@@ -137,6 +130,27 @@ public class PizzaDrone {
             return false;
         }
         return true;
+    }
+
+    private static boolean validateDateRange(String inputDate) {
+    LocalDate today = LocalDate.now(); // Get current date
+    LocalDate endDate = today.plusMonths(1); // Calculate end date
+
+    try {
+        LocalDate givenDate = LocalDate.parse(inputDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Parse input date
+
+        // Check if the given date is within the range
+        if (!givenDate.isBefore(today) && !givenDate.isAfter(endDate)) {
+            return true;
+        } else {
+            System.err.println(
+                "Expected first argument to be a date in the range " + today + " to " + endDate + ", got " + inputDate);
+            return false;
+        }
+    } catch (DateTimeParseException e) {
+            System.err.println("Invalid date format. Expected format is yyyy-MM-dd.");
+            return false;
+        }
     }
 
     /**
